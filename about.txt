@@ -1,0 +1,71 @@
+Eclipse - сайт, для хранения альбомов aстрономических фотографий и статей.
+Функционал сайта:
+
+// ВОЗМОЖНО БУДЕТ ДОПОЛНЯТЬСЯ
+Для всех пользователей:
+1) регистрация / авторизация (/sign-up, /sign-in)
+2) просмотр списка альбомов (/albums)
+3) просмотр альбома (/albums/:id)
+4) просмотр списка тем статей (/articles)
+5) просмотр списка статей по выбранной теме (/articles/:theme)
+6) просмотр статьи по теме (/articles/:theme/:id)
+
++ Для пользователя с ролью user:
+7) добавление комментариев к статье (/articles/:theme/:id/new-comment)
+8) удаление своих комментариев статьи (/articles/:theme/:id/delete-comment)
+
++ Для пользователя с ролью editor:
+6) добавление альбома (/albums/new)
+7) удаление альбома (/albums/:id/delete)
+8) добавление статьи (/articles/new)
+9) удаление статьи (/articles/:theme/:id/delete)
+10) удаление любых комментариев статьи (/articles/:theme/:id/delete-comment)
+
+Структура приложения:
+cmd/ - папка запуска приложения
+
+config/ - хранит файлы конфигурации для более гибкой настройки приложения
+
+internal/ - папка приложения
+- /handlers/ - внешний слой, принимает http запросы, обрабатывает их и перенаправляет на следующий слой, возвращает обработанные данные.
+- /usecase/ - 2 слой, бизнес логика - обрабатывает данные, полученные из handlers, используя данные из бд.
+- /database/ - 3 слой, непосредственно запрашивает данные у внешней базы данных и возвращает результат на слой выше.
+- /models/ - модели данных, получаемых из бд
+- /server/ - создание и настройка http сервера
+
+public/ - папка общедоступных данных, которые можно непосредственно получить извне.
+- /albums/ - хранит папки с фотографиями
+- /images/ - хранит фотографии, необходимые для html страниц
+- /pages. - html страницы и css файлы
+
+// ВОЗМОЖНЫ ИЗМЕНЕНИЯ
+Таблицы базы данных:
+users (
+  id SERIAL PRIMARY KEY,
+  name CHAR(50) UNIQUE NOT NULL,
+  password VARCHAR(256) NOT NULL,
+  role VARCHAR(6) DEFAULT 'user' NOT NULL);
+
+albums (
+  id SERIAL PRIMARY KEY,
+  name CHAR(100) NOT NULL,
+  author_id INTEGER REFERENCES users(id) NOT NULL,
+  images_count INTEGER NOT NULL,
+  date DATE NOT NULL,
+  description TEXT NOT NULL);
+  
+articles (
+  id SERIAL PRIMARY KEY,
+  name CHAR(100) NOT NULL,
+  theme CHAR(50) NOT NULL,
+  author_id INTEGER REFERENCES users(id) NOT NULL,
+  images_count INTEGER NOT NULL,
+  date DATE NOT NULL,
+  text TEXT NOT NULL);
+
+comments (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id) NOT NULL,
+  article_id INTEGER REFERENCES articles(id) NOT NULL,
+  text TEXT NOT NULL,
+  date DATE NOT NULL);
