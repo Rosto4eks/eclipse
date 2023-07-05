@@ -31,10 +31,3 @@ func Connect(cfg Config) (*sqlx.DB, error) {
 	fmt.Println("Successfully connected to DB :)")
 	return db, nil
 }
-
-/*
- * TODO:
- * init database struct
- * connect to the postgres
- * use GORM
- */
