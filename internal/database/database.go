@@ -6,9 +6,6 @@ import (
 	_ "github.com/lib/pq"
 )
 
-type Idatabase interface {
-}
-
 type database struct {
 	Host     string
 	Port     string
