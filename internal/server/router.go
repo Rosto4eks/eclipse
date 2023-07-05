@@ -16,7 +16,7 @@ func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Con
 	return t.templates.ExecuteTemplate(w, name, data)
 }
 
-func (s *Server) initRoutes(h *handlers.Handler) {
+func (s *Server) initRoutes(h handlers.Ihandler) {
 	// creating renderer for html templates
 	s.router.Renderer = &Template{
 		templates: template.Must(template.ParseGlob("./public/pages/*.html")),

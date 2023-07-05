@@ -11,10 +11,10 @@ import (
 type Server struct {
 	router  *echo.Echo
 	logger  *logrus.Logger
-	handler *handlers.Handler
+	handler handlers.Ihandler
 }
 
-func New(handler *handlers.Handler) *Server {
+func New(handler handlers.Ihandler) *Server {
 	return &Server{
 		router:  echo.New(),
 		logger:  logrus.New(),
