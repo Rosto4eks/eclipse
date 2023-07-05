@@ -24,7 +24,7 @@ func New(cfg database) (*sqlx.DB, error) {
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println("Successfully connected to DB")
+	fmt.Println("Successfully connected to DB :)")
 	return db, nil
 }
 
