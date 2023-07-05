@@ -1,40 +1,32 @@
 package database
 
 import (
-	"fmt"
 	"github.com/Rosto4eks/eclipse/internal/models"
 )
 
 func (d *database) AddUser(user models.User) (int, error) {
-	query := fmt.Sprintf("INSERT INTO users (name,password) VALUES($1,$2) RETURNING id;")
-	row := d.db.QueryRow(query, user.Name, user.Password)
-
+	query := "INSERT INTO users (name,password) VALUES($1,$2) RETURNING id;"
 	var id int
-	if err := row.Scan(&id); err != nil {
+	if err := d.db.Select(&id, query, user.Name, user.Password); err != nil {
 		return 0, err
 	}
+
 	return id, nil
 }
 
 func (d *database) DelUser(ID int) error {
-	query := fmt.Sprintf("DELETE FROM users WHERE id = $1;", ID)
-	result, err := d.db.Exec(query)
+	query := "DELETE FROM users WHERE id = $1;"
+	_, err := d.db.Exec(query, ID)
 	if err != nil {
 		return err
 	}
-	fmt.Print(result)
 	return nil
 }
 
 func (d *database) GetUsersByName(name string) (models.User, error) {
-	query := fmt.Sprintf("SELECT id, name, password, role FROM users WHERE name = $1;", name)
-	row, err := d.db.Query(query)
-	if err != nil {
-		return models.User{}, err
-	}
-
+	query := "SELECT id, name, password, role FROM users WHERE name = $1;"
 	var response models.User
-	if err = row.Scan(&response); err != nil {
+	if err := d.db.Get(&response, query, name); err != nil {
 		return models.User{}, err
 	}
 
