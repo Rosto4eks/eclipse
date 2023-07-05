@@ -6,7 +6,14 @@ import (
 	_ "github.com/lib/pq"
 )
 
+type IDatabase interface {
+}
+
 type database struct {
+	db *sqlx.DB
+}
+
+type Config struct {
 	Host     string
 	Port     string
 	Username string
@@ -14,9 +21,14 @@ type database struct {
 	DbName   string
 }
 
-func New(cfg database) (*sqlx.DB, error) {
-	db, err := sqlx.Open("postgres", fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s",
-		cfg.Host, cfg.Port, cfg.Username, cfg.DbName, cfg.Password))
+func New(db *sqlx.DB) *database {
+	return &database{db: db}
+}
+
+func Connect(cfg Config) (*sqlx.DB, error) {
+	db, err := sqlx.Open("postgres",
+		fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s",
+			cfg.Host, cfg.Port, cfg.Username, cfg.DbName, cfg.Password))
 	if err != nil {
 		return nil, err
 	}
