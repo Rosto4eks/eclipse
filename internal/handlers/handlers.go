@@ -27,19 +27,3 @@ func New(usecase usecase.Iusecase) *handler {
 func (h *handler) Home(ctx echo.Context) error {
 	return ctx.String(200, "HOME")
 }
-
-func (h *handler) Albums(ctx echo.Context) error {
-	return ctx.String(200, "Albums")
-}
-
-func (h *handler) Album(ctx echo.Context) error {
-	return ctx.String(200, ctx.Param("id"))
-}
-
-func (h *handler) NewAlbum(ctx echo.Context) error {
-	return ctx.Render(201, "newAlbum.html", nil)
-}
-
-func (h *handler) CreateNewAlbum(ctx echo.Context) error {
-	return ctx.String(201, "created")
-}

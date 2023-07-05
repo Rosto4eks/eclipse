@@ -1,8 +1,14 @@
 package usecase
 
-import "github.com/Rosto4eks/eclipse/internal/database"
+import (
+	"mime/multipart"
+
+	"github.com/Rosto4eks/eclipse/internal/database"
+	"github.com/Rosto4eks/eclipse/internal/models"
+)
 
 type Iusecase interface {
+	NewAlbum([]*multipart.FileHeader, models.Album) error
 }
 
 type usecase struct {
