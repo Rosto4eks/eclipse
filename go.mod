@@ -3,6 +3,7 @@ module github.com/Rosto4eks/eclipse
 go 1.20
 
 require (
+	github.com/go-yaml/yaml v2.1.0+incompatible // indirect
 	github.com/jmoiron/sqlx v1.3.5 // indirect
 	github.com/labstack/echo/v4 v4.10.2 // indirect
 	github.com/labstack/gommon v0.4.0 // indirect

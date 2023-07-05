@@ -13,14 +13,6 @@ type database struct {
 	db *sqlx.DB
 }
 
-type Config struct {
-	Host     string
-	Port     string
-	Username string
-	Password string
-	DbName   string
-}
-
 func New(db *sqlx.DB) *database {
 	return &database{db: db}
 }
@@ -28,7 +20,7 @@ func New(db *sqlx.DB) *database {
 func Connect(cfg Config) (*sqlx.DB, error) {
 	db, err := sqlx.Open("postgres",
 		fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s",
-			cfg.Host, cfg.Port, cfg.Username, cfg.DbName, cfg.Password))
+			cfg.Host, cfg.Port, cfg.Username, cfg.Database, cfg.Password))
 	if err != nil {
 		return nil, err
 	}
