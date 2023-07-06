@@ -10,7 +10,18 @@ import (
 
 // startup function
 func main() {
-	database := database.New()
+	dbcfg, err := database.NewConfig()
+	if err != nil {
+		logrus.Error(err)
+		return
+	}
+	conn, err := database.Connect(dbcfg)
+	if err != nil {
+		logrus.Error(err)
+		return
+	}
+
+	database := database.New(conn)
 	usecase := usecase.New(database)
 	handler := handlers.New(usecase)
 

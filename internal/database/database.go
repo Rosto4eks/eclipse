@@ -2,11 +2,20 @@ package database
 
 import (
 	"fmt"
+
+	"github.com/Rosto4eks/eclipse/internal/models"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 )
 
-type IDatabase interface {
+type Idatabase interface {
+	GetAllAlbums() ([]models.Album, error)
+	GetAlbumByID(int) (models.Album, error)
+	AddAlbum(models.Album) error
+	DelAlbumByID(int) error
+	AddUser(models.User) (int, error)
+	DelUser(int) error
+	GetUsersByName(name string) (models.User, error)
 }
 
 type database struct {
@@ -17,9 +26,9 @@ func New(db *sqlx.DB) *database {
 	return &database{db: db}
 }
 
-func Connect(cfg Config) (*sqlx.DB, error) {
+func Connect(cfg *Config) (*sqlx.DB, error) {
 	db, err := sqlx.Open("postgres",
-		fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s",
+		fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=disable",
 			cfg.Host, cfg.Port, cfg.Username, cfg.Database, cfg.Password))
 	if err != nil {
 		return nil, err

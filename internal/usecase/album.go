@@ -21,25 +21,42 @@ func (u *usecase) saveAlbumImages(files []*multipart.FileHeader, album models.Al
 	path := fmt.Sprintf("./public/albums/%s-%s", album.Date, album.Name)
 	// create destination folder
 	os.Mkdir(path, os.ModePerm)
-
+	errChan := make(chan error)
+	counter := 0
 	for i, file := range files {
-		src, err := file.Open()
-		if err != nil {
-			return err
-		}
-		defer src.Close()
+		go func(i, max int, counter *int, file *multipart.FileHeader, errChan chan<- error) {
+			defer func() {
+				// count all perfomed gorutines
+				*counter++
+				if *counter == max+1 {
+					errChan <- nil
+				}
+			}()
+			src, err := file.Open()
+			if err != nil {
+				errChan <- err
+				return
+			}
+			defer src.Close()
 
-		// destination file
-		dst, err := os.Create(fmt.Sprintf("%s/%d.jpg", path, i))
-		if err != nil {
-			return err
-		}
-		defer dst.Close()
+			// destination file
+			dst, err := os.Create(fmt.Sprintf("%s/%d.jpg", path, i))
+			if err != nil {
+				errChan <- err
+				return
+			}
+			defer dst.Close()
 
-		// Copy
-		if _, err = io.Copy(dst, src); err != nil {
-			return err
-		}
+			// Copy
+			if _, err = io.Copy(dst, src); err != nil {
+				errChan <- err
+				return
+			}
+		}(i, len(files)-1, &counter, file, errChan)
 	}
+	if err := <-errChan; err != nil {
+		return err
+	}
+	close(errChan)
 	return nil
 }
