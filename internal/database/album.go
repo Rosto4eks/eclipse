@@ -7,7 +7,7 @@ import (
 func (d *database) GetAllAlbums() ([]models.Album, error) {
 	query := "SELECT * FROM albums;"
 	var response []models.Album
-	if err := d.db.Get(&response, query); err != nil {
+	if err := d.db.Select(&response, query); err != nil {
 		return nil, err
 	}
 
@@ -17,8 +17,7 @@ func (d *database) GetAllAlbums() ([]models.Album, error) {
 func (d *database) GetAlbumByID(ID int) (models.Album, error) {
 	query := "SELECT * FROM albums WHERE id = $1;"
 	var response models.Album
-
-	if err := d.db.Select(&response, query, ID); err != nil {
+	if err := d.db.Get(&response, query, ID); err != nil {
 		return models.Album{}, err
 	}
 

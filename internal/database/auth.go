@@ -7,7 +7,7 @@ import (
 func (d *database) AddUser(user models.User) (int, error) {
 	query := "INSERT INTO users (name,password, role) VALUES($1,$2,$3) RETURNING id;"
 	var id int
-	if err := d.db.Select(&id, query, user.Name, user.Password, user.Role); err != nil {
+	if err := d.db.Get(&id, query, user.Name, user.Password, user.Role); err != nil {
 		return 0, err
 	}
 
