@@ -1,17 +1,17 @@
 package database
 
 import (
+	"errors"
+
 	"github.com/Rosto4eks/eclipse/internal/models"
 )
 
-func (d *database) AddUser(user models.User) (int, error) {
-	query := "INSERT INTO users (name,password, role) VALUES($1,$2,$3) RETURNING id;"
-	var id int
-	if err := d.db.Select(&id, query, user.Name, user.Password, user.Role); err != nil {
-		return 0, err
+func (d *database) AddUser(user models.User) error {
+	query := "INSERT INTO users (name,password) VALUES($1,$2)"
+	if _, err := d.db.Exec(query, user.Name, user.Password); err != nil {
+		return errors.New("user with this name is already exists")
 	}
-
-	return id, nil
+	return nil
 }
 
 func (d *database) DelUser(ID int) error {

@@ -13,7 +13,9 @@ func (u *usecase) NewAlbum(files []*multipart.FileHeader, album models.Album) er
 	if err := u.saveAlbumImages(files, album); err != nil {
 		return err
 	}
-	// write to db
+	if err := u.database.AddAlbum(album); err != nil {
+		return err
+	}
 	return nil
 }
 

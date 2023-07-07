@@ -2,9 +2,11 @@ package server
 
 import (
 	"fmt"
+
 	"github.com/Rosto4eks/eclipse/internal/handlers"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"github.com/sirupsen/logrus"
 )
 
@@ -41,6 +43,7 @@ func (s *Server) init(cfg *Config) error {
 }
 
 func (s *Server) Start() error {
+	s.router.Use(middleware.CORS())
 	cfg, err := NewConfig()
 	if err != nil {
 		return err

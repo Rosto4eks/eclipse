@@ -8,9 +8,12 @@ import (
 type Ihandler interface {
 	Home(echo.Context) error
 	Albums(echo.Context) error
-	Album(ctx echo.Context) error
-	NewAlbum(ctx echo.Context) error
-	CreateNewAlbum(ctx echo.Context) error
+	Album(echo.Context) error
+	NewAlbum(echo.Context) error
+	CreateNewAlbum(echo.Context) error
+	SignIn(echo.Context) error
+	SignUp(echo.Context) error
+	NewUser(echo.Context) error
 }
 
 // first layer, handles incoming http requests

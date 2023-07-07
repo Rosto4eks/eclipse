@@ -1,3 +1,8 @@
+textarea {
+  resize: none;
+  padding: 5px;
+}
+
 .container {
   margin: 50px auto 0 auto;
   max-width: 1000px;
@@ -17,6 +22,12 @@
   flex-direction: column;
 }
 
+.error {
+  margin: 0 auto;
+  color: red;
+  font-size: 18;
+}
+
 .action {
   margin: 30px auto;
   font-size: 25px;
@@ -26,6 +37,7 @@
 .row {
   display: flex;
   margin: 10px 20px;
+  flex-direction: column;
 }
 
 .input {
@@ -35,6 +47,12 @@
   border: none;
   outline: none;
   border-bottom: 2px solid #858585;
+  transition: all 200ms;
+}
+
+.input:focus {
+  transition: all 200ms;
+  border-bottom: 2px solid #32ef74;
 }
 
 .submit {
@@ -49,6 +67,37 @@
   background-color: #de5b23;
 }
 
+input[type=file]::file-selector-button {
+  margin-right: 20px;
+  font-weight: 700;
+  border: none;
+  font-size: 18px;
+  background: #de5b23;
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  transition: background .2s ease-in-out;
+}
+
+.description {
+  border: 2px solid #858585;
+  background: none;
+  font-size: 18px;
+  color: black;
+  margin: 5px auto;
+  width: 100%;
+  border-radius: 5px;
+  height: 100px;
+  transition: all 200ms;
+}
+
+.description:focus {
+  outline: none;
+  transition: all 200ms;
+  border: 2px solid #32ef74;
+}
+
 .image-wrapper {
   display: flex;
   width: 50%;
@@ -58,6 +107,14 @@
   border-radius: 0px 5px 5px 0px;
   display: flex;
   width: 100%;
+}
+
+.text {
+  margin: 0 auto;
+}
+.href {
+  margin: 0 auto;
+  text-decoration: underline;
 }
 
 @media (max-width: 1000px) {

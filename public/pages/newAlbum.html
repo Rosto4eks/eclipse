@@ -16,10 +16,12 @@
       <div class="wrapper">
         <form class="form" action="/albums/new" method="post" enctype="multipart/form-data">
           <div class="action">UPLOAD ALBUM</div>
-          <div class="row"><input class="input" type="text" name="name" placeholder="name"></div>
-            <div class="row"><input class="input" type="date" name="date" placeholder="date"></div>
-            <div class="row"><input class="input" type="text" name="author" placeholder="author"></div>
-            <div class="row"><input class="input" type="file" name="files" placeholder="images" multiple></div>
+          {{if .error}} <div class="row"><div class="error">{{.error}}</div></div> {{end}}
+          <div class="row"><input class="input" type="text" name="name" placeholder="name" required></div>
+            <div class="row"><input class="input" type="date" name="date" placeholder="date" required></div>
+            <div class="row"><input class="input" type="text" name="author" placeholder="author" required></div>
+            <div class="row"><input class="images" id="images" type="file" name="files" placeholder="images" multiple required></div>
+            <div class="row"><textarea class="description" name="description" placeholder="description"></textarea></div>
             <div class="row"><input class="submit" type="submit" value="Submit"></div>
         </form>
         <div class="image-wrapper">

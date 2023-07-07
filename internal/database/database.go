@@ -13,9 +13,9 @@ type Idatabase interface {
 	GetAlbumByID(int) (models.Album, error)
 	AddAlbum(models.Album) error
 	DelAlbumByID(int) error
-	AddUser(models.User) (int, error)
+	AddUser(models.User) error
 	DelUser(int) error
-	GetUsersByName(name string) (models.User, error)
+	GetUsersByName(string) (models.User, error)
 }
 
 type database struct {

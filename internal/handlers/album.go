@@ -18,20 +18,27 @@ func (h *handler) NewAlbum(ctx echo.Context) error {
 }
 
 func (h *handler) CreateNewAlbum(ctx echo.Context) error {
-	album := models.Album{
-		Name:   ctx.FormValue("name"),
-		Date:   ctx.FormValue("date"),
-		Author: ctx.FormValue("author"),
-	}
 	form, err := ctx.MultipartForm()
 	if err != nil {
-		return ctx.Render(401, "newAlbum.html", nil)
+		return ctx.Render(500, "newAlbum.html", map[string]interface{}{
+			"error": "could not parse images",
+		})
 	}
 	files := form.File["files"]
 
-	if err = h.usecase.NewAlbum(files, album); err != nil {
-		return ctx.Render(500, "newAlbum.html", nil)
+	album := models.Album{
+		Name:        ctx.FormValue("name"),
+		Date:        ctx.FormValue("date"),
+		Author:      ctx.FormValue("author"),
+		Description: ctx.FormValue("description"),
+		Count:       len(files),
 	}
 
-	return ctx.String(201, "created")
+	if err = h.usecase.NewAlbum(files, album); err != nil {
+		return ctx.Render(500, "newAlbum.html", map[string]interface{}{
+			"error": err.Error(),
+		})
+	}
+
+	return ctx.Redirect(301, "/albums")
 }

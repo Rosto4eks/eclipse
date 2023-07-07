@@ -1,0 +1,49 @@
+{{define "auth.html"}}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>new album</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="/css/header.css" type="text/css" rel="stylesheet">
+    <link href="/css/newAlbum.css" type="text/css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
+  </head>
+  <body>
+    {{template "header" .}}
+    <div class="container">
+      <div class="wrapper">
+        {{if eq .type "signin"}}
+        <form class="form" action="/auth/sign-in" method="post" enctype="multipart/form-data">
+          <div class="action">SIGN-IN</div>
+        {{else}}
+        <form class="form" action="/auth/sign-up" method="post" enctype="multipart/form-data">
+          <div class="action">SIGN-UP</div>
+        {{end}}
+        {{ if .error}}
+          <div class="error">{{.error}}</div>
+        {{end}}
+          <div class="row"><input class="input" type="text" name="name" placeholder="name" required></div>
+            <div class="row"><input class="input" type="password" name="password" placeholder="password" required></div>
+          {{if eq .type "signin"}}
+          <div class="row"><div class="text">Don't have an Eclipse account?</div>
+                          <a class="href" href="/auth/sign-up">sign-up</a></div>
+          {{else}}
+          <div class="row"><div class="text">Already have an Eclipse account?</div>
+            <a class="href" href="/auth/sign-in">sign-in</a></div>
+          {{end}}
+            <div class="row"><input class="submit" type="submit" value="Submit"></div>
+        </form>
+        <div class="image-wrapper">
+          {{if eq .type "signin"}}
+          <img class="image" src="/img/saturn.jpg">
+          {{else}}
+          <img class="image" src="/img/neptune.jpg">
+          {{end}}
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+{{end}}
