@@ -15,7 +15,7 @@ func (d *database) AddUser(user models.User) error {
 }
 
 func (d *database) DelUser(ID int) error {
-	query := "DELETE FROM users WHERE id = $1;"
+	query := "DELETE FROM users WHERE id = $1"
 	_, err := d.db.Exec(query, ID)
 	if err != nil {
 		return err
@@ -23,11 +23,11 @@ func (d *database) DelUser(ID int) error {
 	return nil
 }
 
-func (d *database) GetUsersByName(name string) (models.User, error) {
-	query := "SELECT id, name, password, role FROM users WHERE name = $1;"
+func (d *database) GetUserByName(name string) (models.User, error) {
+	query := "SELECT id, name, password, role FROM users WHERE name = $1"
 	var response models.User
 	if err := d.db.Get(&response, query, name); err != nil {
-		return models.User{}, err
+		return models.User{}, errors.New("there are no user in db with such credits.")
 	}
 
 	return response, nil
