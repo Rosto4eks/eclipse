@@ -10,6 +10,7 @@ import (
 type Iusecase interface {
 	NewAlbum([]*multipart.FileHeader, models.Album) error
 	NewUser(models.User) error
+	SignIn(name, password string) error
 }
 
 type usecase struct {

@@ -14,6 +14,7 @@ type Ihandler interface {
 	SignIn(echo.Context) error
 	SignUp(echo.Context) error
 	NewUser(echo.Context) error
+	Authorise(ctx echo.Context) error
 }
 
 // first layer, handles incoming http requests
