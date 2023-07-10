@@ -34,7 +34,7 @@ func (u *usecase) SignIn(name, password string) error {
 	return errors.New("there are no user with such credits")
 }
 
-func (u *usecase) GenerateToken(name, password string) (string, error) {
+func (u *usecase) GenerateToken(name, password, role string) (string, error) {
 	err := u.SignIn(name, password)
 	if err != nil {
 		return "", err
@@ -42,7 +42,7 @@ func (u *usecase) GenerateToken(name, password string) (string, error) {
 
 	claims := Claims{
 		name,
-		user.Role,
+		role,
 		jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(24 * time.Hour).Unix(),
 			IssuedAt:  time.Now().Unix(),

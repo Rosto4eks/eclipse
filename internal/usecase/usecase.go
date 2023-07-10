@@ -12,7 +12,7 @@ type Iusecase interface {
 	NewAlbum([]*multipart.FileHeader, models.Album) error
 	NewUser(models.User) error
 	SignIn(name, password string) error
-	GenerateToken(name, password string) (string, error)
+	GenerateToken(name, password, role string) (string, error)
 	ParseToken(token string, signingKey []byte) (string, error)
 	WriteCookie(token string, ctx echo.Context) error
 	ReadCookie(ctx echo.Context) (string, error)

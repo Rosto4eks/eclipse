@@ -32,8 +32,9 @@ func (h *handler) NewUser(ctx echo.Context) error {
 func (h *handler) Authorise(ctx echo.Context) error {
 	Name := ctx.FormValue("name")
 	Password := ctx.FormValue("password")
+	Role := ctx.FormValue("role")
 
-	token, err := h.usecase.GenerateToken(Name, Password)
+	token, err := h.usecase.GenerateToken(Name, Password, Role)
 	if err != nil {
 		return ctx.Render(401, "auth.html", map[string]interface{}{
 			"type":  "signup",
