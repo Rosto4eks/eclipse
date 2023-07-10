@@ -1,6 +1,9 @@
 package handlers
 
 import (
+	"fmt"
+	"strconv"
+
 	"github.com/Rosto4eks/eclipse/internal/models"
 	"github.com/labstack/echo/v4"
 )
@@ -10,7 +13,22 @@ func (h *handler) Albums(ctx echo.Context) error {
 }
 
 func (h *handler) Album(ctx echo.Context) error {
-	return ctx.String(200, ctx.Param("id"))
+	id, err := strconv.Atoi(ctx.Param("id"))
+	if err != nil {
+		return ctx.Redirect(301, "/albums")
+	}
+	album, err := h.usecase.GetAlbumById(id)
+	if err != nil {
+		return ctx.Redirect(301, "/albums")
+	}
+	paths := make([]string, album.Images_count)
+	for i := 0; i < album.Images_count; i++ {
+		paths[i] = fmt.Sprintf("%s-%s/%d", album.Date[0:10], album.Name, i)
+	}
+	return ctx.Render(200, "album.html", map[string]interface{}{
+		"album": album,
+		"paths": paths,
+	})
 }
 
 func (h *handler) NewAlbum(ctx echo.Context) error {
@@ -25,13 +43,18 @@ func (h *handler) CreateNewAlbum(ctx echo.Context) error {
 		})
 	}
 	files := form.File["files"]
-
+	usr, err := h.usecase.GetUserByName(ctx.FormValue("author"))
+	if err != nil {
+		return ctx.Render(401, "newAlbum.html", map[string]interface{}{
+			"error": "author with given name does not exist",
+		})
+	}
 	album := models.Album{
-		Name:        ctx.FormValue("name"),
-		Date:        ctx.FormValue("date"),
-		Author:      ctx.FormValue("author"),
-		Description: ctx.FormValue("description"),
-		Count:       len(files),
+		Name:         ctx.FormValue("name"),
+		Date:         ctx.FormValue("date"),
+		Author_id:    usr.ID,
+		Description:  ctx.FormValue("description"),
+		Images_count: len(files),
 	}
 
 	if err = h.usecase.NewAlbum(files, album); err != nil {

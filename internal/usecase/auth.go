@@ -7,6 +7,10 @@ import (
 	"github.com/Rosto4eks/eclipse/internal/models"
 )
 
+func (u *usecase) GetUserByName(name string) (models.User, error) {
+	return u.database.GetUserByName(name)
+}
+
 func (u *usecase) NewUser(usr models.User) error {
 	usr.Password = hash(usr.Password)
 	return u.database.AddUser(usr)

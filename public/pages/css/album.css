@@ -1,0 +1,38 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.name {
+  font-size: 50px;
+  margin: 10px auto;
+  font-weight: 700;
+}
+
+.author {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.date {
+  font-size: 18px;
+  font-weight: 300;
+}
+
+.description {
+  font-size: 20px;
+}
+
+.images {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+}
+
+.image {
+  display: flex;
+  width: 100%;
+  margin: 10px 0;
+}

@@ -4,8 +4,8 @@
   <head>
     <title>new album</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link href="/css/header.css" type="text/css" rel="stylesheet">
-    <link href="/css/newAlbum.css" type="text/css" rel="stylesheet">
+    <link href="/public/pages/css/header.css" type="text/css" rel="stylesheet">
+    <link href="/public/pages/css/newAlbum.css" type="text/css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
@@ -37,9 +37,9 @@
         </form>
         <div class="image-wrapper">
           {{if eq .type "signin"}}
-          <img class="image" src="/img/saturn.jpg">
+          <img class="image" src="/public/images/saturn.jpg">
           {{else}}
-          <img class="image" src="/img/neptune.jpg">
+          <img class="image" src="/public/images/neptune.jpg">
           {{end}}
         </div>
       </div>

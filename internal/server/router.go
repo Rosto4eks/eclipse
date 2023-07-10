@@ -23,8 +23,7 @@ func (s *Server) initRoutes(h handlers.Ihandler) {
 	}
 
 	// serving static files
-	s.router.Static("/css", "./public/pages/css")
-	s.router.Static("/img", "./public/images")
+	s.router.Static("/public", "./public/")
 
 	r := s.router.Group("")
 	{
@@ -39,5 +38,6 @@ func (s *Server) initRoutes(h handlers.Ihandler) {
 		auth.GET("/sign-in", h.SignIn)
 		auth.GET("/sign-up", h.SignUp)
 		auth.POST("/sign-up", h.NewUser)
+		auth.POST("/sign-in", h.Authorise)
 	}
 }

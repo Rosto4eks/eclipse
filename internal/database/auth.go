@@ -24,7 +24,7 @@ func (d *database) DelUser(ID int) error {
 }
 
 func (d *database) GetUserByName(name string) (models.User, error) {
-	query := "SELECT id, name, password, role FROM users WHERE name = $1"
+	query := "SELECT * FROM users WHERE name = $1"
 	var response models.User
 	if err := d.db.Get(&response, query, name); err != nil {
 		return models.User{}, errors.New("there are no user in db with such credits.")
