@@ -22,6 +22,10 @@ func (u *usecase) NewUser(usr models.User) error {
 	return u.database.AddUser(usr)
 }
 
+func (u *usecase) GetUserByName(name string) (models.User, error) {
+	return u.database.GetUserByName(name)
+}
+
 func (u *usecase) SignIn(name, password string) (string, error) {
 	usr, err := u.database.GetUserByName(name)
 	if err != nil {
