@@ -6,9 +6,9 @@ import (
 	"github.com/Rosto4eks/eclipse/internal/models"
 )
 
-func (d *database) GetAllAlbums() ([]models.Album, error) {
-	query := "SELECT * FROM albums"
-	var response []models.Album
+func (d *database) GetAllAlbums() ([]models.AlbumResponse, error) {
+	query := "SELECT id, (SELECT name FROM users where id = author_id) as author, images_count, date, name, description FROM albums"
+	var response []models.AlbumResponse
 	if err := d.db.Select(&response, query); err != nil {
 		return nil, err
 	}
@@ -16,14 +16,13 @@ func (d *database) GetAllAlbums() ([]models.Album, error) {
 	return response, nil
 }
 
-func (d *database) GetAlbumByID(ID int) (models.Album, error) {
-	query := "SELECT id, TRIM(name) as name, author_id, images_count, date, description FROM albums WHERE id = $1"
-	var response models.Album
+func (d *database) GetAlbumByID(ID int) (models.AlbumResponse, error) {
+	query := "SELECT id, (SELECT name FROM users where id = author_id) as author, images_count, date, name, description FROM albums WHERE id = $1"
+	var response models.AlbumResponse
 	if err := d.db.Get(&response, query, ID); err != nil {
 		fmt.Println(err)
-		return models.Album{}, err
+		return models.AlbumResponse{}, err
 	}
-	fmt.Println(response)
 	return response, nil
 }
 

@@ -13,7 +13,7 @@ type Iusecase interface {
 	GetUserByName(string) (models.User, error)
 	NewUser(models.User) error
 	SignIn(name, password string) error
-	GetAlbumById(int) (models.Album, error)
+	GetAlbumById(int) (models.AlbumResponse, error)
 	GenerateToken(name, password, role string) (string, error)
 	ParseToken(token string, signingKey []byte) (string, error)
 	WriteCookie(token string, ctx echo.Context) error
