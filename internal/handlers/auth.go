@@ -32,16 +32,15 @@ func (h *handler) NewUser(ctx echo.Context) error {
 func (h *handler) Authorise(ctx echo.Context) error {
 	Name := ctx.FormValue("name")
 	Password := ctx.FormValue("password")
-	Role := ctx.FormValue("role")
 
-	token, err := h.usecase.GenerateToken(Name, Password, Role)
+	token, err := h.usecase.SignIn(Name, Password)
 	if err != nil {
 		return ctx.Render(401, "auth.html", map[string]interface{}{
 			"type":  "signup",
 			"error": err.Error(),
 		})
 	}
-	err = h.usecase.WriteCookie(token, ctx)
+	err = h.WriteCookie(token, ctx)
 	if err != nil {
 		return errors.New("cannot write cookie")
 	}
