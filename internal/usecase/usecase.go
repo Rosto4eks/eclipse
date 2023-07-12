@@ -11,7 +11,7 @@ type Iusecase interface {
 	NewAlbum([]*multipart.FileHeader, models.Album) error
 	GetUserByName(string) (models.User, error)
 	NewUser(models.User) error
-	SignIn(name, password string) error
+	SignIn(name, password string) (string, error)
 	GetAlbumById(int) (models.Album, error)
 }
 
