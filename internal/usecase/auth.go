@@ -6,8 +6,6 @@ import (
 	"errors"
 	"github.com/Rosto4eks/eclipse/internal/models"
 	"github.com/golang-jwt/jwt"
-	"github.com/labstack/echo/v4"
-	"net/http"
 	"time"
 )
 
@@ -24,22 +22,21 @@ func (u *usecase) NewUser(usr models.User) error {
 	return u.database.AddUser(usr)
 }
 
-func (u *usecase) SignIn(name, password string) error {
+func (u *usecase) SignIn(name, password string) (string, error) {
 	usr, err := u.database.GetUserByName(name)
 	if err != nil {
-		return err
+		return "", err
 	} else if usr.Password == hash(password) {
-		return nil
+		token, err := generateToken(name, usr.Role)
+		if err != nil {
+			return "", err
+		}
+		return token, nil
 	}
-	return errors.New("there are no user with such credits")
+	return "", errors.New("there are no user with such credits")
 }
 
-func (u *usecase) GenerateToken(name, password, role string) (string, error) {
-	err := u.SignIn(name, password)
-	if err != nil {
-		return "", err
-	}
-
+func generateToken(name, role string) (string, error) {
 	claims := Claims{
 		name,
 		role,
@@ -53,7 +50,7 @@ func (u *usecase) GenerateToken(name, password, role string) (string, error) {
 	return token.SignedString([]byte(SigningKey))
 }
 
-func (u *usecase) ParseToken(stringToken string, signingKey []byte) (string, error) {
+func parseToken(stringToken string, signingKey []byte) (string, error) {
 	token, err := jwt.ParseWithClaims(stringToken, Claims{},
 		func(token *jwt.Token) (interface{}, error) {
 			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
@@ -66,30 +63,9 @@ func (u *usecase) ParseToken(stringToken string, signingKey []byte) (string, err
 	}
 
 	if claims, ok := token.Claims.(*Claims); ok && token.Valid {
-		//if time.Now().Unix() > claims.ExpiresAt {
-		//
-		//}
 		return claims.Username, nil
 	}
 	return "", errors.New("invalid access token")
-}
-
-func (u *usecase) WriteCookie(token string, ctx echo.Context) error {
-	cookie := new(http.Cookie)
-	cookie.Name = "jwt_token"
-	cookie.Value = token
-	cookie.Expires = time.Now().Add(24 * time.Hour)
-	cookie.Path = "/"
-	ctx.SetCookie(cookie)
-	return ctx.String(http.StatusOK, "write a cookie")
-}
-
-func (u *usecase) ReadCookie(ctx echo.Context) (string, error) {
-	cookie, err := ctx.Cookie("jwt_token")
-	if err != nil {
-		return "", err
-	}
-	return cookie.Value, ctx.String(http.StatusOK, "read a cookie")
 }
 
 func hash(str string) string {
