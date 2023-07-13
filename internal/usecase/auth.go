@@ -4,12 +4,13 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"errors"
+	"time"
+
 	"github.com/Rosto4eks/eclipse/internal/models"
 	"github.com/golang-jwt/jwt"
-	"time"
 )
 
-const SigningKey = "sw4567tyuhgftghiEWGwhufI&#$"
+const signingKey = "sw4567tyuhgftghiEWGwhufI&#$"
 
 type Claims struct {
 	Username string `json:"username"`
@@ -17,9 +18,12 @@ type Claims struct {
 	jwt.StandardClaims
 }
 
-func (u *usecase) NewUser(usr models.User) error {
+func (u *usecase) SignUp(usr models.User) (string, error) {
 	usr.Password = hash(usr.Password)
-	return u.database.AddUser(usr)
+	if err := u.database.AddUser(usr); err != nil {
+		return "", err
+	}
+	return generateToken(usr.Name, usr.Role)
 }
 
 func (u *usecase) GetUserByName(name string) (models.User, error) {
@@ -40,6 +44,17 @@ func (u *usecase) SignIn(name, password string) (string, error) {
 	return "", errors.New("there are no user with such credits")
 }
 
+func (u *usecase) Auth(token, role string) error {
+	usr, err := parseToken(token)
+	if err != nil {
+		return err
+	}
+	if usr.Role != role {
+		return errors.New("permission denied")
+	}
+	return nil
+}
+
 func generateToken(name, role string) (string, error) {
 	claims := Claims{
 		name,
@@ -50,26 +65,30 @@ func generateToken(name, role string) (string, error) {
 		},
 	}
 
-	token := jwt.NewWithClaims(jwt.SigningMethodES256, claims)
-	return token.SignedString([]byte(SigningKey))
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	return token.SignedString([]byte(signingKey))
 }
 
-func parseToken(stringToken string, signingKey []byte) (string, error) {
-	token, err := jwt.ParseWithClaims(stringToken, Claims{},
+func parseToken(stringToken string) (models.User, error) {
+	token, err := jwt.ParseWithClaims(stringToken, &Claims{},
 		func(token *jwt.Token) (interface{}, error) {
 			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 				return nil, errors.New("invalid signing method")
 			}
-			return signingKey, nil
+			return []byte(signingKey), nil
 		})
 	if err != nil {
-		return "", err
+		return models.User{}, err
 	}
 
 	if claims, ok := token.Claims.(*Claims); ok && token.Valid {
-		return claims.Username, nil
+		usr := models.User{
+			Name: claims.Username,
+			Role: claims.Role,
+		}
+		return usr, nil
 	}
-	return "", errors.New("invalid access token")
+	return models.User{}, errors.New("invalid access token")
 }
 
 func hash(str string) string {

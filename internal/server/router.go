@@ -27,17 +27,17 @@ func (s *Server) initRoutes(h handlers.Ihandler) {
 
 	r := s.router.Group("")
 	{
-		r.GET("/", h.Home)
-		r.GET("/albums", h.Albums)
-		r.GET("/albums/:id", h.Album)
-		r.GET("/albums/new", h.NewAlbum)
-		r.POST("/albums/new", h.CreateNewAlbum)
+		r.GET("/", h.GetHome)
+		r.GET("/albums", h.GetAlbums)
+		r.GET("/albums/:id", h.GetAlbum)
+		r.GET("/albums/new", h.GetNewAlbum)
+		r.POST("/albums/new", h.PostNewAlbum)
 	}
 	auth := s.router.Group("auth")
 	{
-		auth.GET("/sign-in", h.SignIn)
-		auth.GET("/sign-up", h.SignUp)
-		auth.POST("/sign-up", h.NewUser)
-		auth.POST("/sign-in", h.Authorise)
+		auth.GET("/sign-in", h.GetSignIn)
+		auth.GET("/sign-up", h.GetSignUp)
+		auth.POST("/sign-up", h.PostSignUp)
+		auth.POST("/sign-in", h.PostSignIn)
 	}
 }

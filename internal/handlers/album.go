@@ -8,11 +8,11 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (h *handler) Albums(ctx echo.Context) error {
+func (h *handler) GetAlbums(ctx echo.Context) error {
 	return ctx.String(200, "Albums")
 }
 
-func (h *handler) Album(ctx echo.Context) error {
+func (h *handler) GetAlbum(ctx echo.Context) error {
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
 		return ctx.Redirect(301, "/albums")
@@ -31,11 +31,17 @@ func (h *handler) Album(ctx echo.Context) error {
 	})
 }
 
-func (h *handler) NewAlbum(ctx echo.Context) error {
+func (h *handler) GetNewAlbum(ctx echo.Context) error {
+	if err := h.auth(ctx, "author"); err != nil {
+		return ctx.Redirect(301, "/")
+	}
 	return ctx.Render(200, "newAlbum.html", nil)
 }
 
-func (h *handler) CreateNewAlbum(ctx echo.Context) error {
+func (h *handler) PostNewAlbum(ctx echo.Context) error {
+	if err := h.auth(ctx, "author"); err != nil {
+		return ctx.Redirect(301, "/")
+	}
 	form, err := ctx.MultipartForm()
 	if err != nil {
 		return ctx.Render(500, "newAlbum.html", map[string]interface{}{

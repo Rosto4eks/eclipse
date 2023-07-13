@@ -1,5 +1,0 @@
-host : localhost
-port : 5432
-user : rs
-password : 2323
-database : eclipse

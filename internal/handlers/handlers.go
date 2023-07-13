@@ -3,22 +3,21 @@ package handlers
 import (
 	"github.com/Rosto4eks/eclipse/internal/usecase"
 	"github.com/labstack/echo/v4"
-	"net/http"
-	"time"
 )
 
 type Ihandler interface {
-	Home(echo.Context) error
-	Albums(echo.Context) error
-	Album(echo.Context) error
-	NewAlbum(echo.Context) error
-	CreateNewAlbum(echo.Context) error
-	SignIn(echo.Context) error
-	SignUp(echo.Context) error
-	NewUser(echo.Context) error
-	Authorise(ctx echo.Context) error
-	WriteCookie(token string, ctx echo.Context) error
-	ReadCookie(ctx echo.Context) (string, error)
+	GetHome(echo.Context) error
+	GetAlbums(echo.Context) error
+	GetAlbum(echo.Context) error
+	GetNewAlbum(echo.Context) error
+	PostNewAlbum(echo.Context) error
+	GetSignIn(echo.Context) error
+	GetSignUp(echo.Context) error
+	PostSignUp(echo.Context) error
+	PostSignIn(ctx echo.Context) error
+	auth(echo.Context, string) error
+	writeJWT(token string, ctx echo.Context)
+	readJWT(echo.Context) (string, error)
 }
 
 // first layer, handles incoming http requests
@@ -32,24 +31,6 @@ func New(usecase usecase.Iusecase) *handler {
 	}
 }
 
-func (h *handler) Home(ctx echo.Context) error {
+func (h *handler) GetHome(ctx echo.Context) error {
 	return ctx.String(200, "HOME")
-}
-
-func (h *handler) WriteCookie(token string, ctx echo.Context) error {
-	cookie := new(http.Cookie)
-	cookie.Name = "jwt_token"
-	cookie.Value = token
-	cookie.Expires = time.Now().Add(24 * time.Hour)
-	cookie.Path = "/"
-	ctx.SetCookie(cookie)
-	return ctx.String(http.StatusOK, "write a cookie")
-}
-
-func (h *handler) ReadCookie(ctx echo.Context) (string, error) {
-	cookie, err := ctx.Cookie("jwt_token")
-	if err != nil {
-		return "", err
-	}
-	return cookie.Value, ctx.String(http.StatusOK, "read a cookie")
 }
