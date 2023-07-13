@@ -9,8 +9,8 @@ import (
 )
 
 type Idatabase interface {
-	GetAllAlbums() ([]models.Album, error)
-	GetAlbumByID(int) (models.Album, error)
+	GetAllAlbums() ([]models.AlbumResponse, error)
+	GetAlbumByID(int) (models.AlbumResponse, error)
 	AddAlbum(models.Album) error
 	DelAlbumByID(int) error
 	AddUser(models.User) error

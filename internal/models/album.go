@@ -8,3 +8,12 @@ type Album struct {
 	Name         string
 	Description  string
 }
+
+type AlbumResponse struct {
+	Id           int
+	Author       string
+	Images_count int
+	Date         string
+	Name         string
+	Description  string
+}

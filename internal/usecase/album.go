@@ -23,7 +23,7 @@ func (u *usecase) NewAlbum(files []*multipart.FileHeader, album models.Album) er
 	return nil
 }
 
-func (u *usecase) GetAlbumById(id int) (models.Album, error) {
+func (u *usecase) GetAlbumById(id int) (models.AlbumResponse, error) {
 	return u.database.GetAlbumByID(id)
 }
 
@@ -90,7 +90,7 @@ func compressImage(src multipart.File, path string, i int) {
 func reverse(img image.Image, orient string) image.Image {
 	switch orient {
 	case "1":
-		return imaging.Clone(img)
+		return img
 	case "2":
 		return imaging.FlipV(img)
 	case "3":

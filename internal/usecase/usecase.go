@@ -12,7 +12,7 @@ type Iusecase interface {
 	GetUserByName(string) (models.User, error)
 	NewUser(models.User) error
 	SignIn(name, password string) (string, error)
-	GetAlbumById(int) (models.Album, error)
+	GetAlbumById(int) (models.AlbumResponse, error)
 }
 
 type usecase struct {
