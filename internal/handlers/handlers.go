@@ -39,9 +39,12 @@ func (h *handler) Home(ctx echo.Context) error {
 func (h *handler) WriteCookie(token string, ctx echo.Context) error {
 	cookie := new(http.Cookie)
 	cookie.Name = "jwt_token"
+	cookie.HttpOnly = true
+	cookie.Secure = true
+	cookie.Path = "/"
+	cookie.SameSite = http.SameSite(http.SameSiteNoneMode)
 	cookie.Value = token
 	cookie.Expires = time.Now().Add(24 * time.Hour)
-	cookie.Path = "/"
 	ctx.SetCookie(cookie)
 	return ctx.String(http.StatusOK, "write a cookie")
 }
