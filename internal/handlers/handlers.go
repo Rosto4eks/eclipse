@@ -15,6 +15,7 @@ type Ihandler interface {
 	GetSignUp(echo.Context) error
 	PostSignUp(echo.Context) error
 	PostSignIn(ctx echo.Context) error
+	GetArticles(ctx echo.Context) error
 	auth(echo.Context, string) error
 	writeJWT(token string, ctx echo.Context)
 	readJWT(echo.Context) (string, error)

@@ -8,10 +8,6 @@ import (
 )
 
 func (h *handler) GetAlbums(ctx echo.Context) error {
-	return ctx.String(200, "Albums")
-}
-
-func (h *handler) Albums(ctx echo.Context) error {
 	albums, err := h.usecase.GetAllAlbums()
 	if err != nil {
 		return err
