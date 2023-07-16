@@ -33,6 +33,7 @@ func (u *usecase) saveAlbumImages(files []*multipart.FileHeader, album models.Al
 	os.Mkdir(path, os.ModePerm)
 	errChan := make(chan error)
 	counter := 0
+
 	for i, file := range files {
 		go func(i, max int, counter *int, file *multipart.FileHeader, errChan chan<- error) {
 			defer func() {
@@ -48,22 +49,18 @@ func (u *usecase) saveAlbumImages(files []*multipart.FileHeader, album models.Al
 				return
 			}
 			defer src.Close()
-
-			// destination file
-			dst, err := os.Create(fmt.Sprintf("%s/%d.jpeg", path, i))
-			if err != nil {
+			// save original image
+			if err := saveImage(src, path, i); err != nil {
 				errChan <- err
 				return
 			}
-			defer dst.Close()
 
-			// Copy
-			if _, err = io.Copy(dst, src); err != nil {
-				errChan <- err
-				return
-			}
 			src.Seek(0, io.SeekStart)
-			compressImage(src, path, i)
+			// comress image and save it
+			if err := compressAndSaveImage(src, path, i); err != nil {
+				errChan <- err
+				return
+			}
 
 		}(i, len(files)-1, &counter, file, errChan)
 	}
@@ -74,17 +71,46 @@ func (u *usecase) saveAlbumImages(files []*multipart.FileHeader, album models.Al
 	return nil
 }
 
-func compressImage(src multipart.File, path string, i int) {
-	img, _ := imaging.Decode(src)
-	src.Seek(0, 0)
-	ex, _ := exif.Decode(src)
-	if orient, _ := ex.Get(exif.Orientation); orient != nil {
-		img = reverse(img, orient.String())
+func saveImage(src multipart.File, path string, i int) error {
+	dst, err := os.Create(fmt.Sprintf("%s/%d.jpeg", path, i))
+	if err != nil {
+		return err
 	}
-	newimg := imaging.Resize(img, img.Bounds().Dx()/8, img.Bounds().Dy()/8, imaging.Lanczos)
-	dst, _ := os.Create(fmt.Sprintf("%s/%d-compressed.jpeg", path, i))
 	defer dst.Close()
-	imaging.Encode(dst, newimg, imaging.JPEG)
+
+	if _, err = io.Copy(dst, src); err != nil {
+		return err
+	}
+	return nil
+}
+
+func compressAndSaveImage(src multipart.File, path string, i int) error {
+	img, err := imaging.Decode(src)
+	if err != nil {
+		return err
+	}
+
+	src.Seek(0, 0)
+	ex, err := exif.Decode(src)
+	if err != nil {
+		return err
+	}
+
+	if orient, err := ex.Get(exif.Orientation); orient != nil && err == nil {
+		img = reverse(img, orient.String())
+	} else if err != nil {
+		return err
+	}
+
+	newimg := imaging.Resize(img, img.Bounds().Dx()/8, img.Bounds().Dy()/8, imaging.Lanczos)
+
+	dst, err := os.Create(fmt.Sprintf("%s/%d-compressed.jpeg", path, i))
+	if err != nil {
+		return err
+	}
+	defer dst.Close()
+
+	return imaging.Encode(dst, newimg, imaging.JPEG)
 }
 
 func reverse(img image.Image, orient string) image.Image {
