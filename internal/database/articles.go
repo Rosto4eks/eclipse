@@ -17,9 +17,9 @@ func (d *database) AddArticle(articles models.Articles) error {
 }
 
 // прсмотр статей по автору
-func (d *database) GetArticlesById(authorId int) ([]models.Articles, error) {
-	query := "SELECT name, theme, author_id, images_count, to_char(date,'YYYY-MM-DD') AS date, text FROM articles WHERE author_id = $1"
-	var response []models.Articles
+func (d *database) GetArticlesById(authorId int) ([]models.ArticlesResponse, error) {
+	query := "SELECT name, theme, (SELECT name FROM users WHERE id = author_id) as name_author, images_count, to_char(date,'YYYY-MM-DD') AS date, text FROM articles WHERE author_id = $1"
+	var response []models.ArticlesResponse
 	err := d.db.Select(&response, query, authorId)
 	if err != nil {
 		return nil, err
@@ -28,9 +28,9 @@ func (d *database) GetArticlesById(authorId int) ([]models.Articles, error) {
 }
 
 // просмотр всех статей
-func (d *database) GetAllArticles() ([]models.Articles, error) {
-	query := "SELECT name, theme, author_id, images_count, to_char(date,'YYYY-MM-DD') AS date, text FROM articles"
-	var response []models.Articles
+func (d *database) GetAllArticles() ([]models.ArticlesResponse, error) {
+	query := "SELECT name, theme, (SELECT name FROM users) as name_author, images_count, to_char(date,'YYYY-MM-DD') AS date, text FROM articles"
+	var response []models.ArticlesResponse
 	err := d.db.Select(&response, query)
 	if err != nil {
 		return nil, err
@@ -50,12 +50,23 @@ func (d *database) GetThemesByArticle(articleId int) ([]string, error) {
 }
 
 // просмотр списка статей по выбранной теме
-func (d *database) GetArticlesByTheme(theme string) ([]models.Articles, error) {
-	query := "SELECT name, theme, author_id, images_count, to_char(date,'YYYY-MM-DD') AS date, text FROM articles WHERE theme = $1"
-	var response []models.Articles
+func (d *database) GetArticlesByTheme(theme string) ([]models.ArticlesResponse, error) {
+	query := "SELECT name, theme, (SELECT name FROM users where id = author_id) as name_author, images_count, to_char(date,'YYYY-MM-DD') AS date, text FROM articles WHERE theme = $1"
+	var response []models.ArticlesResponse
 	err := d.db.Select(&response, query, theme)
 	if err != nil {
 		return nil, err
+	}
+	return response, nil
+}
+
+// просмотр статьи по теме
+func (d *database) GetArticleByThemeAndID(articleId int, theme string) (models.ArticlesResponse, error) {
+	query := "SELECT name, theme, (SELECT name FROM users where id = author_id) as name_author, images_count, to_char(date,'YYYY-MM-DD') AS date, text articles WHERE theme = $2 AND id = $1"
+	var response models.ArticlesResponse
+	err := d.db.Get(&response, query, articleId, theme)
+	if err != nil {
+		return models.ArticlesResponse{}, err
 	}
 	return response, nil
 }

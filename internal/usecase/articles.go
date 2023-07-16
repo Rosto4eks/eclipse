@@ -10,6 +10,10 @@ func (u *usecase) GetArticleByTheme(theme string) ([]models.Articles, error) {
 	return u.database.GetArticlesByTheme(theme)
 }
 
+func (u *usecase) GetArticlesThemes(articleId int) ([]string, error) {
+	return u.database.GetThemesByArticle(articleId)
+}
+
 func (u *usecase) NewArticle(article models.Articles) error {
 	return u.database.AddArticle(article)
 }

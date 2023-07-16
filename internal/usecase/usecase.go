@@ -17,6 +17,7 @@ type Iusecase interface {
 	DeleteAlbum(int) error
 	GetAllArticles() ([]models.Articles, error)
 	GetArticleByTheme(theme string) ([]models.Articles, error)
+	GetArticlesThemes(articleId int) ([]string, error)
 	NewArticle(article models.Articles) error
 	DeleteArticle(articleId int) error
 }
