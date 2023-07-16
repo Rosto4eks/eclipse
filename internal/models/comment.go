@@ -7,3 +7,11 @@ type Comment struct {
 	Text      string
 	Date      string
 }
+
+type CommentResponse struct {
+	ID         int
+	AuthorName string
+	ArticleID  int
+	Text       string
+	Date       string
+}

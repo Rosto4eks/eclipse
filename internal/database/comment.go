@@ -5,6 +5,16 @@ import (
 	"github.com/Rosto4eks/eclipse/internal/models"
 )
 
+func (d *database) GetComments(articleId int) ([]models.CommentResponse, error) {
+	query := "SELECT (SELECT name FROM users WHERE id = user_id) as author, text, to_char(date, 'YYYY-MM-DD') as date FROM comments WHERE article_id = $1"
+	var response []models.CommentResponse
+	err := d.db.Select(response, query, articleId)
+	if err != nil {
+		return nil, err
+	}
+	return response, nil
+}
+
 func (d *database) AddComment(comment models.Comment) error {
 	query := "INSERT INTO comments (userId, ArticleId, Text, Date) VALUES($1,$2,$3,$4)"
 	_, err := d.db.Exec(query, comment.UserId, comment.ArticleID, comment.Text, comment.Date)
