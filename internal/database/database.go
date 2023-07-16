@@ -16,6 +16,16 @@ type Idatabase interface {
 	AddUser(models.User) error
 	DelUser(int) error
 	GetUserByName(string) (models.User, error)
+	AddArticle(articles models.Articles) error
+	GetArticlesById(int) ([]models.Articles, error)
+	GetAllArticles() ([]models.Articles, error)
+	GetThemesByArticle(int) ([]string, error)
+	GetArticlesByTheme(string) ([]models.Articles, error)
+	GetThemes() ([]string, error)
+	DeleteArticle(int) error
+	AddComment(userId, articleId int, comment string) error
+	DeleteCommentByUser(userId, articleId int, comment string) error
+	DeleteCommentsByEditor(articleId int, comment string) error
 }
 
 type database struct {

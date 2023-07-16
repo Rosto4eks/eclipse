@@ -13,11 +13,12 @@ type Ihandler interface {
 	Album(echo.Context) error
 	NewAlbum(echo.Context) error
 	CreateNewAlbum(echo.Context) error
+	DeleteAlbum(ctx echo.Context) error
 	SignIn(echo.Context) error
 	SignUp(echo.Context) error
 	NewUser(echo.Context) error
-	Authorise(ctx echo.Context) error
-	WriteCookie(token string, ctx echo.Context) error
+	PostSignIn(ctx echo.Context) error
+	WriteCookie(token string, ctx echo.Context)
 	ReadCookie(ctx echo.Context) (string, error)
 }
 
@@ -36,7 +37,7 @@ func (h *handler) Home(ctx echo.Context) error {
 	return ctx.String(200, "HOME")
 }
 
-func (h *handler) WriteCookie(token string, ctx echo.Context) error {
+func (h *handler) WriteCookie(token string, ctx echo.Context) {
 	cookie := new(http.Cookie)
 	cookie.Name = "jwt_token"
 	cookie.HttpOnly = true
@@ -46,7 +47,6 @@ func (h *handler) WriteCookie(token string, ctx echo.Context) error {
 	cookie.Value = token
 	cookie.Expires = time.Now().Add(24 * time.Hour)
 	ctx.SetCookie(cookie)
-	return ctx.String(http.StatusOK, "write a cookie")
 }
 
 func (h *handler) ReadCookie(ctx echo.Context) (string, error) {
@@ -54,5 +54,5 @@ func (h *handler) ReadCookie(ctx echo.Context) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return cookie.Value, ctx.String(http.StatusOK, "read a cookie")
+	return cookie.Value, nil
 }
