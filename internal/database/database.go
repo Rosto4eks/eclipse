@@ -16,7 +16,7 @@ type Idatabase interface {
 	AddUser(models.User) error
 	DelUser(int) error
 	GetUserByName(string) (models.User, error)
-	AddArticle(articles models.ArticlesResponse) error
+	AddArticle(articles models.Articles) error
 	GetArticlesById(int) ([]models.ArticlesResponse, error)
 	GetAllArticles() ([]models.ArticlesResponse, error)
 	GetThemesByArticle(int) ([]string, error)

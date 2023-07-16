@@ -16,10 +16,10 @@ type Iusecase interface {
 	GetAllAlbums() ([]models.AlbumResponse, error)
 	DeleteAlbum(int) error
 	GetAllArticles() ([]models.Articles, error)
-	GetArticleByTheme(theme string) ([]models.Articles, error)
-	GetArticlesThemes(articleId int) ([]string, error)
-	NewArticle(article models.Articles) error
-	DeleteArticle(articleId int) error
+	GetArticleByTheme(string) ([]models.Articles, error)
+	GetArticlesThemes(int) ([]string, error)
+	NewArticle(models.Articles) error
+	DeleteArticle(int) error
 }
 
 type usecase struct {

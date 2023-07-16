@@ -2,11 +2,11 @@ package usecase
 
 import "github.com/Rosto4eks/eclipse/internal/models"
 
-func (u *usecase) GetAllArticles() ([]models.Articles, error) {
+func (u *usecase) GetAllArticles() ([]models.ArticlesResponse, error) {
 	return u.database.GetAllArticles()
 }
 
-func (u *usecase) GetArticleByTheme(theme string) ([]models.Articles, error) {
+func (u *usecase) GetArticleByTheme(theme string) ([]models.ArticlesResponse, error) {
 	return u.database.GetArticlesByTheme(theme)
 }
 
