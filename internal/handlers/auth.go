@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"errors"
 	"github.com/Rosto4eks/eclipse/internal/models"
 	"github.com/labstack/echo/v4"
 	"net/http"
@@ -29,7 +28,7 @@ func (h *handler) NewUser(ctx echo.Context) error {
 	return ctx.Redirect(301, "/")
 }
 
-func (h *handler) Authorise(ctx echo.Context) error {
+func (h *handler) PostSignIn(ctx echo.Context) error {
 	Name := ctx.FormValue("name")
 	Password := ctx.FormValue("password")
 
@@ -40,9 +39,6 @@ func (h *handler) Authorise(ctx echo.Context) error {
 			"error": err.Error(),
 		})
 	}
-	err = h.WriteCookie(token, ctx)
-	if err != nil {
-		return errors.New("cannot write cookie")
-	}
+	h.WriteCookie(token, ctx)
 	return ctx.Redirect(http.StatusMovedPermanently, "/")
 }
