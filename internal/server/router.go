@@ -31,6 +31,7 @@ func (s *Server) initRoutes(h handlers.Ihandler) {
 		r.GET("/albums", h.Albums)
 		r.GET("/albums/:id", h.Album)
 		r.GET("/albums/new", h.NewAlbum)
+		r.GET("/albums/:id/delete", h.DeleteAlbum)
 		r.POST("/albums/new", h.CreateNewAlbum)
 	}
 	auth := s.router.Group("auth")
@@ -38,6 +39,6 @@ func (s *Server) initRoutes(h handlers.Ihandler) {
 		auth.GET("/sign-in", h.SignIn)
 		auth.GET("/sign-up", h.SignUp)
 		auth.POST("/sign-up", h.NewUser)
-		auth.POST("/sign-in", h.Authorise)
+		auth.POST("/sign-in", h.PostSignIn)
 	}
 }
