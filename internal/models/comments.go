@@ -1,6 +1,6 @@
 package models
 
-type Comments struct {
+type Comment struct {
 	ID        int
 	UserId    int
 	ArticleID int

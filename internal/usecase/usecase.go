@@ -14,6 +14,13 @@ type Iusecase interface {
 	SignIn(name, password string) (string, error)
 	GetAlbumById(int) (models.AlbumResponse, error)
 	Auth(string, string) error
+	GetAllAlbums() ([]models.AlbumResponse, error)
+	DeleteAlbum(int) error
+	GetAllArticles() ([]models.ArticleResponse, error)
+	GetArticleByTheme(string) ([]models.ArticleResponse, error)
+	NewArticle(models.Article) error
+	GetThemes() ([]string, error)
+	DeleteArticle(int) error
 }
 
 type usecase struct {
