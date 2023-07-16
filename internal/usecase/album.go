@@ -27,6 +27,14 @@ func (u *usecase) GetAlbumById(id int) (models.AlbumResponse, error) {
 	return u.database.GetAlbumByID(id)
 }
 
+func (u *usecase) GetAllAlbums() ([]models.AlbumResponse, error) {
+	return u.database.GetAllAlbums()
+}
+
+func (u *usecase) DeleteAlbum(id int) error {
+	return u.database.DelAlbumByID(id)
+}
+
 func (u *usecase) saveAlbumImages(files []*multipart.FileHeader, album models.Album) error {
 	path := fmt.Sprintf("./public/albums/%s-%s", album.Date, album.Name)
 	// create destination folder

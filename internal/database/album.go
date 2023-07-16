@@ -7,7 +7,7 @@ import (
 )
 
 func (d *database) GetAllAlbums() ([]models.AlbumResponse, error) {
-	query := "SELECT id, (SELECT name FROM users where id = author_id) as author, images_count, date, name, description FROM albums"
+	query := "SELECT id, (SELECT name FROM users where id = author_id) as author, images_count, to_char(date,'YYYY-MM-DD') as date, name, description FROM albums ORDER BY date DESC"
 	var response []models.AlbumResponse
 	if err := d.db.Select(&response, query); err != nil {
 		return nil, err
@@ -17,7 +17,7 @@ func (d *database) GetAllAlbums() ([]models.AlbumResponse, error) {
 }
 
 func (d *database) GetAlbumByID(ID int) (models.AlbumResponse, error) {
-	query := "SELECT id, (SELECT name FROM users where id = author_id) as author, images_count, date, name, description FROM albums WHERE id = $1"
+	query := "SELECT id, (SELECT name FROM users where id = author_id) as author, images_count, to_char(date,'YYYY-MM-DD') as date, name, description FROM albums WHERE id = $1"
 	var response models.AlbumResponse
 	if err := d.db.Get(&response, query, ID); err != nil {
 		fmt.Println(err)

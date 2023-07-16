@@ -2,14 +2,19 @@ package handlers
 
 import (
 	"fmt"
-	"strconv"
-
 	"github.com/Rosto4eks/eclipse/internal/models"
 	"github.com/labstack/echo/v4"
+	"strconv"
 )
 
 func (h *handler) Albums(ctx echo.Context) error {
-	return ctx.String(200, "Albums")
+	albums, err := h.usecase.GetAllAlbums()
+	if err != nil {
+		return err
+	}
+	return ctx.Render(301, "allAlbums.html", map[string]interface{}{
+		"albums": albums,
+	})
 }
 
 func (h *handler) Album(ctx echo.Context) error {
@@ -64,4 +69,17 @@ func (h *handler) CreateNewAlbum(ctx echo.Context) error {
 	}
 
 	return ctx.Redirect(301, "/albums")
+}
+
+func (h *handler) DeleteAlbum(ctx echo.Context) error {
+	id, err := strconv.Atoi(ctx.Param("id"))
+	if err != nil {
+		return err
+	}
+	err = h.usecase.DeleteAlbum(id)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
