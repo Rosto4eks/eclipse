@@ -17,7 +17,7 @@ func (d *database) AddArticle(articles models.Article) error {
 
 // прсмотр статей по автору
 func (d *database) GetArticlesByAuthorId(authorId int) ([]models.ArticleResponse, error) {
-	query := "SELECT name, theme, (SELECT name FROM users WHERE id = author_id) as name_author, images_count, to_char(date,'YYYY-MM-DD') AS date, text FROM articles WHERE author_id = $1"
+	query := "SELECT id, name, theme, (SELECT name FROM users WHERE id = author_id) AS name_author, images_count, to_char(date,'YYYY-MM-DD') AS date, text FROM articles WHERE author_id = $1"
 	var response []models.ArticleResponse
 	err := d.db.Select(&response, query, authorId)
 	if err != nil {
@@ -28,10 +28,11 @@ func (d *database) GetArticlesByAuthorId(authorId int) ([]models.ArticleResponse
 
 // просмотр всех статей
 func (d *database) GetAllArticles() ([]models.ArticleResponse, error) {
-	query := "SELECT name, theme, (SELECT name FROM users) as name_author, images_count, to_char(date,'YYYY-MM-DD') AS date, text FROM articles"
+	query := "SELECT id, name, theme, (SELECT name FROM users WHERE id = author_id) AS name_author, images_count, to_char(date,'YYYY-MM-DD') AS date, text FROM articles"
 	var response []models.ArticleResponse
 	err := d.db.Select(&response, query)
 	if err != nil {
+		fmt.Println(err)
 		return nil, err
 	}
 	return response, nil
@@ -50,7 +51,7 @@ func (d *database) GetThemes() ([]string, error) {
 
 // просмотр списка статей по выбранной теме
 func (d *database) GetArticlesByTheme(theme string) ([]models.ArticleResponse, error) {
-	query := "SELECT name, theme, (SELECT name FROM users where id = author_id) as name_author, images_count, to_char(date,'YYYY-MM-DD') AS date, text FROM articles WHERE theme = $1"
+	query := "SELECT id, name, theme, (SELECT name FROM users where id = author_id) as name_author, images_count, to_char(date,'YYYY-MM-DD') AS date, text FROM articles WHERE theme = $1"
 	var response []models.ArticleResponse
 	err := d.db.Select(&response, query, theme)
 	if err != nil {

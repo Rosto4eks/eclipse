@@ -85,6 +85,9 @@ func (h *handler) writeJWT(token string, ctx echo.Context) {
 	cookie.Value = token
 	cookie.Expires = time.Now().Add(24 * time.Hour)
 	cookie.Path = "/"
+	cookie.HttpOnly = true
+	cookie.Secure = true
+	cookie.SameSite = http.SameSite(http.SameSiteNoneMode)
 	ctx.SetCookie(cookie)
 }
 

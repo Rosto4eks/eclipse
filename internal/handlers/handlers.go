@@ -15,6 +15,10 @@ type Ihandler interface {
 	GetSignUp(echo.Context) error
 	PostSignUp(echo.Context) error
 	PostSignIn(ctx echo.Context) error
+	GetArticles(ctx echo.Context) error
+	GetNewArticle(ctx echo.Context) error
+	PostNewArticle(ctx echo.Context) error
+	DeleteArticle(ctx echo.Context) error
 	auth(echo.Context, string) error
 	writeJWT(token string, ctx echo.Context)
 	readJWT(echo.Context) (string, error)
@@ -32,5 +36,5 @@ func New(usecase usecase.Iusecase) *handler {
 }
 
 func (h *handler) GetHome(ctx echo.Context) error {
-	return ctx.String(200, "HOME")
+	return ctx.Render(200, "home.html", nil)
 }

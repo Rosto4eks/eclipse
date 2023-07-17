@@ -22,6 +22,8 @@ type Idatabase interface {
 	GetArticlesByTheme(string) ([]models.ArticleResponse, error)
 	GetThemes() ([]string, error)
 	DeleteArticle(int) error
+	GetComments(articleId int) ([]models.CommentResponse, error)
+	ChangeComment(userId, articleId int, newComment string) error
 	AddComment(models.Comment) error
 	DeleteCommentById(int) error
 }

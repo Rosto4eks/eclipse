@@ -9,6 +9,7 @@ import (
 
 func (h *handler) GetAlbums(ctx echo.Context) error {
 	headerName := h.authHeader(ctx)
+
 	albums, err := h.usecase.GetAllAlbums()
 	if err != nil {
 		return err
