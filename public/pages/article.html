@@ -11,18 +11,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
-    {{template "header" .}}
+    {{ template "header" . }}
     <form action="" class="action" method="get">
       <input class="field" name="field" type="search" placeholder="Search here...">
-      <button class="submit" type="submit" name="submit">Search</button> //i choose button, because i could add image into it
+      <button class="submit" type="submit" name="submit"></button>
     </form>
+    <div class="articles">
+        {{ range .articles }}
     <div class="container">
-        <div class="name"></div>
-        <div class="theme"></div>
-        <div class="author"></div>
-        <div class="images_count"></div>
-        <div class="date"></div>
-        <div class="text"></div>
+        <div class="theme">{{ .Theme }}</div>
+        <div class="name">{{ .Name }}</div>
+        <div class="text">{{ .Text }}</div>
+        <div class="author">By {{ .NameAuthor }}</div>
+        <div class="images_count">Contains {{ .ImagesCount }} images</div>
+        <div class="date">Created by {{ .Date }}</div>
+    </div>
+        {{end}}
     </div>
 </body>
 </html>

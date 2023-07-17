@@ -1,0 +1,20 @@
+{{define "newArticle.html"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New article</title>
+    <link href="/public/pages/css/header.css" type="text/css" rel="stylesheet">
+    <link href="/public/pages/css/newArticle.css" type="text/css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    {{template "header" .}}
+    <div class="container">
+        <div class="row"><input type="text" class="input" name="name" placeholder="name"></div>
+    </div>
+</body>
+</html>
+{{end}}

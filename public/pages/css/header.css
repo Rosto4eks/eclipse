@@ -4,10 +4,15 @@ body {
   padding: 0;
 }
 
+a{
+  text-decoration: none;
+  color : inherit;
+}
+
 .header {
   height: 60px;
   width: 100%;
-  //flex-direcion: row;
+//flex-direcion: row;
   color: black;
   box-shadow: 0px 1px 1px 0px #cccccc;
 }
@@ -21,6 +26,11 @@ body {
   width: 100px;
   font-size: 30px;
   font-weight: 700;
+  transition : color .2s linear;
+}
+.header-name-block:hover {
+
+  color : orange;
 }
 .header-name {
   margin: auto 50px;
