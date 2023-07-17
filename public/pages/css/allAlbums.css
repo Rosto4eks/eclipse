@@ -13,38 +13,41 @@ a {
 }
 
 .album {
-    transition: 1s;
-}
-
-.album:hover{
-    transform: scale(1.1);
+    display: flex;
+    flex-direction: column;
+    background-size: contain;
 }
 
 .image{
+    display: flex;
+    background-repeat: no-repeat;
+    background-position: center center; 
+    background-size: 100%;
     margin-top: 50px;
     margin-bottom: 10px;
-    transition: 1s;
-    object-fit: cover;
+    transition: 0.5s;
+}
+
+.image_text-wrapper {
+    display:flex;
+    opacity: 0;
+    width: 1000px;
+    height: 500px;
+    text-align:center;
+    font-size: 28px;
+    font-weight: 600;
+    color : white;
+    transition: 0.5s;
+}
+
+.image_text-wrapper:hover{
+    backdrop-filter: blur(10px);
+    opacity: 1;
+    transition: 0.5s;
 }
 
 .image_text {
-    display: none;
-    position: absolute;
-    text-align: center;
-    text-decoration: underline;
-    top : 40%;
-    left : 45%;
-    font-size: 28px;
-    color : white;
-}
-
-.image:hover{
-    display: block;
-    filter : blur(3px);
-}
-
-.image:hover+.image_text{
-    display: block;
+    margin: auto;
 }
 
 .name {
@@ -55,22 +58,15 @@ a {
     text-align: center;
 }
 
-.description {
-    font-size: 14px;
-    color : black;
-    font-weight: normal;
-    text-align: center;
-}
-
 .author {
-    font-size: 11px;
+    font-size: 16px;
     color : black;
     font-weight: bold;
     text-align: center;
 }
 
 .date {
-    font-size: 11px;
+    font-size: 14px;
     color : black;
     font-weight: normal;
     text-align: center;

@@ -55,6 +55,14 @@ func (u *usecase) Auth(token, role string) error {
 	return nil
 }
 
+func (u *usecase) AuthHeader(token string) string {
+	usr, err := parseToken(token)
+	if err != nil {
+		return "sign in"
+	}
+	return usr.Name
+}
+
 func generateToken(name, role string) (string, error) {
 	claims := Claims{
 		name,

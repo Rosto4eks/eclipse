@@ -10,14 +10,24 @@ import (
 )
 
 func (h *handler) GetSignIn(ctx echo.Context) error {
-	return ctx.Render(200, "auth.html", map[string]interface{}{"type": "signin"})
+	headerName := h.authHeader(ctx)
+	return ctx.Render(200, "auth.html", map[string]interface{}{
+		"header": headerName,
+		"type":   "signin",
+	})
 }
 
 func (h *handler) GetSignUp(ctx echo.Context) error {
-	return ctx.Render(200, "auth.html", map[string]interface{}{"type": "signup"})
+	headerName := h.authHeader(ctx)
+	return ctx.Render(200, "auth.html", map[string]interface{}{
+		"header": headerName,
+		"type":   "signup",
+	})
 }
 
 func (h *handler) PostSignUp(ctx echo.Context) error {
+	headerName := h.authHeader(ctx)
+
 	usr := models.User{
 		Name:     ctx.FormValue("name"),
 		Password: ctx.FormValue("password"),
@@ -25,8 +35,9 @@ func (h *handler) PostSignUp(ctx echo.Context) error {
 	token, err := h.usecase.SignUp(usr)
 	if err != nil {
 		return ctx.Render(401, "auth.html", map[string]interface{}{
-			"type":  "signup",
-			"error": err.Error(),
+			"header": headerName,
+			"type":   "signup",
+			"error":  err.Error(),
 		})
 	}
 	h.writeJWT(token, ctx)
@@ -34,14 +45,17 @@ func (h *handler) PostSignUp(ctx echo.Context) error {
 }
 
 func (h *handler) PostSignIn(ctx echo.Context) error {
+	headerName := h.authHeader(ctx)
+
 	Name := ctx.FormValue("name")
 	Password := ctx.FormValue("password")
 
 	token, err := h.usecase.SignIn(Name, Password)
 	if err != nil {
 		return ctx.Render(401, "auth.html", map[string]interface{}{
-			"type":  "signin",
-			"error": err.Error(),
+			"header": headerName,
+			"type":   "signin",
+			"error":  err.Error(),
 		})
 	}
 	h.writeJWT(token, ctx)
@@ -55,6 +69,14 @@ func (h *handler) auth(ctx echo.Context, role string) error {
 	}
 
 	return h.usecase.Auth(token, role)
+}
+
+func (h *handler) authHeader(ctx echo.Context) string {
+	token, err := h.readJWT(ctx)
+	if err != nil {
+		return "sign in"
+	}
+	return h.usecase.AuthHeader(token)
 }
 
 func (h *handler) writeJWT(token string, ctx echo.Context) {

@@ -8,16 +8,20 @@ import (
 )
 
 func (h *handler) GetAlbums(ctx echo.Context) error {
+	headerName := h.authHeader(ctx)
+
 	albums, err := h.usecase.GetAllAlbums()
 	if err != nil {
 		return err
 	}
 	return ctx.Render(301, "allAlbums.html", map[string]interface{}{
+		"header": headerName,
 		"albums": albums,
 	})
 }
 
 func (h *handler) GetAlbum(ctx echo.Context) error {
+	headerName := h.authHeader(ctx)
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
 		return ctx.Redirect(301, "/albums")
@@ -31,33 +35,40 @@ func (h *handler) GetAlbum(ctx echo.Context) error {
 		paths[i] = fmt.Sprintf("%s-%s/%d", album.Date[0:10], album.Name, i)
 	}
 	return ctx.Render(200, "album.html", map[string]interface{}{
-		"album": album,
-		"paths": paths,
+		"header": headerName,
+		"album":  album,
+		"paths":  paths,
 	})
 }
 
 func (h *handler) GetNewAlbum(ctx echo.Context) error {
+	headerName := h.authHeader(ctx)
 	if err := h.auth(ctx, "author"); err != nil {
 		return ctx.Redirect(301, "/")
 	}
-	return ctx.Render(200, "newAlbum.html", nil)
+	return ctx.Render(200, "newAlbum.html", map[string]interface{}{
+		"header": headerName,
+	})
 }
 
 func (h *handler) PostNewAlbum(ctx echo.Context) error {
+	headerName := h.authHeader(ctx)
 	if err := h.auth(ctx, "author"); err != nil {
 		return ctx.Redirect(301, "/")
 	}
 	form, err := ctx.MultipartForm()
 	if err != nil {
 		return ctx.Render(500, "newAlbum.html", map[string]interface{}{
-			"error": "could not parse images",
+			"header": headerName,
+			"error":  "could not parse images",
 		})
 	}
 	files := form.File["files"]
 	usr, err := h.usecase.GetUserByName(ctx.FormValue("author"))
 	if err != nil {
 		return ctx.Render(401, "newAlbum.html", map[string]interface{}{
-			"error": "author with given name does not exist",
+			"header": headerName,
+			"error":  "author with given name does not exist",
 		})
 	}
 	album := models.Album{
@@ -70,7 +81,8 @@ func (h *handler) PostNewAlbum(ctx echo.Context) error {
 
 	if err = h.usecase.NewAlbum(files, album); err != nil {
 		return ctx.Render(500, "newAlbum.html", map[string]interface{}{
-			"error": err.Error(),
+			"header": headerName,
+			"error":  err.Error(),
 		})
 	}
 
