@@ -17,14 +17,14 @@
         {{ range .albums }}
             <a href = "/albums/{{ .Id}}">
         <div class="album">
-            <img class="image" src="/public/albums/{{ .Date }}-{{ .Name }}/0.jpeg" width="1000" height="500">
-            <div class="image_text">Show all</div>
+            <div class="image" style="background-image: url(/public/albums/{{ .Date }}-{{ .Name }}/0-compressed.jpeg);">
+                <div class="image_text-wrapper">
+                    <div class="image_text">Show {{ .Images_count }} images</div>
+                </div>
+            </div>
             <div class="name">{{ .Name }}</div>
-            <div class="description">{{ .Description}}</div>
             <div class="author">By {{ .Author }}</div>
             <div class="date">Created {{ .Date }}</div>
-            <div class="images_count">Contains {{ .Images_count }} images</div>
-            <div class="line"><hr /></div>
         </div>
             </a>
         {{end}}

@@ -3,7 +3,11 @@
   <div class="ref-block">
     <a href="/albums" class="ref">albums</a>
     <a href="/articles" class="ref">articles</a>
+    {{ if eq .header "sign in" }}
     <a href="/auth/sign-in" class="ref right">sign-in</a>
+    {{ else }}
+    <a href="/auth/sign-in" class="ref right">{{ .header }}</a>
+    {{end}}
   </div>
   <div class="header-name-block">
     <div class="header-name">
