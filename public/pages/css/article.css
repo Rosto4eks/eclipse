@@ -4,7 +4,7 @@
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: space-around;
-        margin : 50px auto;
+        margin : 10px auto;
         max-width: 1000px;
     }
 }
@@ -23,25 +23,36 @@
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
     overflow: hidden;
     width : 25%;
+
+    transition: .25s linear;
+}
+
+.container:hover {
+    transform: scale(1.1);
 }
 
 .action {
-
+    display: flex;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
 .field {
+    position: relative;
+    outline: 2px solid orange;
     border-radius: 10px;
     background-color: #e2e2e2;
     padding: 10px;
     height : 42px;
+    width: 30%;
+    margin: 25px auto;
     border : 3px solid #F9F0DA;
 }
 
 .submit {
-    content: "\f002";
-    font-family: FontAwesome;
-    font-size: 16px;
-    color: #F9F0DA;
+    display: none;
+    width: 42px;
+    height: 42px;
 }
 
 .name {
