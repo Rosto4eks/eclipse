@@ -6,7 +6,7 @@ import (
 )
 
 func (d *database) GetComments(articleId int) ([]models.CommentResponse, error) {
-	query := "SELECT (SELECT name FROM users WHERE id = user_id) as author, text, to_char(date, 'YYYY-MM-DD') as date FROM comments WHERE article_id = $1"
+	query := "SELECT id, (SELECT name FROM users WHERE id = user_id) as author, text, to_char(date, 'YYYY-MM-DD') as date FROM comments WHERE article_id = $1"
 	var response []models.CommentResponse
 	err := d.db.Select(response, query, articleId)
 	if err != nil {

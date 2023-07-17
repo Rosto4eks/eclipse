@@ -11,11 +11,11 @@ type Article struct {
 }
 
 type ArticleResponse struct {
-	ID          int
-	Name        string
-	Theme       string
-	NameAuthor  string
-	ImagesCount int
-	Date        string
-	Text        string
+	ID          int    `db:"id"`
+	Name        string `db:"name"`
+	Theme       string `db:"theme"`
+	NameAuthor  string `db:"name_author"`
+	ImagesCount int    `db:"images_count"`
+	Date        string `db:"date"`
+	Text        string `db:"text"`
 }
