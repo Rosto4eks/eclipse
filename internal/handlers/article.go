@@ -22,7 +22,10 @@ func (h *handler) GetNewArticle(ctx echo.Context) error {
 	if err := h.auth(ctx, "author"); err != nil {
 		return ctx.Redirect(301, "/")
 	}
-	return ctx.Render(200, "newArticle.html", nil)
+	headerName := h.authHeader(ctx)
+	return ctx.Render(200, "newArticle.html", map[string]interface{}{
+		"header": headerName,
+	})
 }
 
 func (h *handler) PostNewArticle(ctx echo.Context) error {

@@ -14,17 +14,18 @@
     {{template "header" .}}
     <div class="container">
         <div class="tools">
-            <a onclick="bold">bold</a>
-            <a onclick="italic">italic</a>
-            <a onclick="bigger">bigger</a>
+            <a class="tool" onclick="bold()" id="Bold">bold</a>
+            <a class="tool" onclick="italic()" id="Italic">italic</a>
+            <div class="tool Size">size: <input type="number" class="size" id="Size" value="16" min="1" max="99"></div>
         </div>
-        <div class="title" contenteditable="true">
+        <div class="title" contenteditable>
           Title
         </div>
-        <div class="text" contenteditable="true">
-            text...
+        <div class="text" onclick="select()" contenteditable>
+            <div>text...</div>
         </div>
     </div>
+    <script src="/public/pages/js/newArticle.js"></script>
 </body>
 </html>
 {{end}}
