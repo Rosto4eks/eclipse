@@ -13,7 +13,17 @@
 <body>
     {{template "header" .}}
     <div class="container">
-        <div class="row"><input type="text" class="input" name="name" placeholder="name"></div>
+        <div class="tools">
+            <a onclick="bold">bold</a>
+            <a onclick="italic">italic</a>
+            <a onclick="bigger">bigger</a>
+        </div>
+        <div class="title" contenteditable="true">
+          Title
+        </div>
+        <div class="text" contenteditable="true">
+            text...
+        </div>
     </div>
 </body>
 </html>
