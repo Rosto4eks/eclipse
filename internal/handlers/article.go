@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"errors"
+	"fmt"
 	"github.com/Rosto4eks/eclipse/internal/models"
 	"github.com/labstack/echo/v4"
 	"strconv"
@@ -84,22 +84,44 @@ func (h *handler) PostNewArticle(ctx echo.Context) error {
 
 func (h *handler) DeleteArticle(ctx echo.Context) error {
 	if err := h.auth(ctx, "author"); err != nil {
-		return ctx.Redirect(301, "/")
+		return ctx.JSON(301, map[string]interface{}{
+			"success": false,
+			"message": "permission denied",
+		})
 	}
-
-	id, _ := strconv.Atoi(ctx.Param("id"))
-	article, err := h.usecase.GetArticleById(id)
+	articleId, _ := strconv.Atoi(ctx.Param("article_id"))
+	article, err := h.usecase.GetArticleById(articleId)
 	if err != nil {
-		return err
+		return ctx.JSON(301, map[string]interface{}{
+			"success": false,
+			"message": "can't find article",
+		})
 	}
 	name := h.authHeader(ctx)
 
 	if article.NameAuthor != name {
-		return errors.New("invalid person")
+		return ctx.JSON(301, map[string]interface{}{
+			"success": false,
+			"message": "invalid person",
+		})
 	}
-	err = h.usecase.DeleteArticle(id)
+	err = h.usecase.DeleteArticle(articleId)
 	if err != nil {
-		return err
+		fmt.Println(err)
+		return ctx.JSON(301, map[string]interface{}{
+			"success": false,
+			"message": "can't delete article",
+		})
 	}
-	return ctx.Render(200, "allArticles.html", nil)
+	return ctx.JSON(200, map[string]interface{}{
+		"success": true,
+		"message": "",
+	})
+}
+
+func (h *handler) ChangeArticle(ctx echo.Context) error {
+	return ctx.JSON(200, map[string]interface{}{
+		"success": true,
+		"message": "",
+	})
 }

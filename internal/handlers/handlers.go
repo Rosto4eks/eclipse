@@ -23,6 +23,7 @@ type Ihandler interface {
 	DeleteArticle(ctx echo.Context) error
 	GetComments(ctx echo.Context) error
 	DeleteComment(ctx echo.Context) error
+	ChangeArticle(ctx echo.Context) error
 	auth(echo.Context, string) error
 	writeJWT(token string, ctx echo.Context)
 	readJWT(echo.Context) (string, error)

@@ -1,9 +1,9 @@
 const deleteBtn = document.getElementById(`deleteBtn`);
 
 deleteBtn.addEventListener('click',() => {
-  const id = deleteBtn.dataset.albumId;
-  console.log(id);
-  deleteAlbum(id);
+    const id = deleteBtn.dataset.albumId;
+    console.log(id);
+    deleteAlbum(id);
 });
 
 async function deleteAlbum(id) {
@@ -15,7 +15,12 @@ async function deleteAlbum(id) {
     console.log(data);
 
     if(data.success) {
-        document.getElementById(`albums${id}`).remove();
-        window.location.href = "/albums";
+        result = confirm("Are you sure? If you delete this album, you cannot recover it");
+        if(result) {
+            document.getElementById(`albums${id}`).remove();
+            window.location.href = "/albums";
+        }
+    } else {
+        alert(data.message);
     }
 }
