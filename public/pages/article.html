@@ -1,33 +1,49 @@
 {{define "article.html"}}
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Articles</title>
-        <link href="/public/pages/css/header.css" type="text/css" rel="stylesheet">
-        <link href="/public/pages/css/article.css" type="text/css" rel="stylesheet">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    </head>
-    <body>
-    {{ template "header" . }}
-    <form action="" class="action" method="get">
-        <input class="field" name="field" type="search" placeholder="Search here...">
-        <button class="submit" type="submit" name="submit"></button>
-    </form>
-    <div class="articles">
-        {{ range .articles }}
-            <div class="container">
-                <div class="theme">{{ .Theme }}</div>
-                <div class="name">{{ .Name }}</div>
-                <div class="text">{{ .Text }}</div>
-                <div class="author">By {{ .NameAuthor }}</div>
-                <div class="images_count">Contains {{ .ImagesCount }} images</div>
-                <div class="date">Created by {{ .Date }}</div>
-            </div>
-        {{end}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Article</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href = "/public/pages/css/article.css" type = "text/css" rel = "stylesheet">
+  <link href = "/public/pages/css/header.css" type = "text/css" rel = "stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    {{template "header" .}}
+    <div class="article" id="article" data-article-id ="{{ .article.ID }}">
+      <div class="name">{{ .article.Name }}</div>
+      <div class="theme">{{ .article.Theme }}</div>
+      <div class="author">{{ .article.NameAuthor }}</div>
+      <div class="date">{{ .article.Date }}</div>
+      <div class="text">{{ .article.Text }}</div>
     </div>
-    </body>
-    </html>
+    {{ if .comments}}
+    {{ range .comments }}
+    <div class="comments" id="comments{{ .ID }}">
+        <div class="comment_author">Written by {{ .AuthorName }} {{ .Date }}</div>
+        <div class="message">
+            <div class="comment_text">{{ .Text }}</div>
+        </div>
+        <button type="button" class="deleteBtn" aria-label="Close"
+                data-comment-id="{{ .ID }}"></button>
+    </div>
+    {{end}}
+        {{else}}
+        <form action="/articles/:id" class="new_comment">You can add first comment!
+            <div class="input" type="text">
+                <div class="textarea" aria-placeholder="Write your comment"></div>
+            </div>
+        </form>
+        {{end}}
+    <form action="/articles/:id" class="new_comment">
+        <div class="input" type="text">
+            <div class="textarea" aria-placeholder="Write your comment"></div>
+        </div>
+    </form>
+<script src="/public/pages/article.js"></script>
+</body>
+</html>
 {{end}}

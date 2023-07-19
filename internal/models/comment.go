@@ -9,9 +9,9 @@ type Comment struct {
 }
 
 type CommentResponse struct {
-	ID         int
-	AuthorName string
-	ArticleID  int
-	Text       string
-	Date       string
+	ID         int    `db:"id"`
+	AuthorName string `db:"author"`
+	ArticleID  int    `db:"article_id"`
+	Text       string `db:"text"`
+	Date       string `db:"date"`
 }

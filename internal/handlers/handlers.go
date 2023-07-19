@@ -11,14 +11,18 @@ type Ihandler interface {
 	GetAlbum(echo.Context) error
 	GetNewAlbum(echo.Context) error
 	PostNewAlbum(echo.Context) error
+	DeleteAlbum(ctx echo.Context) error
 	GetSignIn(echo.Context) error
 	GetSignUp(echo.Context) error
 	PostSignUp(echo.Context) error
 	PostSignIn(ctx echo.Context) error
+	GetArticle(ctx echo.Context) error
 	GetArticles(ctx echo.Context) error
 	GetNewArticle(ctx echo.Context) error
 	PostNewArticle(ctx echo.Context) error
 	DeleteArticle(ctx echo.Context) error
+	GetComments(ctx echo.Context) error
+	DeleteComment(ctx echo.Context) error
 	auth(echo.Context, string) error
 	writeJWT(token string, ctx echo.Context)
 	readJWT(echo.Context) (string, error)
@@ -36,5 +40,8 @@ func New(usecase usecase.Iusecase) *handler {
 }
 
 func (h *handler) GetHome(ctx echo.Context) error {
-	return ctx.Render(200, "home.html", nil)
+	headerName := h.authHeader(ctx)
+	return ctx.Render(200, "home.html", map[string]interface{}{
+		"header": headerName,
+	})
 }

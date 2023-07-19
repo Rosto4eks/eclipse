@@ -16,6 +16,11 @@ a {
     display: flex;
     flex-direction: column;
     background-size: contain;
+    transition: .2s linear;
+}
+
+.album:hover {
+    transform: scale(1.1);
 }
 
 .image{

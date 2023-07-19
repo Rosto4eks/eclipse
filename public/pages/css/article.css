@@ -1,90 +1,86 @@
-@media (min-width : 400px) {
-    .articles {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        margin : 10px auto;
-        max-width: 1000px;
-    }
-}
-
-.container {
+.article,.comments{
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 20px;
-    min-height: 150px;
-    margin-bottom: 50px;
-
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
-    width : 25%;
-
-    transition: .25s linear;
-}
-
-.container:hover {
-    transform: scale(1.1);
-}
-
-.action {
-    display: flex;
     max-width: 1000px;
     margin: 0 auto;
 }
 
-.field {
-    position: relative;
-    outline: 2px solid orange;
-    border-radius: 10px;
-    background-color: #e2e2e2;
-    padding: 10px;
-    height : 42px;
-    width: 30%;
-    margin: 25px auto;
-    border : 3px solid #F9F0DA;
-}
+.comments {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    background-color: #fafafa;
 
-.submit {
-    display: none;
-    width: 42px;
-    height: 42px;
+    padding: 15px;
+    box-shadow: 4px 4px 10px rgba(0,0,0,0.19);
+    border-radius: 15px;
+    height: fit-content;
 }
 
 .name {
     font-size: 16px;
     font-weight: bold;
-    color : orange;
+    color : black;
 }
 
 .theme {
+    font-size: 14px;
+    color: white;
+
     background-color: orange;
     border-radius: 50px;
+    justify-content: center;
+    width: fit-content;
     padding: 2px 10px;
-    font-size : 16px;
-    color: white;
-    margin : 0;
+    height: 20px;
     text-transform: uppercase;
-    max-width: fit-content;
-}
-
-.author {
-    font-size: 14px;
-    font-weight: bold;
-}
-
-.images_count {
-    font-size: 11px;
 }
 
 .date {
-    font-size: 11px;
+    font-size: 16px;
 }
 
 .text {
-    font-size: 17px;
+    font-size: 20px;
+}
+
+.author{
+    font-size: 20px;
+
+}
+
+.comment_author{
+    font-size: 16px;
+    color: black;
+}
+
+.comment_date{
+    font-size: 16px;
+    color: black;
+}
+
+.comment_text{
+    font-size: 20px;
+    color: black;
+}
+
+.input {
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+    max-width: 1000px;
+    margin-top: 20px;
+
+    background-color: orange;
+    box-shadow: 4px 4px 10px rgb(0,0,0,0.19);
+    border-radius: 15px;
+    height: 150px;
+
+    width: fit-content;
+}
+
+.deleteBtn {
+    display: block;
+    width: 20px;
+    height: 20px;
 }

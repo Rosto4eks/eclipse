@@ -1,19 +1,41 @@
 package handlers
 
 import (
-	"fmt"
+	"errors"
 	"github.com/Rosto4eks/eclipse/internal/models"
 	"github.com/labstack/echo/v4"
 	"strconv"
 )
 
+func (h *handler) GetArticle(ctx echo.Context) error {
+	headerName := h.authHeader(ctx)
+	id, err := strconv.Atoi(ctx.Param("id"))
+	if err != nil {
+		return ctx.Redirect(301, "/articles")
+	}
+	article, err := h.usecase.GetArticleById(id)
+	if err != nil {
+		return ctx.Redirect(301, "/articles")
+	}
+	comments, err := h.usecase.GetArticleComments(id)
+	if err != nil {
+		return ctx.Redirect(301, "/articles")
+	}
+	return ctx.Render(200, "article.html", map[string]interface{}{
+		"header":   headerName,
+		"article":  article,
+		"comments": comments,
+	})
+}
+
 func (h *handler) GetArticles(ctx echo.Context) error {
+	headerName := h.authHeader(ctx)
 	articles, err := h.usecase.GetAllArticles()
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
-	return ctx.Render(301, "article.html", map[string]interface{}{
+	return ctx.Render(200, "allArticles.html", map[string]interface{}{
+		"header":   headerName,
 		"articles": articles,
 	})
 }
@@ -22,7 +44,10 @@ func (h *handler) GetNewArticle(ctx echo.Context) error {
 	if err := h.auth(ctx, "author"); err != nil {
 		return ctx.Redirect(301, "/")
 	}
-	return ctx.Render(500, "newArticle.html", nil)
+	headerName := h.authHeader(ctx)
+	return ctx.Render(200, "newArticle.html", map[string]interface{}{
+		"header": headerName,
+	})
 }
 
 func (h *handler) PostNewArticle(ctx echo.Context) error {
@@ -58,5 +83,23 @@ func (h *handler) PostNewArticle(ctx echo.Context) error {
 }
 
 func (h *handler) DeleteArticle(ctx echo.Context) error {
-	return nil
+	if err := h.auth(ctx, "author"); err != nil {
+		return ctx.Redirect(301, "/")
+	}
+
+	id, _ := strconv.Atoi(ctx.Param("id"))
+	article, err := h.usecase.GetArticleById(id)
+	if err != nil {
+		return err
+	}
+	name := h.authHeader(ctx)
+
+	if article.NameAuthor != name {
+		return errors.New("invalid person")
+	}
+	err = h.usecase.DeleteArticle(id)
+	if err != nil {
+		return err
+	}
+	return ctx.Render(200, "allArticles.html", nil)
 }

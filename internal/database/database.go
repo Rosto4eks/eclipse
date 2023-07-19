@@ -19,10 +19,11 @@ type Idatabase interface {
 	AddArticle(articles models.Article) error
 	GetArticlesByAuthorId(int) ([]models.ArticleResponse, error)
 	GetAllArticles() ([]models.ArticleResponse, error)
-	GetArticlesByTheme(string) ([]models.ArticleResponse, error)
+	GetArticlesById(int) (models.ArticleResponse, error)
 	GetThemes() ([]string, error)
 	DeleteArticle(int) error
 	GetComments(articleId int) ([]models.CommentResponse, error)
+	GetCommentById(commentId int) (models.CommentResponse, error)
 	ChangeComment(userId, articleId int, newComment string) error
 	AddComment(models.Comment) error
 	DeleteCommentById(int) error

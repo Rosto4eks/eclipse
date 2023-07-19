@@ -6,8 +6,8 @@ func (u *usecase) GetAllArticles() ([]models.ArticleResponse, error) {
 	return u.database.GetAllArticles()
 }
 
-func (u *usecase) GetArticleByTheme(theme string) ([]models.ArticleResponse, error) {
-	return u.database.GetArticlesByTheme(theme)
+func (u *usecase) GetArticleById(articleId int) (models.ArticleResponse, error) {
+	return u.database.GetArticlesById(articleId)
 }
 
 func (u *usecase) GetThemes() ([]string, error) {

@@ -1,0 +1,36 @@
+{{define "allArticles.html"}}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Articles</title>
+        <link href="/public/pages/css/header.css" type="text/css" rel="stylesheet">
+        <link href="/public/pages/css/allArticles.css" type="text/css" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    </head>
+    <body>
+    {{ template "header" . }}
+    <form action="" class="action" method="get">
+        <input class="field" name="field" type="search" placeholder="Search here...">
+        <button class="submit" type="submit" name="submit"></button>
+    </form>
+    <div class="articles">
+        {{ range .articles }}
+            <div class="container">
+                <a href = "/articles/{{ .ID }}">
+                 <div class="image" src="/albums/"></div>
+                <div class="theme">{{ .Theme }}</div>
+                <div class="name">{{ .Name }}</div>
+                <div class="text">{{ .Text }}</div>
+                <div class="author">By {{ .NameAuthor }}</div>
+                <div class="images_count">Contains {{ .ImagesCount }} images</div>
+                <div class="date">Created by {{ .Date }}</div>
+                </a>
+            </div>
+        {{end}}
+    </div>
+    </body>
+    </html>
+{{end}}

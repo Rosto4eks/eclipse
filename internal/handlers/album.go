@@ -90,14 +90,47 @@ func (h *handler) PostNewAlbum(ctx echo.Context) error {
 }
 
 func (h *handler) DeleteAlbum(ctx echo.Context) error {
-	id, err := strconv.Atoi(ctx.Param("id"))
-	if err != nil {
-		return err
-	}
-	err = h.usecase.DeleteAlbum(id)
-	if err != nil {
-		return err
+	if err := h.auth(ctx, "author"); err != nil {
+		return ctx.JSON(301, map[string]interface{}{
+			"success": false,
+			"message": "permisson denied",
+		})
 	}
 
-	return nil
+	id, err := strconv.Atoi(ctx.Param("id"))
+	if err != nil {
+		return ctx.JSON(301, map[string]interface{}{
+			"success": false,
+			"message": "cant parse id",
+		})
+	}
+
+	name := h.authHeader(ctx)
+	album, err := h.usecase.GetAlbumById(id)
+	if err != nil {
+		return ctx.JSON(301, map[string]interface{}{
+			"success": false,
+			"message": "cant find album",
+		})
+	}
+
+	if album.Author != name {
+		return ctx.JSON(301, map[string]interface{}{
+			"success": false,
+			"message": "permisson denied",
+		})
+	}
+
+	err = h.usecase.DeleteAlbum(id)
+	if err != nil {
+		return ctx.JSON(301, map[string]interface{}{
+			"success": false,
+			"message": "cant delete album",
+		})
+	}
+
+	return ctx.JSON(200, map[string]interface{}{
+		"success": true,
+		"message": "",
+	})
 }

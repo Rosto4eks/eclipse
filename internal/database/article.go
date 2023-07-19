@@ -32,7 +32,6 @@ func (d *database) GetAllArticles() ([]models.ArticleResponse, error) {
 	var response []models.ArticleResponse
 	err := d.db.Select(&response, query)
 	if err != nil {
-		fmt.Println(err)
 		return nil, err
 	}
 	return response, nil
@@ -50,12 +49,12 @@ func (d *database) GetThemes() ([]string, error) {
 }
 
 // просмотр списка статей по выбранной теме
-func (d *database) GetArticlesByTheme(theme string) ([]models.ArticleResponse, error) {
-	query := "SELECT id, name, theme, (SELECT name FROM users where id = author_id) as name_author, images_count, to_char(date,'YYYY-MM-DD') AS date, text FROM articles WHERE theme = $1"
-	var response []models.ArticleResponse
-	err := d.db.Select(&response, query, theme)
+func (d *database) GetArticlesById(articleId int) (models.ArticleResponse, error) {
+	query := "SELECT id, name, theme, (SELECT name FROM users where id = author_id) as name_author, images_count, to_char(date,'YYYY-MM-DD') AS date, text FROM articles WHERE id = $1"
+	var response models.ArticleResponse
+	err := d.db.Get(&response, query, articleId)
 	if err != nil {
-		return nil, err
+		return models.ArticleResponse{}, err
 	}
 	return response, nil
 }

@@ -12,7 +12,8 @@
   </head>
   <body>
     {{template "header" .}}
-    <div class="container">
+    <button type="button" class="deleteBtn" aria-label="Close" id="deleteBtn" data-album-id="{{ .album.Id }}"></button>
+    <div class="container" id="albums{{ .album.Id }}">
       <div class="name">{{ .album.Name }}</div>
       <div class="author">By {{ .album.Author }}</div>
       <div class="date">Created {{ .album.Date }}</div>
@@ -23,6 +24,7 @@
       {{end}}
       </div>
     </div>
+  <script src="/public/pages/album.js"></script>
   </body>
 </html>
 {{end}}

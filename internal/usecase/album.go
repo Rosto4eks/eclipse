@@ -32,6 +32,16 @@ func (u *usecase) GetAllAlbums() ([]models.AlbumResponse, error) {
 }
 
 func (u *usecase) DeleteAlbum(id int) error {
+	album, err := u.database.GetAlbumByID(id)
+	if err != nil {
+		return err
+	}
+	path := "public/albums/" + album.Date + "-" + album.Name
+	fmt.Println(path)
+	err = os.RemoveAll(path)
+	if err != nil {
+		return err
+	}
 	return u.database.DelAlbumByID(id)
 }
 
