@@ -14,6 +14,7 @@ type Ihandler interface {
 	DeleteAlbum(ctx echo.Context) error
 	GetSignIn(echo.Context) error
 	GetSignUp(echo.Context) error
+	GetLogOut(ctx echo.Context) error
 	PostSignUp(echo.Context) error
 	PostSignIn(ctx echo.Context) error
 	GetArticle(ctx echo.Context) error
@@ -27,6 +28,7 @@ type Ihandler interface {
 	auth(echo.Context, string) error
 	writeJWT(token string, ctx echo.Context)
 	readJWT(echo.Context) (string, error)
+	cleanJWT(ctx echo.Context) error
 }
 
 // first layer, handles incoming http requests

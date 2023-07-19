@@ -45,6 +45,7 @@ func (s *Server) initRoutes(h handlers.Ihandler) {
 	{
 		auth.GET("/sign-in", h.GetSignIn)
 		auth.GET("/sign-up", h.GetSignUp)
+		auth.GET("/log-out", h.GetLogOut)
 		auth.POST("/sign-up", h.PostSignUp)
 		auth.POST("/sign-in", h.PostSignIn)
 	}

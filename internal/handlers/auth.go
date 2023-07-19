@@ -25,6 +25,14 @@ func (h *handler) GetSignUp(ctx echo.Context) error {
 	})
 }
 
+func (h *handler) GetLogOut(ctx echo.Context) error {
+	err := h.cleanJWT(ctx)
+	if err != nil {
+		return ctx.String(301, "can`t clean cookie")
+	}
+	return ctx.Redirect(301, "/")
+}
+
 func (h *handler) PostSignUp(ctx echo.Context) error {
 	headerName := h.authHeader(ctx)
 
@@ -94,4 +102,16 @@ func (h *handler) readJWT(ctx echo.Context) (string, error) {
 		return "", errors.New("cookie not found")
 	}
 	return cookie.Value, err
+}
+
+func (h *handler) cleanJWT(ctx echo.Context) error {
+	cookie, err := ctx.Cookie("jwt_token")
+	if err != nil {
+		return err
+	}
+	cookie.Value = ""
+	cookie.Expires = time.Now()
+	cookie.Path = "/"
+	ctx.SetCookie(cookie)
+	return nil
 }
