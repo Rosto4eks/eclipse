@@ -1,5 +1,10 @@
 {{define "header"}}
 <div class="header">
+    <div class="header-name">
+      <a href = "/">ECLIPSE.COM</a>
+    </div>
+</div>
+<div class="header2">
   <div class="ref-block">
     <a href="/albums" class="ref">albums</a>
     <a href="/articles" class="ref">articles</a>
@@ -8,11 +13,6 @@
     {{ else }}
     <a href="/auth/sign-in" class="ref right">{{ .header }}</a>
     {{end}}
-  </div>
-  <div class="header-name-block">
-    <div class="header-name">
-      <a href = "/">ECLIPSE.COM</a>
-    </div>
   </div>
 </div>
 {{end}}

@@ -1,7 +1,6 @@
 .gallery {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
     margin : 0 auto;
     padding-top: 30px;
     flex-direction: column;
@@ -24,20 +23,23 @@ a {
 }
 
 .image{
+    width: 100%;
+    height: 500px;
     display: flex;
     background-repeat: no-repeat;
     background-position: center center; 
-    background-size: 100%;
+    background-size: cover;
     margin-top: 50px;
     margin-bottom: 10px;
     transition: 0.5s;
+    border-radius: 5px;
 }
 
 .image_text-wrapper {
+    border-radius: 5px;
     display:flex;
     opacity: 0;
-    width: 1000px;
-    height: 500px;
+    width: 100%;
     text-align:center;
     font-size: 28px;
     font-weight: 600;
@@ -55,6 +57,11 @@ a {
     margin: auto;
 }
 
+.wr {
+    margin-bottom: 5px;
+    display: flex;
+}
+
 .name {
     font-size : 23px;
     font-weight: 700;
@@ -64,15 +71,19 @@ a {
 }
 
 .author {
+    width: fit-content;
+    background-color: #5ecb43;
+    border-radius: 20px;
     font-size: 16px;
-    color : black;
+    color : white;
+    padding: 8px 12px;
     font-weight: bold;
-    text-align: center;
 }
 
 .date {
-    font-size: 14px;
+    font-size: 16px;
     color : black;
+    padding: 8px 12px;
     font-weight: normal;
     text-align: center;
 }
@@ -86,4 +97,16 @@ a {
 
 .line {
     margin-top: 15px
+}
+
+#media (max-width: 1000px) {
+    .image {
+        height: 400px;
+    }
+}
+
+#media (max-width: 600px) {
+    .image {
+        height: 300px;
+    }
 }

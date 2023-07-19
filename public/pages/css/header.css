@@ -10,32 +10,35 @@ a{
 }
 
 .header {
+  background-color: black;
+  display: flex;
   height: 60px;
   width: 100%;
-//flex-direcion: row;
-  color: black;
-  box-shadow: 0px 1px 1px 0px #cccccc;
+  color: white;
 }
-.header-name-block {
+
+.header2 {
+  height: 40px;
+  width: 100%;
+  color: black;
+  border-bottom: 1px solid #dddddd;
+}
+
+.header-name {
   display: flex;
-  position: absolute;
-  top: 10px;
-  left: -13%;
-  right: 0;
-  margin: 0 auto;
-  width: 100px;
+  max-width: 1000px;
   font-size: 30px;
   font-weight: 700;
-  transition : color .2s linear;
+  margin: 10px auto;
+  transition: 0.5s;
 }
-.header-name-block:hover {
 
-  color : orange;
+.header-name:hover {
+  color: orange;
+  text-decoration: underline;
+  transition: 0.5s;
 }
-.header-name {
-  margin: auto 50px;
-  display: flex;
-}
+
 .ref-block {
   display: flex;
   margin: 0 auto;
@@ -85,5 +88,12 @@ a{
   }
   .ref {
     font-size: 16px;
+  }
+}
+
+@media (max-width: 800px) {
+  .header-name-block {
+    margin: 10px auto;
+    font-size: 20px;
   }
 }
