@@ -24,6 +24,7 @@ type Iusecase interface {
 	DeleteArticle(int) error
 	GetArticleComments(articleId int) ([]models.CommentResponse, error)
 	GetCommentById(commentId int) (models.CommentResponse, error)
+	AddNewComment(comment models.Comment) error
 	DeleteComment(commentId int) error
 }
 

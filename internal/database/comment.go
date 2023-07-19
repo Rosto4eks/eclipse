@@ -28,8 +28,8 @@ func (d *database) GetCommentById(commentId int) (models.CommentResponse, error)
 }
 
 func (d *database) AddComment(comment models.Comment) error {
-	query := "INSERT INTO comments (userId, ArticleId, Text, Date) VALUES($1,$2,$3,$4)"
-	_, err := d.db.Exec(query, comment.UserId, comment.ArticleID, comment.Text, comment.Date)
+	query := "INSERT INTO comments (userId, ArticleId, Text, Date) VALUES($1,$2,$3,NOW())"
+	_, err := d.db.Exec(query, comment.UserId, comment.ArticleID, comment.Text)
 	if err != nil {
 		return err
 	}

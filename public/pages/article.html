@@ -16,9 +16,11 @@
     <div class="article" id="article" data-article-id ="{{ .article.ID }}">
       <div class="name">{{ .article.Name }}</div>
       <div class="theme">{{ .article.Theme }}</div>
-      <div class="author">{{ .article.NameAuthor }}</div>
+      <div class="author">Written by {{ .article.NameAuthor }}</div>
       <div class="date">{{ .article.Date }}</div>
+        <div class="form_text">
       <div class="text">{{ .article.Text }}</div>
+        </div>
     </div>
     {{ if .comments}}
     {{ range .comments }}
@@ -34,18 +36,14 @@
         </button>
     </div>
     {{end}}
+    <div class="new_comment">
+        <textarea name="input_comment" placeholder="Write your comment..."></textarea>
+    </div>
         {{else}}
-        <form action="/articles/:id" class="new_comment">You can add first comment!
-            <div class="input" type="text">
-                <div class="textarea" aria-placeholder="Write your comment"></div>
-            </div>
-        </form>
-        {{end}}
-    <form action="/articles/:id" class="new_comment">
-        <div class="input" type="text">
-            <div class="textarea" aria-placeholder="Write your comment"></div>
-        </div>
-    </form>
+    <div class="new_comment">
+        <textarea name="input_comment" placeholder="Write your comment..."></textarea>
+    </div>
+    {{end}}
 <script src="/public/pages/js/article.js"></script>
 </body>
 </html>

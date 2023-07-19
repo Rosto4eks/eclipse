@@ -10,6 +10,10 @@ func (u *usecase) GetCommentById(commentId int) (models.CommentResponse, error) 
 	return u.database.GetCommentById(commentId)
 }
 
+func (u *usecase) AddNewComment(comment models.Comment) error {
+	return u.database.AddComment(comment)
+}
+
 func (u *usecase) DeleteComment(commentId int) error {
 	return u.database.DeleteCommentById(commentId)
 }

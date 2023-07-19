@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"github.com/Rosto4eks/eclipse/internal/models"
 	"github.com/labstack/echo/v4"
 	"strconv"
 )
@@ -73,3 +74,32 @@ func (h *handler) DeleteComment(ctx echo.Context) error {
 		"message": "success",
 	})
 }
+
+func (h *handler) PostNewComment(ctx echo.Context) error {
+	if err := h.auth(ctx, "user"); err != nil {
+		return ctx.JSON(301, map[string]interface{}{
+			"success": false,
+			"message": "permission denied",
+		})
+	}
+
+	comment := models.Comment{}
+
+	err := h.usecase.AddNewComment(comment)
+	if err != nil {
+		return ctx.JSON(301, map[string]interface{}{
+			"success": false,
+			"message": "cannot add new comment",
+		})
+	}
+	return ctx.JSON(200, map[string]interface{}{
+		"success": true,
+		"message": "",
+	})
+}
+
+//func (h *handler) ChangeComment(ctx echo.Context) error {
+//	return ctx.JSON(200, map[string]interface{}{
+//
+//	})
+//}
