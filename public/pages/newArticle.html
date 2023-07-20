@@ -18,12 +18,12 @@
             <a class="tool" onclick="italic()" id="Italic">italic</a>
             <div class="tool Size">size: <input type="number" class="size" id="Size" value="16" min="1" max="99"></div>
         </div>
-        <div class="title" contenteditable>
-          Title
-        </div>
-        <div class="text" onclick="select()" contenteditable>
+        <input class="theme" id="theme" placeholder="theme">
+        <input class="title" id="title" placeholder="title">
+        <div class="text" id="text" onclick="select()" contenteditable>
             <div>text...</div>
         </div>
+        <a class="submit" onclick="submit()">submit</a>
     </div>
     <script src="/public/pages/js/newArticle.js"></script>
 </body>

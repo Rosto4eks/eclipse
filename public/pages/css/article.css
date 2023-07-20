@@ -5,7 +5,14 @@
     margin: 0 auto;
 }
 
+.article {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
 .comments {
+    width: 100%;
     display: flex;
     flex-direction: column;
     margin-top: 10px;
@@ -50,8 +57,7 @@
 }
 
 .text {
-    display: flex;
-    flex-direction: row;
+    width: 100%;
     font-size: 20px;
 }
 
@@ -63,8 +69,8 @@
     display: flex;
     margin: 20px auto;
     max-width: 1000px;
-
-    box-shadow: 4px 4px 10px orange;
+    width: 100%;
+    box-shadow: 4px 4px 10px #d5d5d5;
     background-color: #fafafa;
     border-radius: 15px;
     padding: 25px;
@@ -87,6 +93,7 @@
 }
 
 .input {
+    width: 100%;
     display: flex;
     flex-direction: row;
     margin: 0 auto;
@@ -181,7 +188,7 @@ textarea[name='input_comment']{
 .sendBtn svg {
     display: block;
     transform-origin: center center;
-    transition: transform .2s linear;
+    transition: transform 0.2 linear;
 }
 
 .sendBtn:hover{

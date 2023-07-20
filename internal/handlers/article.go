@@ -1,10 +1,13 @@
 package handlers
 
 import (
+	"encoding/json"
 	"fmt"
+	"strconv"
+	"time"
+
 	"github.com/Rosto4eks/eclipse/internal/models"
 	"github.com/labstack/echo/v4"
-	"strconv"
 )
 
 func (h *handler) GetArticle(ctx echo.Context) error {
@@ -54,32 +57,34 @@ func (h *handler) PostNewArticle(ctx echo.Context) error {
 	if err := h.auth(ctx, "author"); err != nil {
 		return ctx.Redirect(302, "/")
 	}
+	author := h.authHeader(ctx)
 
-	usr, err := h.usecase.GetUserByName(ctx.FormValue("NameAuthor"))
+	req := make(map[string]interface{})
+	err := json.NewDecoder(ctx.Request().Body).Decode(&req)
 	if err != nil {
-		return ctx.Render(401, "newArticle.html", map[string]interface{}{
-			"error": "author with given name doesn't exist",
-		})
+		return err
 	}
+	user, err := h.usecase.GetUserByName(author)
 
-	images_count, _ := strconv.Atoi(ctx.FormValue("ImagesCount"))
 	article := models.Article{
-		Name:        ctx.FormValue("name"),
-		Theme:       ctx.FormValue("theme"),
-		AuthorID:    usr.ID,
-		ImagesCount: images_count,
-		Date:        ctx.FormValue("date"),
-		Text:        ctx.FormValue("text"),
+		Name:        req["title"].(string),
+		Theme:       req["theme"].(string),
+		AuthorID:    user.ID,
+		ImagesCount: 0,
+		Date:        time.Now().Format("2006-01-02"),
+		Text:        req["text"].(string),
 	}
 
 	err = h.usecase.NewArticle(article)
 	if err != nil {
-		return ctx.Render(500, "newArticle.html", map[string]interface{}{
+		return ctx.JSON(500, map[string]interface{}{
 			"error": err.Error(),
 		})
 	}
 
-	return ctx.Redirect(302, "/articles")
+	return ctx.JSON(201, map[string]interface{}{
+		"error": nil,
+	})
 }
 
 func (h *handler) DeleteArticle(ctx echo.Context) error {
