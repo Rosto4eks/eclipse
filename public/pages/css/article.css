@@ -144,3 +144,39 @@ textarea[name='input_comment']{
     height: fit-content;
     margin-bottom: 100px;
 }
+
+.sendBtn {
+    font-family: inherit;
+    font-size: 20px;
+    background: royalblue;
+    color: white;
+    padding: 0.7em 1em;
+    padding-left: 0.9em;
+    display: flex;
+    width: 125px;
+    height: 50px;
+    margin-left: 15px;
+    align-items: center;
+    border: none;
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+
+    transition: color .2s linear;
+    transition: transform .2s linear;
+}
+
+.sendBtn span {
+    display: block;
+    margin-left: 0.3em;
+}
+
+.sendBtn svg {
+    display: block;
+    transform-origin: center center;
+    transition: transform 0.2 linear;
+}
+
+.sendBtn:hover{
+    transform: scale(0.95);
+}

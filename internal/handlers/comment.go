@@ -1,9 +1,12 @@
 package handlers
 
 import (
+	"encoding/json"
+	"fmt"
 	"github.com/Rosto4eks/eclipse/internal/models"
 	"github.com/labstack/echo/v4"
 	"strconv"
+	"time"
 )
 
 func (h *handler) GetComments(ctx echo.Context) error {
@@ -76,25 +79,51 @@ func (h *handler) DeleteComment(ctx echo.Context) error {
 }
 
 func (h *handler) PostNewComment(ctx echo.Context) error {
-	if err := h.auth(ctx, "user"); err != nil {
-		return ctx.JSON(400, map[string]interface{}{
+	if err := h.auth(ctx, "author"); err != nil {
+		if err := h.auth(ctx, "user"); err != nil {
+			return ctx.JSON(400, map[string]interface{}{
+				"success": false,
+				"message": "permission denied",
+			})
+		}
+	}
+	jsonBody := make(map[string]interface{})
+	err := json.NewDecoder(ctx.Request().Body).Decode(&jsonBody)
+	if err != nil {
+		return ctx.JSON(500, map[string]interface{}{
 			"success": false,
-			"message": "permission denied",
+			"message": "cant parse JSON",
 		})
 	}
-
-	comment := models.Comment{}
-
-	err := h.usecase.AddNewComment(comment)
+	fmt.Println("user : ", jsonBody["author"].(string))
+	user, err := h.usecase.GetUserByName(jsonBody["author"].(string))
+	if err != nil {
+		return ctx.JSON(400, map[string]interface{}{
+			"success": false,
+			"message": "cannot find user",
+		})
+	}
+	articleId, _ := strconv.Atoi(ctx.Param("article_id"))
+	date := time.Now().Format("2006-01-02 15:04")
+	comment := models.Comment{
+		UserId:    user.ID,
+		ArticleID: articleId,
+		Text:      jsonBody["text"].(string),
+		Date:      date,
+	}
+	fmt.Println(comment)
+	err = h.usecase.AddNewComment(comment)
 	if err != nil {
 		return ctx.JSON(400, map[string]interface{}{
 			"success": false,
 			"message": "cannot add new comment",
 		})
 	}
-	return ctx.JSON(200, map[string]interface{}{
-		"success": true,
-		"message": "",
+	return ctx.JSON(201, map[string]interface{}{
+		"success":    true,
+		"date":       date,
+		"comment_id": comment.ID,
+		"message":    "",
 	})
 }
 
