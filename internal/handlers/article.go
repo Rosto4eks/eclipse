@@ -11,15 +11,15 @@ func (h *handler) GetArticle(ctx echo.Context) error {
 	headerName := h.authHeader(ctx)
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
-		return ctx.Redirect(301, "/articles")
+		return ctx.Redirect(302, "/articles")
 	}
 	article, err := h.usecase.GetArticleById(id)
 	if err != nil {
-		return ctx.Redirect(301, "/articles")
+		return ctx.Redirect(302, "/articles")
 	}
 	comments, err := h.usecase.GetArticleComments(id)
 	if err != nil {
-		return ctx.Redirect(301, "/articles")
+		return ctx.Redirect(302, "/articles")
 	}
 	return ctx.Render(200, "article.html", map[string]interface{}{
 		"header":   headerName,
@@ -42,7 +42,7 @@ func (h *handler) GetArticles(ctx echo.Context) error {
 
 func (h *handler) GetNewArticle(ctx echo.Context) error {
 	if err := h.auth(ctx, "author"); err != nil {
-		return ctx.Redirect(301, "/")
+		return ctx.Redirect(302, "/")
 	}
 	headerName := h.authHeader(ctx)
 	return ctx.Render(200, "newArticle.html", map[string]interface{}{
@@ -52,7 +52,7 @@ func (h *handler) GetNewArticle(ctx echo.Context) error {
 
 func (h *handler) PostNewArticle(ctx echo.Context) error {
 	if err := h.auth(ctx, "author"); err != nil {
-		return ctx.Redirect(301, "/")
+		return ctx.Redirect(302, "/")
 	}
 
 	usr, err := h.usecase.GetUserByName(ctx.FormValue("NameAuthor"))
@@ -79,12 +79,12 @@ func (h *handler) PostNewArticle(ctx echo.Context) error {
 		})
 	}
 
-	return ctx.Redirect(301, "/articles")
+	return ctx.Redirect(302, "/articles")
 }
 
 func (h *handler) DeleteArticle(ctx echo.Context) error {
 	if err := h.auth(ctx, "author"); err != nil {
-		return ctx.JSON(301, map[string]interface{}{
+		return ctx.JSON(400, map[string]interface{}{
 			"success": false,
 			"message": "permission denied",
 		})
@@ -92,7 +92,7 @@ func (h *handler) DeleteArticle(ctx echo.Context) error {
 	articleId, _ := strconv.Atoi(ctx.Param("article_id"))
 	article, err := h.usecase.GetArticleById(articleId)
 	if err != nil {
-		return ctx.JSON(301, map[string]interface{}{
+		return ctx.JSON(400, map[string]interface{}{
 			"success": false,
 			"message": "can't find article",
 		})
@@ -100,7 +100,7 @@ func (h *handler) DeleteArticle(ctx echo.Context) error {
 	name := h.authHeader(ctx)
 
 	if article.NameAuthor != name {
-		return ctx.JSON(301, map[string]interface{}{
+		return ctx.JSON(400, map[string]interface{}{
 			"success": false,
 			"message": "invalid person",
 		})
@@ -108,7 +108,7 @@ func (h *handler) DeleteArticle(ctx echo.Context) error {
 	err = h.usecase.DeleteArticle(articleId)
 	if err != nil {
 		fmt.Println(err)
-		return ctx.JSON(301, map[string]interface{}{
+		return ctx.JSON(500, map[string]interface{}{
 			"success": false,
 			"message": "can't delete article",
 		})

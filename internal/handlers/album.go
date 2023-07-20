@@ -14,7 +14,7 @@ func (h *handler) GetAlbums(ctx echo.Context) error {
 	if err != nil {
 		return err
 	}
-	return ctx.Render(301, "allAlbums.html", map[string]interface{}{
+	return ctx.Render(200, "allAlbums.html", map[string]interface{}{
 		"header": headerName,
 		"albums": albums,
 	})
@@ -24,11 +24,11 @@ func (h *handler) GetAlbum(ctx echo.Context) error {
 	headerName := h.authHeader(ctx)
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
-		return ctx.Redirect(301, "/albums")
+		return ctx.Redirect(302, "/albums")
 	}
 	album, err := h.usecase.GetAlbumById(id)
 	if err != nil {
-		return ctx.Redirect(301, "/albums")
+		return ctx.Redirect(302, "/albums")
 	}
 	paths := make([]string, album.Images_count)
 	for i := 0; i < album.Images_count; i++ {
@@ -44,7 +44,7 @@ func (h *handler) GetAlbum(ctx echo.Context) error {
 func (h *handler) GetNewAlbum(ctx echo.Context) error {
 	headerName := h.authHeader(ctx)
 	if err := h.auth(ctx, "author"); err != nil {
-		return ctx.Redirect(301, "/")
+		return ctx.Redirect(302, "/")
 	}
 	return ctx.Render(200, "newAlbum.html", map[string]interface{}{
 		"header": headerName,
@@ -54,7 +54,7 @@ func (h *handler) GetNewAlbum(ctx echo.Context) error {
 func (h *handler) PostNewAlbum(ctx echo.Context) error {
 	headerName := h.authHeader(ctx)
 	if err := h.auth(ctx, "author"); err != nil {
-		return ctx.Redirect(301, "/")
+		return ctx.Redirect(302, "/")
 	}
 	form, err := ctx.MultipartForm()
 	if err != nil {
@@ -86,12 +86,12 @@ func (h *handler) PostNewAlbum(ctx echo.Context) error {
 		})
 	}
 
-	return ctx.Redirect(301, "/albums")
+	return ctx.Redirect(302, "/albums")
 }
 
 func (h *handler) DeleteAlbum(ctx echo.Context) error {
 	if err := h.auth(ctx, "author"); err != nil {
-		return ctx.JSON(301, map[string]interface{}{
+		return ctx.JSON(400, map[string]interface{}{
 			"success": false,
 			"message": "permisson denied",
 		})
@@ -99,7 +99,7 @@ func (h *handler) DeleteAlbum(ctx echo.Context) error {
 
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
-		return ctx.JSON(301, map[string]interface{}{
+		return ctx.JSON(500, map[string]interface{}{
 			"success": false,
 			"message": "cant parse id",
 		})
@@ -108,14 +108,14 @@ func (h *handler) DeleteAlbum(ctx echo.Context) error {
 	name := h.authHeader(ctx)
 	album, err := h.usecase.GetAlbumById(id)
 	if err != nil {
-		return ctx.JSON(301, map[string]interface{}{
+		return ctx.JSON(404, map[string]interface{}{
 			"success": false,
 			"message": "cant find album",
 		})
 	}
 
 	if album.Author != name {
-		return ctx.JSON(301, map[string]interface{}{
+		return ctx.JSON(400, map[string]interface{}{
 			"success": false,
 			"message": "permisson denied",
 		})
@@ -123,7 +123,7 @@ func (h *handler) DeleteAlbum(ctx echo.Context) error {
 
 	err = h.usecase.DeleteAlbum(id)
 	if err != nil {
-		return ctx.JSON(301, map[string]interface{}{
+		return ctx.JSON(500, map[string]interface{}{
 			"success": false,
 			"message": "cant delete album",
 		})
