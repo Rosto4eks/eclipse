@@ -51,3 +51,23 @@ function changeBg(e, condition) {
     e.style["color"] = "black";
   }
 }
+
+async function submit() {
+  theme = document.getElementById("theme")
+  title = document.getElementById("title")
+  text = document.getElementById("text")
+  data = {
+    theme: theme.value,
+    title: title.value,
+    text: text.innerHTML
+  }
+  const response = await fetch("/articles/new", {
+    method: "POST", 
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+  const res = await response.json();
+  console.log(res);
+}

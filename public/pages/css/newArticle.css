@@ -59,11 +59,22 @@ input[type="number"]:focus {
   font-style: italic;
 }
 
+.theme {
+  margin: 10px 0;
+  border: none;
+  width: 100%;
+  font-size: 22px;
+}
+
 .title {
   margin-top: 10px;
   width: 100%;
+  border: none;
   text-align: center;
-  font-size: 30px;
+  font-size: 35px;
+}
+.theme,.title {
+  border: none;
 }
 .text {
   margin-top: 10px;
@@ -74,4 +85,19 @@ input[type="number"]:focus {
 .title:focus,.text:focus {
   outline: none;
   border: none;
+}
+
+.submit {
+    margin: 10px auto;
+    border-radius: 10px;
+    color: white;
+    font-weight: 600;
+    padding: 10px 20px;
+    background-color: #aa22ee;
+    transition: 0.4s;
+}
+
+.submit:hover {
+    transition: 0.4s;
+    background-color: #9911aa;
 }
