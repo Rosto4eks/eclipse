@@ -26,11 +26,8 @@ func (h *handler) GetSignUp(ctx echo.Context) error {
 }
 
 func (h *handler) GetLogOut(ctx echo.Context) error {
-	err := h.cleanJWT(ctx)
-	if err != nil {
-		return ctx.String(301, "can`t clean cookie")
-	}
-	return ctx.Redirect(301, "/")
+	h.cleanJWT(ctx)
+	return ctx.Redirect(302, "/")
 }
 
 func (h *handler) PostSignUp(ctx echo.Context) error {
