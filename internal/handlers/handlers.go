@@ -25,6 +25,7 @@ type Ihandler interface {
 	GetComments(ctx echo.Context) error
 	DeleteComment(ctx echo.Context) error
 	PostNewComment(ctx echo.Context) error
+	ChangeComment(ctx echo.Context) error
 	ChangeArticle(ctx echo.Context) error
 	auth(echo.Context, string) error
 	writeJWT(token string, ctx echo.Context)

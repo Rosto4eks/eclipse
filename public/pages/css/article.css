@@ -17,6 +17,13 @@
     height: fit-content;
 }
 
+.comment_body{
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    background-color: #fafafa;
+}
+
 .name {
     font-size: 50px;
     margin: 10px auto;
@@ -174,9 +181,52 @@ textarea[name='input_comment']{
 .sendBtn svg {
     display: block;
     transform-origin: center center;
-    transition: transform 0.2 linear;
+    transition: transform .2s linear;
 }
 
 .sendBtn:hover{
     transform: scale(0.95);
+}
+
+.changeBtn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 25px;
+    height: 25px;
+    border: none;
+    padding: 0px 20px;
+    margin: 0 97%;
+    background-color: transparent;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all .2s linear;
+}
+
+.pen_icon {
+    margin-top: 10px;
+    width: 13px;
+    position: absolute;
+    right: 0;
+    margin-right: 20px;
+    fill: black;
+    transition: fill .2s linear;
+}
+
+.changeBtn:hover {
+    transform: scale(1.5);
+    transition: transform .2s linear;
+}
+
+.changeBtn:hover pen_icon{
+    right: 40%;
+    margin: 0;
+    padding: 0;
+    border: none;
+    fill: orange;
+}
+
+.changeBtn:hover > .pen_icon{
+    fill: orange;
 }

@@ -10,6 +10,10 @@ delete_btns.forEach( delete_btn=> {
 });
 
 async function deleteArticle(articleId) {
+    result = confirm("Are you sure? If you delete this article, you cannot recover it");
+    if(!result){
+        return;
+    }
     const response = await fetch(`/articles/delete-article/${articleId}`,{
         method : "DELETE"
     })
@@ -17,11 +21,8 @@ async function deleteArticle(articleId) {
     const data = await response.json();
     console.log(data);
     if(data.success){
-        result = confirm("Are you sure? If you delete this article, you cannot recover it");
-        if(result) {
-            console.log(result);
-            document.getElementById(`container${articleId}`).remove();
-        }
+        console.log(result);
+        document.getElementById(`container${articleId}`).remove();
     } else {
         alert(data.message);
     }
