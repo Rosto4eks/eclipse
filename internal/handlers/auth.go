@@ -46,7 +46,7 @@ func (h *handler) PostSignUp(ctx echo.Context) error {
 		})
 	}
 	h.writeJWT(token, ctx)
-	return ctx.Redirect(301, "/")
+	return ctx.Redirect(302, "/?welcome=true")
 }
 
 func (h *handler) PostSignIn(ctx echo.Context) error {
@@ -64,7 +64,7 @@ func (h *handler) PostSignIn(ctx echo.Context) error {
 		})
 	}
 	h.writeJWT(token, ctx)
-	return ctx.Redirect(301, "/")
+	return ctx.Redirect(302, "/?welcome=true")
 }
 
 func (h *handler) auth(ctx echo.Context, role string) error {

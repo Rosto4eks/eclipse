@@ -45,7 +45,12 @@ func New(usecase usecase.Iusecase) *handler {
 
 func (h *handler) GetHome(ctx echo.Context) error {
 	headerName := h.authHeader(ctx)
+	welcome := ctx.QueryParam("welcome")
+	if welcome == "true" {
+		welcome = "welcome back, "
+	}
 	return ctx.Render(200, "home.html", map[string]interface{}{
-		"header": headerName,
+		"header":  headerName,
+		"welcome": welcome,
 	})
 }
