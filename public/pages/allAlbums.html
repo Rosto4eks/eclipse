@@ -14,6 +14,9 @@
 <body>
     {{template "header" .}}
     <div class="gallery">
+        {{if eq .author "author"}}
+        <a class="new" href="/albums/new">new album</a>
+        {{end}}
         {{ range .albums }}
             <a href = "/albums/{{ .Id}}">
         <div class="album">

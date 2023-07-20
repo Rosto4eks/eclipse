@@ -46,7 +46,7 @@ func (h *handler) PostSignUp(ctx echo.Context) error {
 		})
 	}
 	h.writeJWT(token, ctx)
-	return ctx.Redirect(302, "/?welcome=true")
+	return ctx.Redirect(302, "/")
 }
 
 func (h *handler) PostSignIn(ctx echo.Context) error {

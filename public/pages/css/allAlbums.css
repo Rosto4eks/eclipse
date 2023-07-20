@@ -11,6 +11,21 @@ a {
     text-decoration: none;
 }
 
+.new {
+    margin: 10px auto;
+    border-radius: 10px;
+    color: white;
+    font-weight: 600;
+    padding: 10px 20px;
+    background-color: #aa22ee;
+    transition: 0.4s;
+}
+
+.new:hover {
+    transition: 0.4s;
+    background-color: #9911aa;
+}
+
 .album {
     display: flex;
     flex-direction: column;

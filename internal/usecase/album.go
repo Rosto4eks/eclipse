@@ -110,14 +110,12 @@ func compressAndSaveImage(src multipart.File, path string, i int) error {
 
 	src.Seek(0, 0)
 	ex, err := exif.Decode(src)
-	if err != nil {
-		return err
-	}
-
-	if orient, err := ex.Get(exif.Orientation); orient != nil && err == nil {
-		img = reverse(img, orient.String())
-	} else if err != nil {
-		return err
+	if err == nil {
+		if orient, err := ex.Get(exif.Orientation); orient != nil && err == nil {
+			img = reverse(img, orient.String())
+		} else if err != nil {
+			return err
+		}
 	}
 
 	newimg := imaging.Resize(img, img.Bounds().Dx()/8, img.Bounds().Dy()/8, imaging.Lanczos)

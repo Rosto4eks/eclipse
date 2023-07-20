@@ -9,7 +9,11 @@ import (
 
 func (h *handler) GetAlbums(ctx echo.Context) error {
 	headerName := h.authHeader(ctx)
-
+	err := h.auth(ctx, "author")
+	var author string
+	if err == nil {
+		author = "author"
+	}
 	albums, err := h.usecase.GetAllAlbums()
 	if err != nil {
 		return err
@@ -17,6 +21,7 @@ func (h *handler) GetAlbums(ctx echo.Context) error {
 	return ctx.Render(200, "allAlbums.html", map[string]interface{}{
 		"header": headerName,
 		"albums": albums,
+		"author": author,
 	})
 }
 
