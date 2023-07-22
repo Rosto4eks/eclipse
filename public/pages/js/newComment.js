@@ -16,7 +16,7 @@ sendBtn.addEventListener('click', () =>{
 });
 
 function commentToHTML(articleID, textComment, author, date, comment_id){
-    const item = document.createElement('li');
+    const item = document.createElement('div');
 
     item.innerHTML = (`<div class="comments" id="comments${comment_id}">
             <div class="comment_author">Written by ${author} ${date}</div>

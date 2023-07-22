@@ -144,17 +144,11 @@ func (h *handler) ChangeComment(ctx echo.Context) error {
 			"message": "cant parse json",
 		})
 	}
-	userName := h.authHeader(ctx)
-	commentAuthorName := jsonBody["author"].(string)
-	if userName != commentAuthorName {
-		return ctx.JSON(403, map[string]interface{}{
-			"success": false,
-			"message": "forbidden",
-		})
-	}
-
-	err = h.usecase.ChangeComment(jsonBody["commentId"].(int), jsonBody["text"].(string))
 	newDate := time.Now().Format("YYYY-MM-DD H24:MI")
+	commentId, _ := strconv.Atoi(jsonBody["commentId"].(string))
+	text := jsonBody["text"].(string)
+
+	err = h.usecase.ChangeComment(commentId, text)
 	if err != nil {
 		return ctx.JSON(500, map[string]interface{}{
 			"success": false,

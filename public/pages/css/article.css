@@ -136,8 +136,10 @@
 }
 
 textarea[name='input_comment']{
+    font-family: rubik;
+    font-size: 20px;
     width: 100%;
-    resize: block;
+    resize: none;
     padding:15px;
     border-radius:15px;
     border:0;
@@ -188,11 +190,12 @@ textarea[name='input_comment']{
 .sendBtn svg {
     display: block;
     transform-origin: center center;
-    transition: transform 0.2 linear;
+    transition: transform .2s linear;
 }
 
 .sendBtn:hover{
     transform: scale(0.95);
+    background-color: gray;
 }
 
 .changeBtn {
@@ -236,4 +239,61 @@ textarea[name='input_comment']{
 
 .changeBtn:hover > .pen_icon{
     fill: orange;
+}
+
+.applyBtn {
+    width: 90px;
+    height: 30px;
+    border-radius: 8px;
+    margin-block: 10px;
+    transition: color .2s linear;
+    transition: transform .2s linear;
+}
+
+.cancelBtn {
+    width: 90px;
+    height: 30px;
+    border-radius: 8px;
+    transition: color .2s linear;
+    transition: transform .2s linear;
+}
+
+.cancelBtn:hover{
+    transform: scale(1.1);
+    background-color: #ff4d00;
+}
+
+.applyBtn:hover{
+    transform: scale(1.1);
+    background-color: #77dd77;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    margin: 0 10px;
+}
+
+.change_comment_body {
+    display: flex;
+    flex-direction: row;
+    max-width: 1000px;
+    margin: 0 auto;
+    margin-top: 10px;
+    background-color: #fafafa;
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow:4px 4px 10px rgba(0,0,0,0.19);
+}
+
+textarea[name='input_change']{
+    font-family: rubik;
+    font-size: 20px;
+    display: flex;
+    width: 100%;
+    padding: 20px;
+    border-radius:15px;
+    border: 0;
+    box-shadow:4px 4px 10px rgba(0,0,0,0.06);
+    resize: none;
 }

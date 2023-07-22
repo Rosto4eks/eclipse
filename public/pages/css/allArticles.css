@@ -120,3 +120,9 @@
     opacity: 1;
     top: -160%;
 }
+
+.img_header img {
+    width: 250px;
+    height: 200px;
+    object-fit: cover;
+}

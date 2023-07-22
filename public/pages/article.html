@@ -33,9 +33,10 @@
         <div class="comment_body">
         <div class="comment_author">Written by {{ .AuthorName }} {{ .Date }}</div>
         <div class="message">
-            <div class="comment_text">{{ .Text }}</div>
+            <div class="comment_text" id = "text{{ .ID }}" data-comment-text="{{ .Text }}">{{ .Text }}</div>
         </div>
         </div>
+        {{ if eq .AuthorName $.header }}
         <div class="buttons">
         <button class="deleteBtn" data-comment-id="{{ .ID }}">
             <svg viewBox="0 0 15 17.5" height="17.5" width="15" xmlns="http://www.w3.org/2000/svg" class="icon">
@@ -48,6 +49,7 @@
             </svg>
         </button>
         </div>
+        {{end}}
     </div>
     {{end}}
     </div>

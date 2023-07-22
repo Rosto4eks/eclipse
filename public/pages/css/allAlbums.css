@@ -24,6 +24,7 @@ a {
 .new:hover {
     transition: 0.4s;
     background-color: #9911aa;
+    transform: scale(1.1);
 }
 
 .album {

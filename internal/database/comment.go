@@ -38,7 +38,7 @@ func (d *database) AddComment(comment models.Comment) error {
 }
 
 func (d *database) ChangeComment(comemntId int, newComment string) error {
-	query := "UPDATE comments SET text = $2, date = NOW() WHERE comment_id = $1"
+	query := "UPDATE comments SET text = $2, date = NOW() WHERE id = $1"
 	result, err := d.db.Exec(query, comemntId, newComment)
 	if err != nil {
 		return err
