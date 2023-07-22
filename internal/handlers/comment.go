@@ -36,9 +36,9 @@ func (h *handler) DeleteComment(ctx echo.Context) error {
 	authorErr := h.auth(ctx, "author")
 	if authorErr != nil {
 		if userErr != nil {
-			return ctx.JSON(400, map[string]interface{}{
+			return ctx.JSON(403, map[string]interface{}{
 				"success": false,
-				"message": "Permission denied",
+				"message": "forbidden",
 			})
 		}
 	}
@@ -81,9 +81,9 @@ func (h *handler) DeleteComment(ctx echo.Context) error {
 func (h *handler) PostNewComment(ctx echo.Context) error {
 	if err := h.auth(ctx, "author"); err != nil {
 		if err := h.auth(ctx, "user"); err != nil {
-			return ctx.JSON(400, map[string]interface{}{
+			return ctx.JSON(403, map[string]interface{}{
 				"success": false,
-				"message": "permission denied",
+				"message": "forbidden",
 			})
 		}
 	}
@@ -126,8 +126,37 @@ func (h *handler) PostNewComment(ctx echo.Context) error {
 	})
 }
 
-//func (h *handler) ChangeComment(ctx echo.Context) error {
-//	return ctx.JSON(200, map[string]interface{}{
-//
-//	})
-//}
+func (h *handler) ChangeComment(ctx echo.Context) error {
+	if err := h.auth(ctx, "author"); err != nil {
+		if err := h.auth(ctx, "user"); err != nil {
+			return ctx.JSON(403, map[string]interface{}{
+				"success": false,
+				"message": "forbidden",
+			})
+		}
+	}
+	jsonBody := make(map[string]interface{})
+	err := json.NewDecoder(ctx.Request().Body).Decode(&jsonBody)
+	if err != nil {
+		return ctx.JSON(500, map[string]interface{}{
+			"success": false,
+			"message": "cant parse json",
+		})
+	}
+	newDate := time.Now().Format("YYYY-MM-DD H24:MI")
+	commentId, _ := strconv.Atoi(jsonBody["commentId"].(string))
+	text := jsonBody["text"].(string)
+
+	err = h.usecase.ChangeComment(commentId, text)
+	if err != nil {
+		return ctx.JSON(500, map[string]interface{}{
+			"success": false,
+			"message": "server error",
+		})
+	}
+	return ctx.JSON(200, map[string]interface{}{
+		"success": true,
+		"message": "",
+		"date":    newDate,
+	})
+}

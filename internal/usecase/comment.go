@@ -17,3 +17,7 @@ func (u *usecase) AddNewComment(comment models.Comment) error {
 func (u *usecase) DeleteComment(commentId int) error {
 	return u.database.DeleteCommentById(commentId)
 }
+
+func (u *usecase) ChangeComment(commentId int, newText string) error {
+	return u.database.ChangeComment(commentId, newText)
+}

@@ -6,11 +6,17 @@ sendBtn.addEventListener('click', () =>{
     const articleId = article.dataset.articleId;
     const text = comment.value;
     const author = comment.dataset.authorName;
-    const response = postComment(articleId, text, author);
+    if(!text){
+        alert('Field must contain at least 1 character');
+    } else {
+        const response = postComment(articleId, text, author);
+        comment.value = '';
+        console.log(comment.value);
+    }
 });
 
 function commentToHTML(articleID, textComment, author, date, comment_id){
-    const item = document.createElement('li');
+    const item = document.createElement('div');
 
     item.innerHTML = (`<div class="comments" id="comments${comment_id}">
             <div class="comment_author">Written by ${author} ${date}</div>
@@ -43,3 +49,4 @@ async function postComment(articleId, textComment, author) {
         alert(data.message)
     }
 }
+

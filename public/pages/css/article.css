@@ -1,4 +1,4 @@
-.container {
+.article,.comments{
     display: flex;
     flex-direction: column;
     max-width: 1000px;
@@ -17,6 +17,7 @@
     flex-direction: column;
     margin-top: 10px;
     background-color: #fafafa;
+
     padding: 15px;
     box-shadow: 4px 4px 10px rgba(0,0,0,0.19);
     border-radius: 15px;
@@ -30,6 +31,12 @@
 
 .preview {
     width: 100%:
+}
+.comment_body{
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    background-color: #fafafa;
 }
 
 .name {
@@ -140,8 +147,10 @@
 }
 
 textarea[name='input_comment']{
+    font-family: rubik;
+    font-size: 20px;
     width: 100%;
-    resize: block;
+    resize: none;
     padding:15px;
     border-radius:15px;
     border:0;
@@ -192,9 +201,110 @@ textarea[name='input_comment']{
 .sendBtn svg {
     display: block;
     transform-origin: center center;
-    transition: transform 0.2 linear;
+    transition: transform .2s linear;
 }
 
 .sendBtn:hover{
     transform: scale(0.95);
+    background-color: gray;
+}
+
+.changeBtn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 25px;
+    height: 25px;
+    border: none;
+    padding: 0px 20px;
+    margin: 0 97%;
+    background-color: transparent;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all .2s linear;
+}
+
+.pen_icon {
+    margin-top: 10px;
+    width: 13px;
+    position: absolute;
+    right: 0;
+    margin-right: 20px;
+    fill: black;
+    transition: fill .2s linear;
+}
+
+.changeBtn:hover {
+    transform: scale(1.5);
+    transition: transform .2s linear;
+}
+
+.changeBtn:hover pen_icon{
+    right: 40%;
+    margin: 0;
+    padding: 0;
+    border: none;
+    fill: orange;
+}
+
+.changeBtn:hover > .pen_icon{
+    fill: orange;
+}
+
+.applyBtn {
+    width: 90px;
+    height: 30px;
+    border-radius: 8px;
+    margin-block: 10px;
+    transition: color .2s linear;
+    transition: transform .2s linear;
+}
+
+.cancelBtn {
+    width: 90px;
+    height: 30px;
+    border-radius: 8px;
+    transition: color .2s linear;
+    transition: transform .2s linear;
+}
+
+.cancelBtn:hover{
+    transform: scale(1.1);
+    background-color: #ff4d00;
+}
+
+.applyBtn:hover{
+    transform: scale(1.1);
+    background-color: #77dd77;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    margin: 0 10px;
+}
+
+.change_comment_body {
+    display: flex;
+    flex-direction: row;
+    max-width: 1000px;
+    margin: 0 auto;
+    margin-top: 10px;
+    background-color: #fafafa;
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow:4px 4px 10px rgba(0,0,0,0.19);
+}
+
+textarea[name='input_change']{
+    font-family: rubik;
+    font-size: 20px;
+    display: flex;
+    width: 100%;
+    padding: 20px;
+    border-radius:15px;
+    border: 0;
+    box-shadow:4px 4px 10px rgba(0,0,0,0.06);
+    resize: none;
 }

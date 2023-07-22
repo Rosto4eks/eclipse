@@ -7,6 +7,10 @@ deleteBtn.addEventListener('click',() => {
 });
 
 async function deleteAlbum(id) {
+    result = confirm("Are you sure? If you delete this album, you cannot recover it");
+    if(!result){
+        return;
+    }
     const res = await fetch(`/albums/${id}/delete`,{
         method : "DELETE"
     })
@@ -15,11 +19,8 @@ async function deleteAlbum(id) {
     console.log(data);
 
     if(data.success) {
-        result = confirm("Are you sure? If you delete this album, you cannot recover it");
-        if(result) {
-            document.getElementById(`albums${id}`).remove();
-            window.location.href = "/albums";
-        }
+        document.getElementById(`albums${id}`).remove();
+        window.location.href = "/albums";
     } else {
         alert(data.message);
     }

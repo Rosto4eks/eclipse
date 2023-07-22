@@ -68,7 +68,7 @@ func (h *handler) PostNewAlbum(ctx echo.Context) error {
 		})
 	}
 	files := form.File["files"]
-	usr, err := h.usecase.GetUserByName(ctx.FormValue("author"))
+	usr, err := h.usecase.GetUserByName(headerName)
 	if err != nil {
 		return ctx.Render(401, "newAlbum.html", map[string]interface{}{
 			"header": headerName,

@@ -60,7 +60,7 @@
     background-color: #e2e2e2;
     padding: 10px;
     height : 42px;
-    width: 30%;
+    width: 50%;
     margin: 25px auto;
     border : 3px solid #F9F0DA;
 }
@@ -135,4 +135,10 @@
     visibility: visible;
     opacity: 1;
     top: -160%;
+}
+
+.img_header img {
+    width: 250px;
+    height: 200px;
+    object-fit: cover;
 }

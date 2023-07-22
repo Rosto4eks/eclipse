@@ -26,6 +26,7 @@ type Iusecase interface {
 	GetCommentById(commentId int) (models.CommentResponse, error)
 	AddNewComment(comment models.Comment) error
 	DeleteComment(commentId int) error
+	ChangeComment(commentId int, newText string) error
 }
 
 type usecase struct {

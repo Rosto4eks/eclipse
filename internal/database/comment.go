@@ -36,9 +36,9 @@ func (d *database) AddComment(comment models.Comment) error {
 	return nil
 }
 
-func (d *database) ChangeComment(userId, articleId int, newComment string) error {
-	query := "UPDATE comments SET text = $3 WHERE user_id = $1 AND id = $2"
-	result, err := d.db.Exec(query, userId, articleId, newComment)
+func (d *database) ChangeComment(comemntId int, newComment string) error {
+	query := "UPDATE comments SET text = $2, date = NOW() WHERE id = $1"
+	result, err := d.db.Exec(query, comemntId, newComment)
 	if err != nil {
 		return err
 	}
