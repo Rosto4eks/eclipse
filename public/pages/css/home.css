@@ -3,8 +3,8 @@
     height: 550px;
     display: flex;
     background-repeat: no-repeat;
-    background-position: right center; 
-    background-size: 60%;
+    background-position: center center; 
+    background-size: cover;
     transition: 0.5s;
     color: white;
     background-color: black;

@@ -54,14 +54,11 @@ func (u *usecase) saveArticleImages(files []*multipart.FileHeader, article model
 	// create destination folder
 	os.Mkdir(path, os.ModePerm)
 	errChan := make(chan error)
-	counter := 0
 
 	for i, file := range files {
-		go func(i, max int, counter *int, file *multipart.FileHeader, errChan chan<- error) {
+		go func(i, max int, file *multipart.FileHeader, errChan chan<- error) {
 			defer func() {
-				// count all perfomed gorutines
-				*counter++
-				if *counter == max+1 {
+				if i == max {
 					errChan <- nil
 				}
 			}()
@@ -77,7 +74,7 @@ func (u *usecase) saveArticleImages(files []*multipart.FileHeader, article model
 				return
 			}
 
-		}(i, len(files)-1, &counter, file, errChan)
+		}(i, len(files)-1, file, errChan)
 	}
 	if err := <-errChan; err != nil {
 		return err

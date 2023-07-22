@@ -138,6 +138,7 @@ async function submit() {
   fd.set("color", title.style.color)
   let i = 0;
   images.forEach((elem, index) => {
+    console.log(index)
     fd.append("images", elem);
     document.getElementById(`${index}`).src = `img-src-${i}`;
     i++;
@@ -149,7 +150,7 @@ async function submit() {
     method: "POST", 
     body: fd,
   }).then(r => {
-    window.location.replace("/articles")
+    //window.location.replace("/articles")
   })
 }
 
