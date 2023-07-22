@@ -9,9 +9,8 @@ import (
 
 func (h *handler) GetAlbums(ctx echo.Context) error {
 	headerName := h.authHeader(ctx)
-	err := h.auth(ctx, "author")
 	var author string
-	if err == nil {
+	if err := h.auth(ctx, author); err == nil {
 		author = "author"
 	}
 	albums, err := h.usecase.GetAllAlbums()
@@ -83,7 +82,12 @@ func (h *handler) PostNewAlbum(ctx echo.Context) error {
 		Description:  ctx.FormValue("description"),
 		Images_count: len(files),
 	}
-
+	if album.Images_count == 0 {
+		return ctx.Render(400, "newAlbum.html", map[string]interface{}{
+			"header": headerName,
+			"error":  "images not uploaded",
+		})
+	}
 	if err = h.usecase.NewAlbum(files, album); err != nil {
 		return ctx.Render(500, "newAlbum.html", map[string]interface{}{
 			"header": headerName,

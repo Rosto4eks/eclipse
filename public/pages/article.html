@@ -15,7 +15,10 @@
     {{template "header" .}}
     <div class="container">
     <div class="article" id="article" data-article-id ="{{ .article.ID }}">
-      <div class="name">{{ .article.Name }}</div>
+        <div class="name_wrap">
+            <div class="name" style="color: {{.article.TitleColor}};">{{ .article.Name }}</div>
+            <img class="preview" width="100%" src="/public/articles/{{.article.Date}}-{{.article.Name}}/preview.jpeg">
+        </div>
       <div class="theme">{{ .article.Theme }}</div>
       <div class="author">Written by {{ .article.NameAuthor }}</div>
       <div class="date">{{ .article.Date }}</div>

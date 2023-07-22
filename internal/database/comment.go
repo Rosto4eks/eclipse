@@ -9,7 +9,6 @@ func (d *database) GetComments(articleId int) ([]models.CommentResponse, error) 
 	query := "SELECT id, (SELECT name FROM users WHERE id = user_id) AS author, article_id, text, to_char(date, 'HH24:MI YYYY-MM-DD') as date FROM comments WHERE article_id = $1 ORDER BY date DESC"
 	var response []models.CommentResponse
 	err := d.db.Select(&response, query, articleId)
-	fmt.Println(response)
 	if err != nil {
 		return nil, err
 	}

@@ -17,10 +17,17 @@
             <a class="tool" onclick="bold()" id="Bold">bold</a>
             <a class="tool" onclick="italic()" id="Italic">italic</a>
             <div class="tool Size">size: <input type="number" class="size" id="Size" value="16" min="1" max="99"></div>
+            <input type="file" id="upload" name="upload" multiple></a>
+            <label id="upload-label" for="upload">upload</label>
+            <output id="output"></output>
         </div>
         <input class="theme" id="theme" placeholder="theme">
-        <input class="title" id="title" placeholder="title">
-        <div class="text" id="text" onclick="select()" contenteditable>
+        <input type="file" class="preview" id="preview" name="preview">
+        <label id="upload-label" for="preview">preview</label>
+        <div class="title-wrap">
+            <input class="title" id="title" style="color: black;" placeholder="title">
+        </div>
+        <div class="text" id="text" onclick="select()" contenteditable ondrop="drop(event)" ondragover="allowDrop(event)">
             <div>text...</div>
         </div>
         <a class="submit" onclick="submit()">submit</a>
