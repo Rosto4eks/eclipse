@@ -6,20 +6,22 @@
 }
 
 .tools {
+  display: flex;
+  background-color: #efefef;
+  border-radius: 10px 0 0 10px;
   position: fixed;
   display: flex;
   flex-direction: column;
   top: 120px;
-  right: 20px;
-  width: 100px;
-  background-color: white;
+  right: 0px;
+  width: 200px;
 }
 
 .tool {
+  display: flex;
   width: 100%;
-  background-color: #efefef;
   padding: 6px 14px;
-  border-radius: 10px 0 0 10px;
+  border-radius: 5px 0 0 5px;
   cursor: pointer;
   margin: 8px auto;
   font-size: 18px;
@@ -28,7 +30,7 @@
 
 .Size {
   color: white;
-  background-color: #b832b8;
+  background-color: #aa22ee;
 }
 .size {
   color: inherit;
@@ -39,7 +41,7 @@
 
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none; // Yeah, yeah everybody write about it
+    -webkit-appearance: none; // yeah, yeah everybody write about it
 }
 
 input[type="number"],
@@ -50,6 +52,21 @@ input[type="number"]:focus {
     outline: none;
     border: none;
     -moz-appearance: textfield;
+}
+
+#output {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: 500px;
+  overflow-y: scroll;
+}
+.img {
+  display: flex;
+  width: 100%;
+}
+.image {
+  display: flex;
 }
 
 #Bold {
@@ -67,16 +84,21 @@ input[type="number"]:focus {
 }
 
 .title {
-  margin-top: 10px;
+  font-weight: 700;
+  background: none;
+  position: absolute;
+  top: auto;
   width: 100%;
+  max-width: 1000px;
   border: none;
   text-align: center;
-  font-size: 35px;
+  font-size: 45px;
 }
 .theme,.title {
   border: none;
 }
 .text {
+  max-width: 1000px;
   margin-top: 10px;
   width: 100%;
   min-height: 200px;
@@ -87,6 +109,12 @@ input[type="number"]:focus {
   border: none;
 }
 
+.title-wrap {
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+}
+
 .submit {
     margin: 10px auto;
     border-radius: 10px;
@@ -95,6 +123,18 @@ input[type="number"]:focus {
     padding: 10px 20px;
     background-color: #aa22ee;
     transition: 0.4s;
+}
+
+#upload,#preview {
+  display: none;
+}
+
+#upload-label,#preview-label {
+  background-color: #aa22ee;
+  color: white;
+  border-radius: 5px;
+  margin: 10px auto;
+  padding: 8px 12px;
 }
 
 .submit:hover {

@@ -37,7 +37,6 @@ func (u *usecase) DeleteAlbum(id int) error {
 		return err
 	}
 	path := "public/albums/" + album.Date + "-" + album.Name
-	fmt.Println(path)
 	err = os.RemoveAll(path)
 	if err != nil {
 		return err
@@ -50,14 +49,11 @@ func (u *usecase) saveAlbumImages(files []*multipart.FileHeader, album models.Al
 	// create destination folder
 	os.Mkdir(path, os.ModePerm)
 	errChan := make(chan error)
-	counter := 0
 
 	for i, file := range files {
-		go func(i, max int, counter *int, file *multipart.FileHeader, errChan chan<- error) {
+		go func(i, max int, file *multipart.FileHeader, errChan chan<- error) {
 			defer func() {
-				// count all perfomed gorutines
-				*counter++
-				if *counter == max+1 {
+				if i == max {
 					errChan <- nil
 				}
 			}()
@@ -68,7 +64,7 @@ func (u *usecase) saveAlbumImages(files []*multipart.FileHeader, album models.Al
 			}
 			defer src.Close()
 			// save original image
-			if err := saveImage(src, path, i); err != nil {
+			if err := saveImage(src, path, i, false); err != nil {
 				errChan <- err
 				return
 			}
@@ -80,7 +76,7 @@ func (u *usecase) saveAlbumImages(files []*multipart.FileHeader, album models.Al
 				return
 			}
 
-		}(i, len(files)-1, &counter, file, errChan)
+		}(i, len(files)-1, file, errChan)
 	}
 	if err := <-errChan; err != nil {
 		return err
@@ -89,8 +85,12 @@ func (u *usecase) saveAlbumImages(files []*multipart.FileHeader, album models.Al
 	return nil
 }
 
-func saveImage(src multipart.File, path string, i int) error {
-	dst, err := os.Create(fmt.Sprintf("%s/%d.jpeg", path, i))
+func saveImage(src multipart.File, path string, i int, preview bool) error {
+	name := fmt.Sprintf("%s/%d.jpeg", path, i)
+	if preview {
+		name = fmt.Sprintf("%s/preview.jpeg", path)
+	}
+	dst, err := os.Create(name)
 	if err != nil {
 		return err
 	}

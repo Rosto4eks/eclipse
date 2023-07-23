@@ -13,6 +13,9 @@
     <body>
     {{ template "header" . }}
     <form action="" class="action" method="get">
+    {{if eq .author "author"}}
+        <a class="new" href="/articles/new">new article</a>
+    {{end}}
         <input class="field" name="field" type="search" placeholder="Search here...">
         <button class="submit" type="submit" name="submit"></button>
     </form>

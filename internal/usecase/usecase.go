@@ -19,7 +19,7 @@ type Iusecase interface {
 	DeleteAlbum(int) error
 	GetAllArticles() ([]models.ArticleResponse, error)
 	GetArticleById(int) (models.ArticleResponse, error)
-	NewArticle(models.Article) error
+	NewArticle([]*multipart.FileHeader, models.Article) error
 	GetThemes() ([]string, error)
 	DeleteArticle(int) error
 	GetArticleComments(articleId int) ([]models.CommentResponse, error)

@@ -95,7 +95,6 @@ func (h *handler) PostNewComment(ctx echo.Context) error {
 			"message": "cant parse JSON",
 		})
 	}
-	fmt.Println("user : ", jsonBody["author"].(string))
 	user, err := h.usecase.GetUserByName(jsonBody["author"].(string))
 	if err != nil {
 		return ctx.JSON(400, map[string]interface{}{

@@ -31,8 +31,24 @@
     transform: scale(1.1);
 }
 
+.new {
+    margin: 20px auto;
+    border-radius: 10px;
+    color: white;
+    font-weight: 600;
+    padding: 8px 20px;
+    background-color: #aa22ee;
+    transition: 0.4s;
+}
+
+.new:hover {
+    transition: 0.4s;
+    background-color: #9911aa;
+}
+
 .action {
     display: flex;
+    flex-direction: column;
     max-width: 1000px;
     margin: 0 auto;
 }
