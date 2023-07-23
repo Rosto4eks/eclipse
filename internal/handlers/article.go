@@ -125,6 +125,44 @@ func (h *handler) DeleteArticle(ctx echo.Context) error {
 }
 
 func (h *handler) ChangeArticle(ctx echo.Context) error {
+	if err := h.auth(ctx, "author"); err != nil {
+		return ctx.JSON(403, map[string]interface{}{
+			"success": false,
+			"message": "forbidden",
+		})
+	}
+	headerName := h.authHeader(ctx)
+	jsonBody := make(map[string]interface{}, 0)
+	err := json.NewDecoder(ctx.Request().Body).Decode(&jsonBody)
+	if err != nil {
+		return ctx.JSON(500, map[string]interface{}{
+			"success": false,
+			"message": "server error",
+		})
+	}
+	articleId, _ := strconv.Atoi(jsonBody["articleId"].(string))
+	newText := jsonBody["text"].(string)
+	article, err := h.usecase.GetArticleById(articleId)
+	if err != nil {
+		return ctx.JSON(500, map[string]interface{}{
+			"success": false,
+			"message": "server error",
+		})
+	}
+	if article.NameAuthor != headerName {
+		return ctx.JSON(403, map[string]interface{}{
+			"success": false,
+			"message": "forbidden",
+		})
+	}
+
+	err = h.usecase.ChangeArticle(articleId, newText)
+	if err != nil {
+		return ctx.JSON(500, map[string]interface{}{
+			"success": false,
+			"message": "server error",
+		})
+	}
 	return ctx.JSON(200, map[string]interface{}{
 		"success": true,
 		"message": "",

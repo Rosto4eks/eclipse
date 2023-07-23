@@ -59,6 +59,15 @@ func (d *database) GetArticlesById(articleId int) (models.ArticleResponse, error
 	return response, nil
 }
 
+func (d *database) ChangeArticle(articleId int, newText string) error {
+	query := "UPDATE articles SET text = $2 WHERE id = $1"
+	_, err := d.db.Exec(query, articleId, newText)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 // удаление статьи по ее id
 func (d *database) DeleteArticle(articleId int) error {
 	query := "DELETE FROM articles WHERE id = $1"

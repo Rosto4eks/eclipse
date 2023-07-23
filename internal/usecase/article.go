@@ -21,3 +21,7 @@ func (u *usecase) NewArticle(article models.Article) error {
 func (u *usecase) DeleteArticle(articleId int) error {
 	return u.database.DeleteArticle(articleId)
 }
+
+func (u *usecase) ChangeArticle(articleId int, newText string) error {
+	return u.database.ChangeArticle(articleId, newText)
+}

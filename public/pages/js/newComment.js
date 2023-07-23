@@ -30,6 +30,7 @@ function commentToHTML(articleID, textComment, author, date, comment_id){
                           id="Fill"></path>
                 </svg>
             </button>
+            <script src="/pages/js/article.js"></script>
         </div>`);
     all.appendChild(item);
 }

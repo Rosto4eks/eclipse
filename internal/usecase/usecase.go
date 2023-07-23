@@ -23,6 +23,7 @@ type Iusecase interface {
 	GetThemes() ([]string, error)
 	DeleteArticle(int) error
 	GetArticleComments(articleId int) ([]models.CommentResponse, error)
+	ChangeArticle(articleId int, newText string) error
 	GetCommentById(commentId int) (models.CommentResponse, error)
 	AddNewComment(comment models.Comment) error
 	DeleteComment(commentId int) error

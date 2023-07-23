@@ -41,6 +41,7 @@ func (s *Server) initRoutes(h handlers.Ihandler) {
 		r.DELETE("/articles/:id/delete-comment/:comment_id", h.DeleteComment)
 		r.DELETE("/articles/delete-article/:article_id", h.DeleteArticle)
 		r.PATCH("/articles/:article_id/change_comment", h.ChangeComment)
+		r.PATCH("/articles/:article_id/change_article", h.ChangeArticle)
 	}
 	auth := s.router.Group("auth")
 	{

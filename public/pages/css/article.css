@@ -297,3 +297,87 @@ textarea[name='input_change']{
     box-shadow:4px 4px 10px rgba(0,0,0,0.06);
     resize: none;
 }
+
+.changeArticleBtn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 25px;
+    height: 25px;
+    border: none;
+    padding: 0px 20px;
+    margin: 0 97%;
+    background-color: transparent;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all .2s linear;
+}
+
+.changeArticleBtn:hover {
+    transform: scale(1.5);
+    transition: transform .2s linear;
+}
+
+.changeArticleBtn:hover pen_icon{
+    right: 40%;
+    margin: 0;
+    padding: 0;
+    border: none;
+    fill: orange;
+}
+
+.changeArticleBtn:hover > .pen_icon{
+    fill: orange;
+}
+
+.applyArticleBtn {
+    width: 90px;
+    height: 30px;
+    border-radius: 8px;
+    margin-block: 10px;
+    transition: color .2s linear;
+    transition: transform .2s linear;
+}
+
+.cancelArticleBtn {
+    width: 90px;
+    height: 30px;
+    border-radius: 8px;
+    transition: color .2s linear;
+    transition: transform .2s linear;
+}
+
+.cancelArticleBtn:hover{
+    transform: scale(1.1);
+    background-color: #ff4d00;
+}
+
+.applyArticleBtn:hover{
+    transform: scale(1.1);
+    background-color: #77dd77;
+}
+
+.change_article {
+    display: flex;
+    margin: 0 auto;
+    height: fit-content;
+    margin-top: 20px;
+    flex-direction: row;
+    width: 1000px;
+}
+
+textarea[name='input_article_change']{
+    font-family: rubik;
+    font-size: 20px;
+    display: flex;
+    flex-basis: 100%;
+    flex-direction: column;
+    height: fit-content;
+
+    resize: none;
+    padding: 15px;
+    border-radius: 15px;
+    border: 0;
+    box-shadow:4px 4px 10px rgba(0,0,0,0.06);
+}
