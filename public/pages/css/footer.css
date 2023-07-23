@@ -1,0 +1,38 @@
+.footer {
+    width: 100%;
+    min-height: 100px;
+    margin-top: 50px;
+    padding: 20px 50px;
+    display: flex;
+    flex-direction: column;
+    background-color: royalblue;
+    justify-content: center;
+    align-items: center;
+}
+
+.ref-footer{
+    font-size: 20px;
+    color: white;
+    fill: white;
+}
+
+.gitIcon{
+    transition: transform .25s linear;
+}
+
+.gitIcon:hover{
+    transform: translateY(-10px);
+}
+
+.eclipse{
+    color: white;
+    margin-top: 15px;
+}
+
+.eclipse-ref{
+    transition: transform .2s linear;
+}
+
+.eclipse-ref:hover{
+    transform: scale(1.1);
+}
