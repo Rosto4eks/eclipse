@@ -8,7 +8,6 @@ type Article struct {
 	ImagesCount int
 	Date        string
 	Text        string
-	TitleColor  string
 }
 
 type ArticleResponse struct {
@@ -19,5 +18,4 @@ type ArticleResponse struct {
 	ImagesCount int    `db:"images_count"`
 	Date        string `db:"date"`
 	Text        string `db:"text"`
-	TitleColor  string `db:"title_color"`
 }

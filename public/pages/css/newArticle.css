@@ -86,10 +86,7 @@ input[type="number"]:focus {
 .title {
   font-weight: 700;
   background: none;
-  position: absolute;
-  top: auto;
-  width: 100%;
-  max-width: 1000px;
+  margin: 10px auto;
   border: none;
   text-align: center;
   font-size: 45px;
@@ -110,7 +107,6 @@ input[type="number"]:focus {
 }
 
 .title-wrap {
-  min-height: 100px;
   display: flex;
   flex-direction: column;
 }

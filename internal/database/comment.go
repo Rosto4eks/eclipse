@@ -1,7 +1,6 @@
 package database
 
 import (
-	"fmt"
 	"github.com/Rosto4eks/eclipse/internal/models"
 )
 
@@ -19,7 +18,6 @@ func (d *database) GetCommentById(commentId int) (models.CommentResponse, error)
 	query := "SELECT id, (SELECT name FROM users WHERE id = user_id) AS author, article_id, text, to_char(date, 'HH24:MI YYYY-MM-DD') as date FROM comments WHERE id = $1"
 	var response models.CommentResponse
 	err := d.db.Get(&response, query, commentId)
-	fmt.Println(response)
 	if err != nil {
 		return models.CommentResponse{}, err
 	}
@@ -30,17 +28,15 @@ func (d *database) AddComment(comment models.Comment) (int64, error) {
 	query := "INSERT INTO comments (user_id, article_id, text, date) VALUES($1,$2,$3,$4) RETURNING id"
 	var id int64
 	_ = d.db.QueryRow(query, comment.UserId, comment.ArticleID, comment.Text, comment.Date).Scan(&id)
-	fmt.Println("id", id)
 	return id, nil
 }
 
 func (d *database) ChangeComment(comemntId int, newComment string) error {
 	query := "UPDATE comments SET text = $2, date = NOW() WHERE id = $1"
-	result, err := d.db.Exec(query, comemntId, newComment)
+	_, err := d.db.Exec(query, comemntId, newComment)
 	if err != nil {
 		return err
 	}
-	fmt.Println(result)
 	return nil
 }
 

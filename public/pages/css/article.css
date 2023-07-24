@@ -1,67 +1,54 @@
-.article,.comments{
+.container {
     display: flex;
     flex-direction: column;
     max-width: 1000px;
     margin: 0 auto;
 }
 
-.article {
+.article,.comments{
     display: flex;
-    flex-direction: column;
     width: 100%;
+    flex-direction: column;
 }
 
-.comments {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    margin-top: 10px;
-    background-color: #fafafa;
 
-    padding: 15px;
-    box-shadow: 4px 4px 10px rgba(0,0,0,0.19);
-    border-radius: 15px;
-    height: fit-content;
-}
-
-.name-wrap {
-    display: flex;
-    width: 100%;
+.name {
+    margin: 10px auto;
+    font-weight: 700;
+    font-size: 40px;
+    text-align: center;
 }
 
 .preview {
-    width: 100%:
+    border-radius: 10px;
+    width: 100%;
 }
-.comment_body{
+
+.author-date {
     display: flex;
-    flex-direction: column;
-    margin-top: 10px;
-    background-color: #fafafa;
-}
-
-.name {
-    font-size: 50px;
-    margin: 10px auto;
-    font-weight: 700;
-}
-
-.theme {
-    font-size: 18px;
-    color: white;
-
-    background-color: orange;
-    border-radius: 50px;
-    justify-content: center;
-    width: fit-content;
-    padding: 3px 10px;
-    height: 20px;
-    text-transform: uppercase;
-
-    margin: 0 auto;
 }
 
 .date {
     font-size: 16px;
+    margin: 10px;
+    padding: 8px 12px;
+}
+
+.author{
+    margin: 10px 0;
+    padding: 8px 12px;
+    background-color: #37ea81;
+    border-radius: 15px;
+    font-size: 16px;
+    color: white;
+    font-weight: 600;
+}
+
+.form_text{
+    display: flex;
+    margin: 20px auto;
+    width: 100%;
+    height: fit-content;
 }
 
 .text {
@@ -69,33 +56,40 @@
     font-size: 20px;
 }
 
-.author{
-    font-size: 20px;
+.image {
+    border-radius: 10px;
 }
 
-.form_text{
-    display: flex;
-    margin: 20px auto;
-    max-width: 1000px;
-    width: 100%;
-    box-shadow: 4px 4px 10px #d5d5d5;
-    background-color: #fafafa;
+.comments {
+    margin-top: 10px;
+    padding: 15px;
     border-radius: 15px;
-    padding: 25px;
-    height: fit-content;
 }
+
+.comment_body{
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+}
+
 
 .comment_author{
+    padding: 8px 16px;
+    background-color: #aa12ea;
+    border-radius: 15px;
     font-size: 16px;
-    color: black;
+    color: white;
+    font-weight: 600;
 }
 
 .comment_date{
+    padding: 8px 16px;
     font-size: 16px;
     color: black;
 }
 
 .comment_text{
+    margin-top: 5px;
     font-size: 20px;
     color: black;
 }
@@ -150,19 +144,17 @@ textarea[name='input_comment']{
     resize: none;
     padding:15px;
     border-radius:15px;
+    background-color: #fafafa;
     border:0;
-    box-shadow:4px 4px 10px rgba(0,0,0,0.06);
 }
 
 .new_comment{
     display: flex;
-    margin: 0 auto;
     margin-top: 20px;
     flex-direction: row;
-    max-width: 1000px;
+    width: 100%;
 
-    box-shadow: 4px 4px 10px rgba(0,0,0,0.06);
-    padding: 15px;
+    box-shadow: 0px 0px 10px 2px #eaeaea;
     background-color: #fafafa;
     border-radius: 15px;
     height: fit-content;
@@ -172,14 +164,12 @@ textarea[name='input_comment']{
 .sendBtn {
     font-family: inherit;
     font-size: 20px;
-    background: royalblue;
-    color: white;
-    padding: 0.7em 1em;
+    color: royalblue;
+    background-color: #fafafa;
     padding-left: 0.9em;
     display: flex;
     width: 125px;
-    height: 50px;
-    margin-left: 15px;
+    margin: auto 10px;
     align-items: center;
     border: none;
     border-radius: 16px;
@@ -202,8 +192,7 @@ textarea[name='input_comment']{
 }
 
 .sendBtn:hover{
-    transform: scale(0.95);
-    background-color: gray;
+    transform: scale(1.05);
 }
 
 .changeBtn {
@@ -313,17 +302,15 @@ textarea[name='input_change']{
     width: 25px;
     height: 25px;
     border: none;
-    padding: 0px 20px;
-    margin: 0 97%;
+    margin: 0 0 0 auto;
     background-color: transparent;
     color: white;
-    font-weight: 500;
     cursor: pointer;
     transition: all .2s linear;
 }
 
 .changeArticleBtn:hover {
-    transform: scale(1.5);
+    transform: scale(1.1);
     transition: transform .2s linear;
 }
 

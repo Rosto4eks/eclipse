@@ -81,7 +81,6 @@ func (h *handler) PostNewArticle(ctx echo.Context) error {
 		ImagesCount: len(images),
 		Date:        time.Now().Format("2006-01-02"),
 		Text:        ctx.FormValue("text"),
-		TitleColor:  ctx.FormValue("color"),
 	}
 	if article.ImagesCount == 0 {
 		return ctx.JSON(400, map[string]interface{}{
@@ -93,7 +92,6 @@ func (h *handler) PostNewArticle(ctx echo.Context) error {
 			"error": err.Error(),
 		})
 	}
-	fmt.Println("beb")
 	return ctx.JSON(201, map[string]interface{}{
 		"error": nil,
 	})

@@ -19,7 +19,10 @@ function commentToHTML(articleID, textComment, author, date, comment_id){
     const item = document.createElement('div');
     let newText="success";
     item.innerHTML = (`<div class="comments" id="comments${comment_id}">
-            <div class="comment_author">Written by ${author} ${date}</div>
+            <div class="author-date">
+                <div class="comment_author">${author}</div>
+                <div class="comment_date">${date}</div>
+            </div>
             <div class="message">
                 <div class="comment_text">${textComment}</div>
             </div>
