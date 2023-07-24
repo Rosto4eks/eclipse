@@ -25,3 +25,22 @@ async function deleteAlbum(id) {
         alert(data.message);
     }
 }
+
+function replaceAlbumWithChangeArea(albumId){
+    let albumBody = document.getElementById(`albums{{${albumId}}`);
+
+}
+
+async function changeAlbumsContent(albumId) {
+    const response = await fetch(``,{
+        method : "PATCH",
+        body : JSON.stringify({albumId : albumId})
+    })
+
+    data = await response.json();
+    if(data.success){
+
+    } else{
+        alert(data.message);
+    }
+}

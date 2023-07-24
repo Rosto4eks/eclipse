@@ -21,7 +21,7 @@ function commentToHTML(articleID, textComment, author, date, comment_id){
     item.innerHTML = (`<div class="comments" id="comments${comment_id}">
             <div class="comment_author">Written by ${author} ${date}</div>
             <div class="message">
-                <div class="comment_text">${textComment}</div>
+                <div class="text" id="text${comment_id}">${textComment}</div>
             </div>
             <button class="deleteBtn" onclick="deleteComment(${articleID},${comment_id})" data-comment-id="{{.${comment_id}}}">
                 <svg viewBox="0 0 15 17.5" height="17.5" width="15" xmlns="http://www.w3.org/2000/svg" class="icon">

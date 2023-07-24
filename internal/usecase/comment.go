@@ -10,7 +10,7 @@ func (u *usecase) GetCommentById(commentId int) (models.CommentResponse, error) 
 	return u.database.GetCommentById(commentId)
 }
 
-func (u *usecase) AddNewComment(comment models.Comment) (int64, error) {
+func (u *usecase) AddNewComment(comment models.Comment) (int, error) {
 	return u.database.AddComment(comment)
 }
 

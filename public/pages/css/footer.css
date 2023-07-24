@@ -1,13 +1,14 @@
 .footer {
     width: 100%;
     min-height: 100px;
-    margin-top: 50px;
-    padding: 20px 50px;
+    margin-top: 70px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     background-color: black;
     justify-content: center;
     align-items: center;
+    box-shadow: 1px 1px 10px black;
 }
 
 .ref-footer{
@@ -35,4 +36,11 @@
 
 .eclipse-ref:hover{
     transform: scale(1.1);
+}
+
+.title {
+    color: white;
+    font-size: 12px;
+    font-weight: lighter;
+    margin-top: 15px;
 }
