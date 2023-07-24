@@ -5,12 +5,11 @@
     margin: 0 auto;
 }
 
-.article,.comments{
+.article,.comments,.change_comment_body{
     display: flex;
     width: 100%;
     flex-direction: column;
 }
-
 
 .name {
     margin: 10px auto;
@@ -64,6 +63,8 @@
     margin-top: 10px;
     padding: 15px;
     border-radius: 15px;
+    box-shadow: 0px 0px 10px 3px #eaeaea;
+    margin-top: 25px;
 }
 
 .comment_body{

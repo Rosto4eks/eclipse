@@ -142,7 +142,7 @@ func (h *handler) ChangeComment(ctx echo.Context) error {
 		})
 	}
 	newDate := time.Now().Format("YYYY-MM-DD H24:MI")
-	fmt.Println("mfdfd", jsonBody["commentId"])
+	//fmt.Println("mfdfd", jsonBody["commentId"])
 	commentId, _ := strconv.Atoi(jsonBody["commentId"].(string))
 	//commentId := jsonBody["commentId"]
 	text := jsonBody["text"].(string)

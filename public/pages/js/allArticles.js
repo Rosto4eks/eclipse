@@ -23,6 +23,7 @@ async function deleteArticle(articleId) {
     if(data.success){
         console.log(result);
         document.getElementById(`container${articleId}`).remove();
+        document.getElementById(`delete_btn${articleId}`).remove();
     } else {
         alert(data.message);
     }
