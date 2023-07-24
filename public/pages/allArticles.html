@@ -20,9 +20,17 @@
         <input class="field" name="field" type="search" placeholder="Search here...">
         <button class="submit" type="submit" name="submit"></button>
     </form>
-    <div class="articles">
+    <div class="container">
         {{ range .articles }}
-            <div class="container" id="container{{ .ID }}">
+        <a href="/articles/{{ .ID }}" class="album" id="container{{ .ID }}">
+            <div class="name">{{ .Name }}</div>
+            <div class="theme">{{ .Theme }}</div>
+            <div class="img_header">
+                <img class="image" width="100%" src="/public/articles/{{ .Date }}-{{ .Name }}/preview.jpeg"></img>
+            </div>
+            <div class="author-date">
+                <div class="author">By {{ .NameAuthor }}</div>
+                <div class="date">{{ .Date }}</div>
                 {{if eq .NameAuthor $.header}}
                 <button class="btn" id="delete_btn" data-article-id="{{ .ID }}">
                     <svg viewBox="0 0 15 17.5" height="17.5" width="15" xmlns="http://www.w3.org/2000/svg" class="icon">
@@ -30,16 +38,15 @@
                     </svg>
                 </button>
                 {{end}}
-                <a href = "/articles/{{ .ID }}">
-                    <div class="img_header">
-                        <img src="/public/articles/{{ .Date }}-{{ .Name }}/preview.jpeg"></img>
-                    </div>
-                <div class="theme">{{ .Theme }}</div>
-                <div class="name">{{ .Name }}</div>
-                <div class="author">By {{ .NameAuthor }}</div>
-                <div class="date">{{ .Date }}</div>
-                </a>
             </div>
+            <div class="text-wrap">
+                <div class="text" id="text-{{.ID}}"></div>
+                <div class="more"></div>
+            <script>
+                document.getElementById("text-{{.ID}}").innerHTML = {{.Text}}
+            </script>
+            </div>
+        </a>
         {{end}}
     </div>
     {{template "footer" .}}

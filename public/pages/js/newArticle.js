@@ -5,15 +5,6 @@ var i = document.getElementById("Italic")
 var title = document.querySelector(".title")
 
 // TOOLS
-title.addEventListener("dblclick", (e) => {
-  if (title.style.color == "white") {
-    title.style.color = "black";
-  }
-  else {
-    title.style.color = "white";
-  }
-})
-
 function bold() {
   if (element.style["font-weight"] == "700") {
     element.style["font-weight"] = "400"
@@ -76,7 +67,6 @@ preview.addEventListener("change", (e) => {
   prev.style.width = "100%"
   prev.src = `${URL.createObjectURL(prevImg)}`
   twr.appendChild(prev)
-  document.querySelector(".title").style.top = "50%";
 })
 
 let images = new Map();
@@ -150,7 +140,7 @@ async function submit() {
     method: "POST", 
     body: fd,
   }).then(r => {
-    //window.location.replace("/articles")
+    window.location.replace("/articles")
   })
 }
 

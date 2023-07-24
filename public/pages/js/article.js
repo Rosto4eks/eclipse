@@ -151,7 +151,7 @@ async function changeArticle(articleId, newText) {
 function textareaAutoResize() {
     textAreas = document.querySelectorAll(`textarea`);
     textAreas.forEach( textArea =>{
-        textArea.addEventListener(`keyup`, e => {
+        textArea.addEventListener(`keydown`, e => {
             textArea.style.height = `auto`;
             let height = e.target.scrollHeight;
             textArea.style.height = `${height}px`;

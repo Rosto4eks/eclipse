@@ -10,7 +10,7 @@ import (
 func (h *handler) GetAlbums(ctx echo.Context) error {
 	headerName := h.authHeader(ctx)
 	var author string
-	if err := h.auth(ctx, author); err == nil {
+	if err := h.auth(ctx, "author"); err == nil {
 		author = "author"
 	}
 	albums, err := h.usecase.GetAllAlbums()

@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/Rosto4eks/eclipse/internal/models"
 	"github.com/labstack/echo/v4"
 	"strconv"
@@ -110,7 +109,6 @@ func (h *handler) PostNewComment(ctx echo.Context) error {
 		Text:      jsonBody["text"].(string),
 		Date:      date,
 	}
-	fmt.Println(comment)
 	comment_id, err := h.usecase.AddNewComment(comment)
 	if err != nil {
 		return ctx.JSON(400, map[string]interface{}{
