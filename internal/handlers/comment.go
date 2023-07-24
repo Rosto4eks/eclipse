@@ -111,7 +111,7 @@ func (h *handler) PostNewComment(ctx echo.Context) error {
 		Date:      date,
 	}
 	fmt.Println(comment)
-	err = h.usecase.AddNewComment(comment)
+	comment_id, err := h.usecase.AddNewComment(comment)
 	if err != nil {
 		return ctx.JSON(400, map[string]interface{}{
 			"success": false,
@@ -121,7 +121,7 @@ func (h *handler) PostNewComment(ctx echo.Context) error {
 	return ctx.JSON(201, map[string]interface{}{
 		"success":    true,
 		"date":       date,
-		"comment_id": comment.ID,
+		"comment_id": comment_id,
 		"message":    "",
 	})
 }

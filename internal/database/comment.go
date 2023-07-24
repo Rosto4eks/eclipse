@@ -26,14 +26,12 @@ func (d *database) GetCommentById(commentId int) (models.CommentResponse, error)
 	return response, nil
 }
 
-func (d *database) AddComment(comment models.Comment) error {
-	query := "INSERT INTO comments (user_id, article_id, text, date) VALUES($1,$2,$3,$4)"
-	_, err := d.db.Exec(query, comment.UserId, comment.ArticleID, comment.Text, comment.Date)
-	if err != nil {
-		fmt.Println(err)
-		return err
-	}
-	return nil
+func (d *database) AddComment(comment models.Comment) (int64, error) {
+	query := "INSERT INTO comments (user_id, article_id, text, date) VALUES($1,$2,$3,$4) RETURNING id"
+	var id int64
+	_ = d.db.QueryRow(query, comment.UserId, comment.ArticleID, comment.Text, comment.Date).Scan(&id)
+	fmt.Println("id", id)
+	return id, nil
 }
 
 func (d *database) ChangeComment(comemntId int, newComment string) error {

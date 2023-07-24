@@ -38,12 +38,13 @@
     font-weight: 600;
     padding: 8px 20px;
     background-color: #aa22ee;
-    transition: 0.4s;
+    transition: 0.4s linear;
 }
 
 .new:hover {
     transition: 0.4s;
     background-color: #9911aa;
+    transform: scale(1.1);
 }
 
 .action {

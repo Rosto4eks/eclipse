@@ -26,7 +26,7 @@ type Idatabase interface {
 	GetComments(articleId int) ([]models.CommentResponse, error)
 	GetCommentById(commentId int) (models.CommentResponse, error)
 	ChangeComment(comemntId int, newComment string) error
-	AddComment(models.Comment) error
+	AddComment(models.Comment) (int64, error)
 	DeleteCommentById(int) error
 }
 
