@@ -107,3 +107,9 @@
 .changeBtn:hover > .pen_icon{
   fill: orange;
 }
+
+@media (max-width: 1000px) {
+  .image {
+    border-radius: 0;
+  }
+}

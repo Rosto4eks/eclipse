@@ -4,6 +4,7 @@ import (
 	"mime/multipart"
 
 	"github.com/Rosto4eks/eclipse/internal/database"
+	"github.com/Rosto4eks/eclipse/internal/logger"
 	"github.com/Rosto4eks/eclipse/internal/models"
 )
 
@@ -32,10 +33,12 @@ type Iusecase interface {
 
 type usecase struct {
 	database database.Idatabase
+	logger   logger.Ilogger
 }
 
-func New(database database.Idatabase) *usecase {
+func New(database database.Idatabase, logger logger.Ilogger) *usecase {
 	return &usecase{
 		database,
+		logger,
 	}
 }

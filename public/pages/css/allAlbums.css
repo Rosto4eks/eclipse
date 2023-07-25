@@ -126,3 +126,18 @@ a {
         height: 300px;
     }
 }
+
+@media (max-width: 1000px) {
+  .image {
+    height: 400px;
+  }
+  .album:hover {
+      transform: none;
+  }
+}
+
+@media (max-width: 750px) {
+  .image {
+    height: 300px;
+  }
+}

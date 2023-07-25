@@ -9,6 +9,7 @@ func (d *database) GetComments(articleId int) ([]models.CommentResponse, error) 
 	var response []models.CommentResponse
 	err := d.db.Select(&response, query, articleId)
 	if err != nil {
+		d.logger.Error("database", "GetComments", err)
 		return nil, err
 	}
 	return response, nil
@@ -19,6 +20,7 @@ func (d *database) GetCommentById(commentId int) (models.CommentResponse, error)
 	var response models.CommentResponse
 	err := d.db.Get(&response, query, commentId)
 	if err != nil {
+		d.logger.Error("database", "GetCommentById", err)
 		return models.CommentResponse{}, err
 	}
 	return response, nil
@@ -27,7 +29,10 @@ func (d *database) GetCommentById(commentId int) (models.CommentResponse, error)
 func (d *database) AddComment(comment models.Comment) (int, error) {
 	query := "INSERT INTO comments (user_id, article_id, text, date) VALUES($1,$2,$3,$4) RETURNING id"
 	var id int
-	_ = d.db.QueryRow(query, comment.UserId, comment.ArticleID, comment.Text, comment.Date).Scan(&id)
+	if err := d.db.QueryRow(query, comment.UserId, comment.ArticleID, comment.Text, comment.Date).Scan(&id); err != nil {
+		d.logger.Error("database", "AddComment", err)
+		return -1, err
+	}
 	return id, nil
 }
 
@@ -35,6 +40,7 @@ func (d *database) ChangeComment(comemntId int, newComment string) error {
 	query := "UPDATE comments SET text = $2, date = NOW() WHERE id = $1"
 	_, err := d.db.Exec(query, comemntId, newComment)
 	if err != nil {
+		d.logger.Error("database", "ChangeComment", err)
 		return err
 	}
 	return nil
@@ -44,6 +50,7 @@ func (d *database) DeleteCommentById(commentId int) error {
 	query := "DELETE FROM comments WHERE id = $1"
 	_, err := d.db.Exec(query, commentId)
 	if err != nil {
+		d.logger.Error("database", "DeleteCommentByID", err)
 		return err
 	}
 	return nil

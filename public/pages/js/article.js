@@ -14,7 +14,7 @@ async function deleteComment(articleId, commentId) {
     if(!result) {
        return;
     }
-    const response = await fetch(`/articles/${articleId}/delete-comment/${commentId}`,{
+    const response = await fetch(`/articles/${articleId}/delete-comment/${new String(commentId)}`,{
         method : "DELETE"
     })
 

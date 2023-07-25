@@ -1,9 +1,3 @@
-@media (max-width: 1000px) {
-    .image, .preview {
-        border-radius: 0;
-    }
-}
-
 .container {
     display: flex;
     flex-direction: column;
@@ -18,18 +12,22 @@
 }
 
 .name {
-    margin: 10px auto;
+    width: 100%;
+    padding: 15px 0;
     font-weight: 700;
     font-size: 40px;
     text-align: center;
+    background-color: #f6f6f6;
 }
 
 .preview {
-    border-radius: 10px;
+    border-radius: 0 0 10px 10px;
     width: 100%;
 }
 
 .author-date {
+    background-color: #f6f6f6;
+    border-radius: 0 0 15px 15px;
     display: flex;
 }
 
@@ -40,7 +38,7 @@
 }
 
 .author{
-    margin: 10px 0;
+    margin: 10px 5px 10px 15px;
     padding: 8px 12px;
     background-color: #37ea81;
     border-radius: 15px;
@@ -55,9 +53,10 @@
     width: 100%;
     height: fit-content;
 }
-
 .text {
+    line-height: 20px;
     width: 100%;
+    margin: 12px;
     font-size: 20px;
 }
 
@@ -65,39 +64,42 @@
     border-radius: 10px;
 }
 
+.comment_author-date {
+    border-radius: 0 0 15px 15px;
+    display: flex;
+}
+
 .comments {
-    margin-top: 10px;
     border-radius: 15px;
     box-shadow: 0px 0px 10px 3px #eaeaea;
     margin-top: 25px;
 }
 
 .comment_body{
-    padding: 20px;
+    padding: 15px;
     display: flex;
     flex-direction: column;
-    margin-top: 10px;
 }
 
 
 .comment_author{
-    padding: 8px 16px;
+    padding: 6px 12px;
     background-color: #aa12ea;
     border-radius: 15px;
-    font-size: 16px;
+    font-size: 15px;
     color: white;
     font-weight: 600;
 }
 
 .comment_date{
-    padding: 8px 16px;
-    font-size: 16px;
+    padding: 6px 12px;
+    font-size: 15px;
     color: black;
 }
 
 .comment_text{
-    margin-top: 5px;
-    font-size: 20px;
+    margin-top: 10px;
+    font-size: 15px;
     color: black;
 }
 
@@ -119,9 +121,8 @@
 
 .deleteBtn {
     background-color: transparent;
-    position: relative;
     border: none;
-    margin: 0 97%;
+    margin: auto 0 auto auto;
 }
 
 .icon {
@@ -157,7 +158,7 @@ textarea[name='input_comment']{
 
 .new_comment{
     display: flex;
-    margin-top: 20px;
+    margin: 50px auto 25px;
     flex-direction: row;
     width: 100%;
 
@@ -165,7 +166,6 @@ textarea[name='input_comment']{
     background-color: #fafafa;
     border-radius: 15px;
     height: fit-content;
-    margin-bottom: 100px;
 }
 
 .sendBtn {
@@ -173,16 +173,12 @@ textarea[name='input_comment']{
     font-size: 20px;
     color: royalblue;
     background-color: #fafafa;
-    padding-left: 0.9em;
     display: flex;
-    width: 125px;
-    margin: auto 10px;
+    margin: auto 20px;
     align-items: center;
     border: none;
     border-radius: 16px;
-    overflow: hidden;
     cursor: pointer;
-
     transition: color .2s linear;
     transition: transform .2s linear;
 }
@@ -203,29 +199,16 @@ textarea[name='input_comment']{
 }
 
 .changeBtn {
-    position: relative;
     display: flex;
-    align-items: center;
     width: 25px;
     height: 25px;
     border: none;
-    padding: 0px 20px;
-    margin: 0 97%;
+    margin: auto 5px auto auto;
     background-color: transparent;
     color: white;
     font-weight: 500;
     cursor: pointer;
     transition: all .2s linear;
-}
-
-.pen_icon {
-    margin-top: 10px;
-    width: 13px;
-    position: absolute;
-    right: 0;
-    margin-right: 20px;
-    fill: black;
-    transition: fill .2s linear;
 }
 
 .changeBtn:hover {
@@ -274,8 +257,7 @@ textarea[name='input_comment']{
 
 .buttons {
     display: flex;
-    flex-direction: column;
-    margin: 0 10px;
+    margin: auto 0 auto auto;
 }
 
 .change_comment_body {
@@ -309,7 +291,7 @@ textarea[name='input_change']{
     width: 25px;
     height: 25px;
     border: none;
-    margin: 0 0 0 auto;
+    margin: auto 10px auto auto;
     background-color: transparent;
     color: white;
     cursor: pointer;
@@ -382,4 +364,13 @@ textarea[name='input_article_change']{
     border-radius: 15px;
     border: 0;
     box-shadow:4px 4px 10px rgba(0,0,0,0.06);
+}
+
+@media (max-width: 1000px) {
+    .preview {
+        border-radius: 0;
+    }
+    .name {
+        font-size: 26px;
+    }
 }

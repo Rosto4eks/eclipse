@@ -1,6 +1,5 @@
 const delete_btns = document.querySelectorAll('.btn');
 
-console.log(delete_btns);
 delete_btns.forEach( delete_btn=> {
     delete_btn.addEventListener('click', () => {
         const articleId = delete_btn.dataset.articleId;

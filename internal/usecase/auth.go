@@ -20,7 +20,9 @@ type Claims struct {
 
 func (u *usecase) SignUp(usr models.User) (string, error) {
 	usr.Password = hash(usr.Password)
+	usr.Role = "user"
 	if err := u.database.AddUser(usr); err != nil {
+		u.logger.Error("usecase", "SignUp", err)
 		return "", err
 	}
 	return generateToken(usr.Name, usr.Role)
@@ -33,10 +35,12 @@ func (u *usecase) GetUserByName(name string) (models.User, error) {
 func (u *usecase) SignIn(name, password string) (string, error) {
 	usr, err := u.database.GetUserByName(name)
 	if err != nil {
+		u.logger.Error("usecase", "SignIn", err)
 		return "", err
 	} else if usr.Password == hash(password) {
 		token, err := generateToken(name, usr.Role)
 		if err != nil {
+			u.logger.Error("usecase", "SignIn", err)
 			return "", err
 		}
 		return token, nil
@@ -47,6 +51,7 @@ func (u *usecase) SignIn(name, password string) (string, error) {
 func (u *usecase) Auth(token, role string) error {
 	usr, err := parseToken(token)
 	if err != nil {
+		u.logger.Error("usecase", "Auth", err)
 		return err
 	}
 	if usr.Role != role {

@@ -14,14 +14,17 @@ func (h *handler) GetArticle(ctx echo.Context) error {
 	headerName := h.authHeader(ctx)
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
+		h.logger.Error("handlers", "GetArticle", err)
 		return ctx.Redirect(302, "/articles")
 	}
 	article, err := h.usecase.GetArticleById(id)
 	if err != nil {
+		h.logger.Error("handlers", "GetArticle", err)
 		return ctx.Redirect(302, "/articles")
 	}
 	comments, err := h.usecase.GetArticleComments(id)
 	if err != nil {
+		h.logger.Error("handlers", "GetArticle", err)
 		return ctx.Redirect(302, "/articles")
 	}
 	return ctx.Render(200, "article.html", map[string]interface{}{
@@ -39,6 +42,7 @@ func (h *handler) GetArticles(ctx echo.Context) error {
 	}
 	articles, err := h.usecase.GetAllArticles()
 	if err != nil {
+		h.logger.Error("handlers", "GetArticles", err)
 		return err
 	}
 	return ctx.Render(200, "allArticles.html", map[string]interface{}{
@@ -50,6 +54,7 @@ func (h *handler) GetArticles(ctx echo.Context) error {
 
 func (h *handler) GetNewArticle(ctx echo.Context) error {
 	if err := h.auth(ctx, "author"); err != nil {
+		h.logger.Error("handlers", "GetNewArticle", err)
 		return ctx.Redirect(302, "/")
 	}
 	headerName := h.authHeader(ctx)
@@ -60,19 +65,26 @@ func (h *handler) GetNewArticle(ctx echo.Context) error {
 
 func (h *handler) PostNewArticle(ctx echo.Context) error {
 	if err := h.auth(ctx, "author"); err != nil {
+		h.logger.Error("handlers", "PostNewArticle", err)
 		return ctx.Redirect(302, "/")
 	}
 	author := h.authHeader(ctx)
 
 	form, err := ctx.MultipartForm()
 	if err != nil {
-		fmt.Println(err)
+		h.logger.Error("handlers", "PostNewArticle", err)
 		return ctx.JSON(400, map[string]interface{}{
 			"error": err.Error(),
 		})
 	}
 	images := form.File["images"]
 	user, err := h.usecase.GetUserByName(author)
+	if err != nil {
+		h.logger.Error("handlers", "PostNewArticle", err)
+		return ctx.JSON(400, map[string]interface{}{
+			"error": err.Error(),
+		})
+	}
 
 	article := models.Article{
 		Name:        ctx.FormValue("title"),
@@ -83,11 +95,13 @@ func (h *handler) PostNewArticle(ctx echo.Context) error {
 		Text:        ctx.FormValue("text"),
 	}
 	if article.ImagesCount == 0 {
+		h.logger.Warning("handlers", "PostNewArticle", "0 images uploaded")
 		return ctx.JSON(400, map[string]interface{}{
 			"error": "images not uploaded",
 		})
 	}
 	if err = h.usecase.NewArticle(images, article); err != nil {
+		h.logger.Error("handlers", "PostNewArticle", err)
 		return ctx.JSON(500, map[string]interface{}{
 			"error": err.Error(),
 		})
@@ -99,6 +113,7 @@ func (h *handler) PostNewArticle(ctx echo.Context) error {
 
 func (h *handler) DeleteArticle(ctx echo.Context) error {
 	if err := h.auth(ctx, "author"); err != nil {
+		h.logger.Error("handlers", "DeleteArticle", err)
 		return ctx.JSON(400, map[string]interface{}{
 			"success": false,
 			"message": "permission denied",
@@ -107,6 +122,7 @@ func (h *handler) DeleteArticle(ctx echo.Context) error {
 	articleId, _ := strconv.Atoi(ctx.Param("article_id"))
 	article, err := h.usecase.GetArticleById(articleId)
 	if err != nil {
+		h.logger.Error("handlers", "DeleteArticle", err)
 		return ctx.JSON(400, map[string]interface{}{
 			"success": false,
 			"message": "can't find article",
@@ -115,6 +131,7 @@ func (h *handler) DeleteArticle(ctx echo.Context) error {
 	name := h.authHeader(ctx)
 
 	if article.NameAuthor != name {
+		h.logger.Warning("handlers", "DeleteArticle", fmt.Sprintf("permission denied article author = %s, name = %s", article.NameAuthor, name))
 		return ctx.JSON(400, map[string]interface{}{
 			"success": false,
 			"message": "invalid person",
@@ -122,6 +139,7 @@ func (h *handler) DeleteArticle(ctx echo.Context) error {
 	}
 	err = h.usecase.DeleteArticle(articleId)
 	if err != nil {
+		h.logger.Error("handlers", "DeleteArticle", err)
 		return ctx.JSON(500, map[string]interface{}{
 			"success": false,
 			"message": "can't delete article",
@@ -135,6 +153,7 @@ func (h *handler) DeleteArticle(ctx echo.Context) error {
 
 func (h *handler) ChangeArticle(ctx echo.Context) error {
 	if err := h.auth(ctx, "author"); err != nil {
+		h.logger.Error("handlers", "ChangeArticle", err)
 		return ctx.JSON(403, map[string]interface{}{
 			"success": false,
 			"message": "forbidden",
@@ -144,6 +163,7 @@ func (h *handler) ChangeArticle(ctx echo.Context) error {
 	jsonBody := make(map[string]interface{}, 0)
 	err := json.NewDecoder(ctx.Request().Body).Decode(&jsonBody)
 	if err != nil {
+		h.logger.Error("handlers", "ChangeArticle", err)
 		return ctx.JSON(500, map[string]interface{}{
 			"success": false,
 			"message": "server error",
@@ -152,6 +172,7 @@ func (h *handler) ChangeArticle(ctx echo.Context) error {
 	articleId, _ := strconv.Atoi(jsonBody["articleId"].(string))
 	newText := jsonBody["text"].(string)
 	article, err := h.usecase.GetArticleById(articleId)
+	h.logger.Error("handlers", "ChangeArticle", err)
 	if err != nil {
 		return ctx.JSON(500, map[string]interface{}{
 			"success": false,
@@ -159,6 +180,7 @@ func (h *handler) ChangeArticle(ctx echo.Context) error {
 		})
 	}
 	if article.NameAuthor != headerName {
+		h.logger.Warning("handlers", "ChangeArticle", fmt.Sprintf("permission denied article author = %s, name = %s", article.NameAuthor, headerName))
 		return ctx.JSON(403, map[string]interface{}{
 			"success": false,
 			"message": "forbidden",
@@ -167,6 +189,7 @@ func (h *handler) ChangeArticle(ctx echo.Context) error {
 
 	err = h.usecase.ChangeArticle(articleId, newText)
 	if err != nil {
+		h.logger.Error("handlers", "ChangeArticle", err)
 		return ctx.JSON(500, map[string]interface{}{
 			"success": false,
 			"message": "server error",

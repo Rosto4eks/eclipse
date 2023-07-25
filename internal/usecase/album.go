@@ -15,9 +15,11 @@ import (
 
 func (u *usecase) NewAlbum(files []*multipart.FileHeader, album models.Album) error {
 	if err := u.saveAlbumImages(files, album); err != nil {
+		u.logger.Error("usecase", "NewAlbum", err)
 		return err
 	}
 	if err := u.database.AddAlbum(album); err != nil {
+		u.logger.Error("usecase", "NewAlbum", err)
 		return err
 	}
 	return nil
@@ -34,11 +36,13 @@ func (u *usecase) GetAllAlbums() ([]models.AlbumResponse, error) {
 func (u *usecase) DeleteAlbum(id int) error {
 	album, err := u.database.GetAlbumByID(id)
 	if err != nil {
+		u.logger.Error("usecase", "DeleteAlbum", err)
 		return err
 	}
 	path := "public/albums/" + album.Date + "-" + album.Name
 	err = os.RemoveAll(path)
 	if err != nil {
+		u.logger.Error("usecase", "DeleteAlbum", err)
 		return err
 	}
 	return u.database.DelAlbumByID(id)
@@ -47,7 +51,11 @@ func (u *usecase) DeleteAlbum(id int) error {
 func (u *usecase) saveAlbumImages(files []*multipart.FileHeader, album models.Album) error {
 	path := fmt.Sprintf("./public/albums/%s-%s", album.Date, album.Name)
 	// create destination folder
-	os.Mkdir(path, os.ModePerm)
+	err := os.Mkdir(path, os.ModePerm)
+	if err != nil {
+		u.logger.Error("usecase", "saveAlbumImages", err)
+		return err
+	}
 	errChan := make(chan error)
 
 	for i, file := range files {
@@ -79,6 +87,7 @@ func (u *usecase) saveAlbumImages(files []*multipart.FileHeader, album models.Al
 		}(i, len(files)-1, file, errChan)
 	}
 	if err := <-errChan; err != nil {
+		u.logger.Error("usecase", "saveAlbumImages", err)
 		return err
 	}
 	close(errChan)

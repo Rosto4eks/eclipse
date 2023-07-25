@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 	"time"
 
@@ -27,6 +28,7 @@ func (h *handler) GetSignUp(ctx echo.Context) error {
 
 func (h *handler) GetLogOut(ctx echo.Context) error {
 	h.cleanJWT(ctx)
+	h.logger.Info("handlers", "GetLogOut", fmt.Sprintf("%v logged out", ctx.Request().RemoteAddr))
 	return ctx.Redirect(302, "/")
 }
 
@@ -39,12 +41,14 @@ func (h *handler) PostSignUp(ctx echo.Context) error {
 	}
 	token, err := h.usecase.SignUp(usr)
 	if err != nil {
+		h.logger.Error("handlers", "PostSignUp", err)
 		return ctx.Render(401, "auth.html", map[string]interface{}{
 			"header": headerName,
 			"type":   "signup",
 			"error":  err.Error(),
 		})
 	}
+	h.logger.Info("handlers", "PostSignUp", fmt.Sprintf("%v signed up as %s", ctx.Request().RemoteAddr, usr.Name))
 	h.writeJWT(token, ctx)
 	return ctx.Redirect(302, "/")
 }
@@ -57,12 +61,14 @@ func (h *handler) PostSignIn(ctx echo.Context) error {
 
 	token, err := h.usecase.SignIn(Name, Password)
 	if err != nil {
+		h.logger.Error("handlers", "PostSignIn", err)
 		return ctx.Render(401, "auth.html", map[string]interface{}{
 			"header": headerName,
 			"type":   "signin",
 			"error":  err.Error(),
 		})
 	}
+	h.logger.Info("handlers", "PostSignIn", fmt.Sprintf("%v signed in as %s", ctx.Request().RemoteAddr, Name))
 	h.writeJWT(token, ctx)
 	return ctx.Redirect(302, "/?welcome=true")
 }
@@ -96,6 +102,7 @@ func (h *handler) writeJWT(token string, ctx echo.Context) {
 func (h *handler) readJWT(ctx echo.Context) (string, error) {
 	cookie, err := ctx.Cookie("jwt_token")
 	if cookie == nil {
+		h.logger.Warning("handlers", "readJWT", "cookie not found")
 		return "", errors.New("cookie not found")
 	}
 	return cookie.Value, err
@@ -104,6 +111,7 @@ func (h *handler) readJWT(ctx echo.Context) (string, error) {
 func (h *handler) cleanJWT(ctx echo.Context) error {
 	cookie, err := ctx.Cookie("jwt_token")
 	if err != nil {
+		h.logger.Error("handlers", "cleanJWT", err)
 		return err
 	}
 	cookie.Value = ""

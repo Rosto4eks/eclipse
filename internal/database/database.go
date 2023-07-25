@@ -3,6 +3,7 @@ package database
 import (
 	"fmt"
 
+	"github.com/Rosto4eks/eclipse/internal/logger"
 	"github.com/Rosto4eks/eclipse/internal/models"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
@@ -31,11 +32,15 @@ type Idatabase interface {
 }
 
 type database struct {
-	db *sqlx.DB
+	db     *sqlx.DB
+	logger logger.Ilogger
 }
 
-func New(db *sqlx.DB) *database {
-	return &database{db: db}
+func New(db *sqlx.DB, logger logger.Ilogger) *database {
+	return &database{
+		db:     db,
+		logger: logger,
+	}
 }
 
 func Connect(cfg *Config) (*sqlx.DB, error) {

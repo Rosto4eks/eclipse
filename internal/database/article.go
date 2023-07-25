@@ -10,8 +10,10 @@ func (d *database) AddArticle(articles models.Article) error {
 	query := "INSERT INTO articles (name, theme, author_id, images_count, date, text) VALUES($1,$2,$3,$4,$5,$6)"
 	_, err := d.db.Exec(query, articles.Name, articles.Theme, articles.AuthorID, articles.ImagesCount, articles.Date, articles.Text)
 	if err != nil {
+		d.logger.Error("database", "AddArticle", err)
 		return err
 	}
+	d.logger.Info("database", "AddArticle", fmt.Sprintf("added %s article", articles.Name))
 	return nil
 }
 
@@ -21,6 +23,7 @@ func (d *database) GetArticlesByAuthorId(authorId int) ([]models.ArticleResponse
 	var response []models.ArticleResponse
 	err := d.db.Select(&response, query, authorId)
 	if err != nil {
+		d.logger.Error("database", "GetArticlesByAuthorId", err)
 		return nil, err
 	}
 	return response, nil
@@ -32,6 +35,7 @@ func (d *database) GetAllArticles() ([]models.ArticleResponse, error) {
 	var response []models.ArticleResponse
 	err := d.db.Select(&response, query)
 	if err != nil {
+		d.logger.Error("database", "GetAllArticles", err)
 		return nil, err
 	}
 	return response, nil
@@ -43,6 +47,7 @@ func (d *database) GetThemes() ([]string, error) {
 	var response []string
 	err := d.db.Select(&response, query)
 	if err != nil {
+		d.logger.Error("database", "GetThemes", err)
 		return nil, err
 	}
 	return response, nil
@@ -54,6 +59,7 @@ func (d *database) GetArticlesById(articleId int) (models.ArticleResponse, error
 	var response models.ArticleResponse
 	err := d.db.Get(&response, query, articleId)
 	if err != nil {
+		d.logger.Error("database", "GetArticlesById", err)
 		return models.ArticleResponse{}, err
 	}
 	return response, nil
@@ -63,18 +69,21 @@ func (d *database) ChangeArticle(articleId int, newText string) error {
 	query := "UPDATE articles SET text = $2 WHERE id = $1"
 	_, err := d.db.Exec(query, articleId, newText)
 	if err != nil {
+		d.logger.Error("database", "ChangeArticle", err)
 		return err
 	}
+	d.logger.Info("database", "ChangeArticle", fmt.Sprintf("article with id = %d changed", articleId))
 	return nil
 }
 
 // удаление статьи по ее id
 func (d *database) DeleteArticle(articleId int) error {
 	query := "DELETE FROM articles WHERE id = $1"
-	result, err := d.db.Exec(query, articleId)
+	_, err := d.db.Exec(query, articleId)
 	if err != nil {
+		d.logger.Error("database", "DeleteArticle", err)
 		return err
 	}
-	fmt.Println(result)
+	d.logger.Info("database", "DeleteArticle", fmt.Sprintf("article with id = %d deleted", articleId))
 	return nil
 }

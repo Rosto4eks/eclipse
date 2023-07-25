@@ -1,5 +1,7 @@
 body {
   font-family: 'Rubik', sans-serif;
+  word-spacing: 4px;
+  letter-spacing: 0.03em;
   margin: 0;
   padding: 0;
 }

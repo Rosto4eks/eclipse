@@ -56,25 +56,20 @@
 }
 
 .name {
+    width: 100%;
+    background-color: #f6f6f6;
     font-size: 40px;
-    margin: 10px auto;
+    text-align: center;
     font-weight: 700;
+    padding: 10px 0;
     color : black;
 }
 
-.theme {
-    background-color: orange;
-    border-radius: 15px;
-    padding: 6px 12px;
-    font-size : 16px;
-    color: white;
-    margin : 10px 0;
-    text-transform: uppercase;
-    max-width: fit-content;
-}
 
 .author-date {
-    margin: 10px 0 10px 0;
+    background-color: #f6f6f6;
+    padding: 10px 15px;
+    border-radius: 0 0 15px 15px;
     display: flex;
 }
 
@@ -85,6 +80,15 @@
     font-size: 16px;
     color : white;
     padding: 8px 12px;
+    font-weight: bold;
+}
+
+.theme {
+    background-color: orange;
+    border-radius: 20px;
+    padding: 8px 12px;
+    font-size : 16px;
+    color: white;
     font-weight: bold;
 }
 
@@ -102,6 +106,10 @@
     max-height: 600px;
 }
 
+.text {
+    line-height: 20px;
+    margin: 15px;
+}
 .image {
     border-radius: 10px;
 }
@@ -111,8 +119,15 @@
     left: 0;
     width: 100%; 
     margin: 0; 
-    padding: 25% 0; 
+    padding: 20% 0; 
     background-image: linear-gradient(transparent, white);
+}
+
+.read {
+    margin: 5px auto 20px auto;
+    font-size: 20px;
+    color: black;
+    text-decoration: underline;
 }
 
 .btn {
@@ -140,4 +155,22 @@
     visibility: visible;
     opacity: 1;
     top: -160%;
+}
+
+@media (max-width: 1000px) {
+  .name {
+      font-size: 30px;
+  }
+  .author, .theme, .date {
+      padding: 4px 8px;
+      letter-spacing: 0.01em;
+      word-spacing: 1px;
+      font-size: 14px;
+      max-width: 30%;
+      overflow: hidden;
+      white-space: nowrap;
+  }
+  .preview {
+    border-radius: 0;
+  }
 }

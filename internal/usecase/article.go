@@ -24,6 +24,7 @@ func (u *usecase) GetThemes() ([]string, error) {
 func (u *usecase) NewArticle(files []*multipart.FileHeader, article models.Article) error {
 	u.changeSrcs(&article, len(files)-1)
 	if err := u.database.AddArticle(article); err != nil {
+		u.logger.Error("usecase", "NewArticle", err)
 		return err
 	}
 	return u.saveArticleImages(files, article)
@@ -32,11 +33,13 @@ func (u *usecase) NewArticle(files []*multipart.FileHeader, article models.Artic
 func (u *usecase) DeleteArticle(articleId int) error {
 	article, err := u.database.GetArticlesById(articleId)
 	if err != nil {
+		u.logger.Error("usecase", "DeleteArticle", err)
 		return err
 	}
 	path := "public/articles/" + article.Date + "-" + article.Name
 	err = os.RemoveAll(path)
 	if err != nil {
+		u.logger.Error("usecase", "DeleteArticle", err)
 		return err
 	}
 	return u.database.DeleteArticle(articleId)
@@ -77,6 +80,7 @@ func (u *usecase) saveArticleImages(files []*multipart.FileHeader, article model
 		}(i, len(files)-1, file, errChan)
 	}
 	if err := <-errChan; err != nil {
+		u.logger.Error("usecase", "saveArticleImages", err)
 		return err
 	}
 	close(errChan)

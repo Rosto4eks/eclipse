@@ -22,22 +22,20 @@
     </form>
     <div class="container">
         {{ range .articles }}
-        {{if eq .NameAuthor $.header}}
-            <button class="btn" id="delete_btn{{ .ID }}" data-article-id="{{ .ID }}">
-                <svg viewBox="0 0 15 17.5" height="17.5" width="15" xmlns="http://www.w3.org/2000/svg" class="icon">
-                    <path transform="translate(-2.5 -1.25)" d="M15,18.75H5A1.251,1.251,0,0,1,3.75,17.5V5H2.5V3.75h15V5H16.25V17.5A1.251,1.251,0,0,1,15,18.75ZM5,5V17.5H15V5Zm7.5,10H11.25V7.5H12.5V15ZM8.75,15H7.5V7.5H8.75V15ZM12.5,2.5h-5V1.25h5V2.5Z" id="Fill"></path>
-                </svg>
-            </button>
-        {{end}}
         <a href="/articles/{{ .ID }}" class="album" id="container{{ .ID }}">
+            <img class="image preview" width="100%" src="/public/articles/{{ .Date }}-{{ .Name }}/preview.jpeg"></img>
             <div class="name">{{ .Name }}</div>
-            <div class="theme">{{ .Theme }}</div>
-            <div class="img_header">
-                <img class="image" width="100%" src="/public/articles/{{ .Date }}-{{ .Name }}/preview.jpeg"></img>
-            </div>
             <div class="author-date">
                 <div class="author">By {{ .NameAuthor }}</div>
                 <div class="date">{{ .Date }}</div>
+                <div class="theme">{{ .Theme }}</div>
+                {{if eq .NameAuthor $.header}}
+                    <button class="btn" id="delete_btn{{ .ID }}" data-article-id="{{ .ID }}">
+                        <svg viewBox="0 0 15 17.5" height="17.5" width="15" xmlns="http://www.w3.org/2000/svg" class="icon">
+                            <path transform="translate(-2.5 -1.25)" d="M15,18.75H5A1.251,1.251,0,0,1,3.75,17.5V5H2.5V3.75h15V5H16.25V17.5A1.251,1.251,0,0,1,15,18.75ZM5,5V17.5H15V5Zm7.5,10H11.25V7.5H12.5V15ZM8.75,15H7.5V7.5H8.75V15ZM12.5,2.5h-5V1.25h5V2.5Z" id="Fill"></path>
+                      </svg>
+                    </button>
+                {{end}}
             </div>
             <div class="text-wrap">
                 <div class="text" id="text-{{.ID}}"></div>
@@ -46,6 +44,7 @@
                 document.getElementById("text-{{.ID}}").innerHTML = {{.Text}}
             </script>
             </div>
+            <div class="read">Read more</div>
     </a>
         {{end}}
     </div>

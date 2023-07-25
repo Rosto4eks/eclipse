@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"github.com/Rosto4eks/eclipse/internal/logger"
 	"github.com/Rosto4eks/eclipse/internal/usecase"
 	"github.com/labstack/echo/v4"
 )
@@ -36,11 +37,13 @@ type Ihandler interface {
 // first layer, handles incoming http requests
 type handler struct {
 	usecase usecase.Iusecase
+	logger  logger.Ilogger
 }
 
-func New(usecase usecase.Iusecase) *handler {
+func New(usecase usecase.Iusecase, logger logger.Ilogger) *handler {
 	return &handler{
 		usecase,
+		logger,
 	}
 }
 

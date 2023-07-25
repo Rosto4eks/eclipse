@@ -41,7 +41,7 @@
 
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none; // yeah, yeah everybody write about it
+    -webkit-appearance: none;
 }
 
 input[type="number"],
@@ -88,11 +88,9 @@ input[type="number"]:focus {
   background: none;
   margin: 10px auto;
   border: none;
+  color: black;
   text-align: center;
   font-size: 45px;
-}
-.theme,.title {
-  border: none;
 }
 .text {
   max-width: 1000px;

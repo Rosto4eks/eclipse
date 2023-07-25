@@ -15,6 +15,7 @@ func (h *handler) GetAlbums(ctx echo.Context) error {
 	}
 	albums, err := h.usecase.GetAllAlbums()
 	if err != nil {
+		h.logger.Error("handlers", "GetAlbums", err)
 		return err
 	}
 	return ctx.Render(200, "allAlbums.html", map[string]interface{}{
@@ -28,10 +29,12 @@ func (h *handler) GetAlbum(ctx echo.Context) error {
 	headerName := h.authHeader(ctx)
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
+		h.logger.Error("handlers", "GetAlbum", err)
 		return ctx.Redirect(302, "/albums")
 	}
 	album, err := h.usecase.GetAlbumById(id)
 	if err != nil {
+		h.logger.Error("handlers", "GetAlbum", err)
 		return ctx.Redirect(302, "/albums")
 	}
 	paths := make([]string, album.Images_count)
@@ -48,6 +51,7 @@ func (h *handler) GetAlbum(ctx echo.Context) error {
 func (h *handler) GetNewAlbum(ctx echo.Context) error {
 	headerName := h.authHeader(ctx)
 	if err := h.auth(ctx, "author"); err != nil {
+		h.logger.Error("handlers", "GetNewAlbum", err)
 		return ctx.Redirect(302, "/")
 	}
 	return ctx.Render(200, "newAlbum.html", map[string]interface{}{
@@ -58,10 +62,12 @@ func (h *handler) GetNewAlbum(ctx echo.Context) error {
 func (h *handler) PostNewAlbum(ctx echo.Context) error {
 	headerName := h.authHeader(ctx)
 	if err := h.auth(ctx, "author"); err != nil {
+		h.logger.Error("handlers", "PostNewAlbum", err)
 		return ctx.Redirect(302, "/")
 	}
 	form, err := ctx.MultipartForm()
 	if err != nil {
+		h.logger.Error("handlers", "PostNewAlbum", err)
 		return ctx.Render(500, "newAlbum.html", map[string]interface{}{
 			"header": headerName,
 			"error":  "could not parse images",
@@ -70,6 +76,7 @@ func (h *handler) PostNewAlbum(ctx echo.Context) error {
 	files := form.File["files"]
 	usr, err := h.usecase.GetUserByName(headerName)
 	if err != nil {
+		h.logger.Error("handlers", "PostNewAlbum", err)
 		return ctx.Render(401, "newAlbum.html", map[string]interface{}{
 			"header": headerName,
 			"error":  "author with given name does not exist",
@@ -83,12 +90,14 @@ func (h *handler) PostNewAlbum(ctx echo.Context) error {
 		Images_count: len(files),
 	}
 	if album.Images_count == 0 {
+		h.logger.Warning("handlers", "PostNewAlbum", "0 images uploaded")
 		return ctx.Render(400, "newAlbum.html", map[string]interface{}{
 			"header": headerName,
 			"error":  "images not uploaded",
 		})
 	}
 	if err = h.usecase.NewAlbum(files, album); err != nil {
+		h.logger.Error("handlers", "PostNewAlbum", err)
 		return ctx.Render(500, "newAlbum.html", map[string]interface{}{
 			"header": headerName,
 			"error":  err.Error(),
@@ -100,6 +109,7 @@ func (h *handler) PostNewAlbum(ctx echo.Context) error {
 
 func (h *handler) DeleteAlbum(ctx echo.Context) error {
 	if err := h.auth(ctx, "author"); err != nil {
+		h.logger.Error("handlers", "DeleteAlbum", err)
 		return ctx.JSON(400, map[string]interface{}{
 			"success": false,
 			"message": "permisson denied",
@@ -108,6 +118,7 @@ func (h *handler) DeleteAlbum(ctx echo.Context) error {
 
 	id, err := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
+		h.logger.Error("handlers", "DeleteAlbum", err)
 		return ctx.JSON(500, map[string]interface{}{
 			"success": false,
 			"message": "cant parse id",
@@ -117,6 +128,7 @@ func (h *handler) DeleteAlbum(ctx echo.Context) error {
 	name := h.authHeader(ctx)
 	album, err := h.usecase.GetAlbumById(id)
 	if err != nil {
+		h.logger.Error("handlers", "DeleteAlbum", err)
 		return ctx.JSON(404, map[string]interface{}{
 			"success": false,
 			"message": "cant find album",
@@ -124,6 +136,7 @@ func (h *handler) DeleteAlbum(ctx echo.Context) error {
 	}
 
 	if album.Author != name {
+		h.logger.Warning("handlers", "DeleteAlbum", fmt.Sprintf("permission denied album author: %s, name: %s", album.Author, name))
 		return ctx.JSON(400, map[string]interface{}{
 			"success": false,
 			"message": "permisson denied",
@@ -132,6 +145,7 @@ func (h *handler) DeleteAlbum(ctx echo.Context) error {
 
 	err = h.usecase.DeleteAlbum(id)
 	if err != nil {
+		h.logger.Error("handlers", "DeleteAlbum", err)
 		return ctx.JSON(500, map[string]interface{}{
 			"success": false,
 			"message": "cant delete album",
