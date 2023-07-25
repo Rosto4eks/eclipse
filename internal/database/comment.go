@@ -24,9 +24,9 @@ func (d *database) GetCommentById(commentId int) (models.CommentResponse, error)
 	return response, nil
 }
 
-func (d *database) AddComment(comment models.Comment) (int64, error) {
+func (d *database) AddComment(comment models.Comment) (int, error) {
 	query := "INSERT INTO comments (user_id, article_id, text, date) VALUES($1,$2,$3,$4) RETURNING id"
-	var id int64
+	var id int
 	_ = d.db.QueryRow(query, comment.UserId, comment.ArticleID, comment.Text, comment.Date).Scan(&id)
 	return id, nil
 }

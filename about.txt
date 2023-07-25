@@ -49,7 +49,7 @@ users (
 albums (
   id SERIAL PRIMARY KEY,
   name CHAR(100) NOT NULL,
-  author_id INTEGER REFERENCES users(id) NOT NULL,
+  author_id INTEGER REFERENCES users(id) ON CASCADE DELETE NOT NULL,
   images_count INTEGER NOT NULL,
   date DATE NOT NULL,
   description TEXT NOT NULL);
@@ -58,14 +58,14 @@ articles (
   id SERIAL PRIMARY KEY,
   name CHAR(100) NOT NULL,
   theme CHAR(50) NOT NULL,
-  author_id INTEGER REFERENCES users(id) NOT NULL,
+  author_id INTEGER REFERENCES users(id) ON CASCADE DELETE NOT NULL,
   images_count INTEGER NOT NULL,
   date DATE NOT NULL,
   text TEXT NOT NULL);
 
 comments (
   id SERIAL PRIMARY KEY,
-  user_id INTEGER REFERENCES users(id) NOT NULL,
-  article_id INTEGER REFERENCES articles(id) NOT NULL,
+  user_id INTEGER REFERENCES users(id) ON CASCADE DELETE NOT NULL,
+  article_id INTEGER REFERENCES articles(id) ON CASCADE DELETE NOT NULL,
   text TEXT NOT NULL,
   date DATE NOT NULL);
