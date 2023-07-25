@@ -1,3 +1,9 @@
+@media (max-width: 1000px) {
+    .image, .preview {
+        border-radius: 0;
+    }
+}
+
 .container {
     display: flex;
     flex-direction: column;
@@ -62,11 +68,11 @@
 
 .comments {
     margin-top: 10px;
-    padding: 15px;
     border-radius: 15px;
 }
 
 .comment_body{
+    padding: 20px;
     display: flex;
     flex-direction: column;
     margin-top: 10px;
