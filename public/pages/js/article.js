@@ -98,39 +98,28 @@ async function changeComment(commentId, newText) {
 }
 
 const changeArticleBtn = document.getElementById(`changeArticleBtn`);
-const articleText = document.getElementById(`text`);
+const articletext = document.getElementById(`text`);
 
 changeArticleBtn.addEventListener(`click`, () => {
     const articleId = changeArticleBtn.dataset.articleId;
-    const text = articleText.dataset.text;
-
     let item = document.createElement(`div`);
     item.innerHTML = (` <div class="change_article">
-    <textarea name="input_article_change" id="input_article_change">${text}</textarea>
     <div class="buttons">
         <button class="applyArticleBtn" id="applyArticleBtn">Apply</button>
         <button class="cancelArticleBtn" id="cancelArticleBtn">Cancel</button>
     </div>
     </div>`);
-
-    let articleParentNode = articleText.parentNode;
-    articleParentNode.replaceChild(item, articleText);
-
-    let txt = document.getElementById(`input_article_change`);
-    let height = txt.scrollHeight;
-    txt.style.height = `${height}px`;
-    textareaAutoResize();
+    articletext.contentEditable = true
+    article.append(item);
 
     const applyBtn = document.getElementById(`applyArticleBtn`);
     applyBtn.addEventListener(`click`, () => {
-        let newText = document.getElementById(`input_article_change`).value;
-        changeArticle(articleId, newText);
-        articleText.innerHTML = newText;
-        articleParentNode.replaceChild(articleText,item);
+        changeArticle(articleId, articletext.innerHTML);
+        article.contentEditable = false;
     });
     const cancelBtn = document.getElementById(`cancelArticleBtn`);
     cancelBtn.addEventListener(`click`, () =>{
-       articleParentNode.replaceChild(articleText, item);
+       article.contentEditable = false;
     });
 });
 
