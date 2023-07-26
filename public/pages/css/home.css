@@ -1,9 +1,18 @@
+.introduction{
+    background-color: black;
+}
+
+.text_block{
+    background-color: black;
+    padding: 46px;
+}
+
 .hat {
     width: 100%;
-    height: 550px;
+    height: 450px;
     display: flex;
     background-repeat: no-repeat;
-    background-position: center center; 
+    background-position: center center;
     background-size: cover;
     transition: 0.5s;
     color: white;
@@ -11,23 +20,61 @@
 }
 
 .hat-wrap {
-    width: 25%;
-    margin: auto auto auto 20%;
+    width: 80%;
+    margin: 1% auto auto auto;
 }
 
 .welcome {
     text-align: center;
     display: flex;
-    margin: 30px auto;
+    margin: 0 auto;
     justify-content: center;
     color: orange;
-    font-size: 35px;
+    font-size: 50px;
     font-weight: bold;
 }
 
 .title {
     display: flex;
-    margin: 20px auto;
+    margin: 0.47em auto;
     justify-content: center;
-    font-size: 22px;
+    font-size: 20px;
+    color: whitesmoke;
+}
+
+.articles,.albums{
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(380px,1fr));
+    grid-auto-rows: 240px;
+    grid-auto-flow: dense;
+    grid-gap: 15px;
+    padding: 10px;
+}
+
+.main_page{
+    padding: 20px;
+}
+
+.image{
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    transition: transform .3s linear;
+}
+
+.image:hover{
+    transform: scale(1.05);
+}
+
+.album_title,.article_title{
+    font-family: 'Rubik', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0 auto;
+}
+
+.album_section{
+    margin: 25px 0;
 }

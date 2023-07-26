@@ -53,8 +53,26 @@ func (h *handler) GetHome(ctx echo.Context) error {
 	if welcome == "true" {
 		welcome = "welcome back, "
 	}
+	articles, err := h.usecase.GetAllArticles()
+	if err != nil {
+		h.logger.Error("home", "GetAllArticles", err)
+		return ctx.Render(500, "home.html", map[string]interface{}{
+			"header":  headerName,
+			"welcome": welcome,
+		})
+	}
+	albums, err := h.usecase.GetAllAlbums()
+	if err != nil {
+		h.logger.Error("home", "GetAllAlbums", err)
+		return ctx.Render(500, "home.html", map[string]interface{}{
+			"header":  headerName,
+			"welcome": welcome,
+		})
+	}
 	return ctx.Render(200, "home.html", map[string]interface{}{
-		"header":  headerName,
-		"welcome": welcome,
+		"header":   headerName,
+		"welcome":  welcome,
+		"articles": articles,
+		"albums":   albums,
 	})
 }

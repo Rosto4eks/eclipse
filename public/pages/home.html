@@ -7,21 +7,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href = "/public/pages/css/home.css" type = "text/css" rel = "stylesheet">
     <link href = "/public/pages/css/header.css" type = "text/css" rel = "stylesheet">
+    <link href = "/public/pages/css/footer.css" type = "text/css" rel = "stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="hat" style="background-image: url(/public/images/moon-phases-moon.gif)" id="gif">
-        <div class="hat-wrap">
-            <div class="welcome">Добро пожаловать в мир "Eclipse"!</div>
-            <div class="title">От захватывающих статей до удивительных фактов о планетах и космических явлениях.</div>
-            <div class="title">От ярких созвездий до глубоких туманностей – каждая фотография расскажет свою уникальную историю.</div>
-            <div class="title">Присоединяйтесь к нашему космическому сообществу!</div>
+    <div class="introduction">
+        <div class="hat" style="background-image: url(/public/images/moon-phases-moon.gif)" id="gif"></div>
+        <div class="text_block">
+            <div class="hat-wrap">
+                <div class="welcome">Добро пожаловать в мир "Eclipse"!</div>
+                <div class="title">От захватывающих статей до удивительных фактов о планетах и космических явлениях.</div>
+                <div class="title">От ярких созвездий до глубоких туманностей – каждая фотография расскажет свою уникальную историю.</div>
+                <div class="title">Присоединяйтесь к нашему космическому сообществу!</div>
+            </div>
         </div>
     </div>
     {{template "header" .}}
+    <div class="main_page">
+        <div class="article_section">
+        <div class="article_title">The latest articles</div>
+        <div class="articles">
+            {{ range .articles }}
+            <a href="/articles/{{ .ID }}">
+                <div class ="image" style="background-image: url(/public/articles/{{ .Date }}-{{ .Name }}/preview.jpeg)"></div>
+                <div class="text" id="text"></div>
+                <script>
+                    document.getElementById("text").innerHTML = {{ .Text }}
+                </script>
+            </a>
+            {{end}}
+        </div>
+        </div>
+        <div class="album_section">
+        <div class="album_title">The latest albums</div>
+        <div class="albums">
+            {{ range .albums }}
+            <a href="/albums/{{ .Id }}">
+                <div class="image" style="background-image: url(/public/albums/{{ .Date }}-{{ .Name }}/0-compressed.jpeg)"></div>
+{{/*                <img src="/public/albums/{{ .Date }}-{{ .Name }}/0-compressed.jpeg" class="image">*/}}
+{{/*                <img src="/public/albums/{{ .Date }}-{{ .Name }}/0-compressed.jpeg" class="image">*/}}
+{{/*                <img src="/public/albums/{{ .Date }}-{{ .Name }}/0-compressed.jpeg" class="image">*/}}
+            </a>
+            {{end}}
+        </div>
+        </div>
+    </div>
+    {{ template "footer" .}}
 <script src="/public/pages/js/home.js"></script>
 </body>
 </html>
