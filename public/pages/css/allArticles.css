@@ -12,9 +12,12 @@
     display: flex;
     width: 100%;
     flex-direction: column;
+    transition: 1s;
 }
 
 .new {
+    width: 100px;
+    display: flex;
     margin: 20px auto;
     border-radius: 10px;
     color: white;
@@ -37,14 +40,14 @@
     margin: 0 auto;
 }
 
-.field {
-    position: relative;
+.search {
+    display: flex;
+    width: 250px;
     outline: 2px solid orange;
     border-radius: 10px;
     background-color: #e2e2e2;
     padding: 10px;
     height : 42px;
-    width: 50%;
     margin: 25px auto;
     border : 3px solid #F9F0DA;
 }
@@ -66,10 +69,14 @@
 }
 
 
-.author-date {
+.author-date-theme {
     background-color: #f6f6f6;
     padding: 10px 15px;
     border-radius: 0 0 15px 15px;
+    display: flex;
+}
+.author-date {
+    background-color: inherit;
     display: flex;
 }
 
@@ -84,6 +91,7 @@
 }
 
 .theme {
+    width: fit-content;
     background-color: orange;
     border-radius: 20px;
     padding: 8px 12px;
@@ -93,6 +101,7 @@
 }
 
 .date {
+    width: fit-content;
     font-size: 16px;
     color : black;
     padding: 8px 12px;
@@ -111,6 +120,7 @@
     margin: 15px;
 }
 .image {
+    width: 100%;
     border-radius: 10px;
 }
 .text-wrap .more {
@@ -161,14 +171,15 @@
   .name {
       font-size: 30px;
   }
+  .author-date-theme {
+      flex-direction: column;
+  }
+  .theme {
+      margin-top: 10px;
+  }
   .author, .theme, .date {
-      padding: 4px 8px;
-      letter-spacing: 0.01em;
-      word-spacing: 1px;
       font-size: 14px;
-      max-width: 30%;
       overflow: hidden;
-      white-space: nowrap;
   }
   .preview {
     border-radius: 0;

@@ -90,3 +90,7 @@ func (u *usecase) saveArticleImages(files []*multipart.FileHeader, article model
 func (u *usecase) ChangeArticle(articleId int, newText string) error {
 	return u.database.ChangeArticle(articleId, newText)
 }
+
+func (u *usecase) SearchArticle(value string) ([]models.ArticleResponse, error) {
+	return u.database.SearchArticles(value)
+}

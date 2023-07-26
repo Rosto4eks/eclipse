@@ -63,6 +63,21 @@ func (h *handler) GetNewArticle(ctx echo.Context) error {
 	})
 }
 
+func (h *handler) SearchArticles(ctx echo.Context) error {
+	value := ctx.QueryParam("value")
+	h.logger.Debug("handlers", "SearchArticles", ctx.Request().RemoteAddr)
+	articles, err := h.usecase.SearchArticle(value)
+	if err != nil {
+		h.logger.Error("handlers", "SearchArticles", err)
+		return ctx.JSON(400, map[string]interface{}{
+			"error": err.Error(),
+		})
+	}
+	return ctx.JSON(200, map[string]interface{}{
+		"articles": articles,
+	})
+}
+
 func (h *handler) PostNewArticle(ctx echo.Context) error {
 	if err := h.auth(ctx, "author"); err != nil {
 		h.logger.Error("handlers", "PostNewArticle", err)

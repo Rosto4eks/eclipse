@@ -22,6 +22,7 @@ type Ihandler interface {
 	GetArticles(ctx echo.Context) error
 	GetNewArticle(ctx echo.Context) error
 	PostNewArticle(ctx echo.Context) error
+	SearchArticles(ctx echo.Context) error
 	DeleteArticle(ctx echo.Context) error
 	GetComments(ctx echo.Context) error
 	DeleteComment(ctx echo.Context) error

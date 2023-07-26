@@ -39,6 +39,7 @@ func (s *Server) initRoutes(h handlers.Ihandler) {
 		r.POST("/articles/:article_id/new", h.PostNewComment)
 		r.DELETE("/albums/:id/delete", h.DeleteAlbum)
 		r.DELETE("/articles/:id/delete-comment/:comment_id", h.DeleteComment)
+		r.GET("/articles/search", h.SearchArticles)
 		r.DELETE("/articles/delete-article/:article_id", h.DeleteArticle)
 		r.PATCH("/articles/:article_id/change_comment", h.ChangeComment)
 		r.PATCH("/articles/:article_id/change_article", h.ChangeArticle)
