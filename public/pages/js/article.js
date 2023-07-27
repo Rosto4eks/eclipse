@@ -66,13 +66,6 @@ function replaceCommentWithTextarea(commentId) {
         let commentTextElement = comment.querySelector(`#text${commentId}`);
         let commentHeaderElement = comment.querySelector(`.comment_author`);
         commentTextElement.textContent = newText;
-        let options = {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-        }
         parentNode.replaceChild(comment, item);
     });
     cancel.addEventListener('click', () =>{

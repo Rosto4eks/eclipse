@@ -14,7 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="introduction">
+    <div class="introduction" id="introduction">
         <div class="hat" style="background-image: url(/public/images/moon-phases-moon.gif)" id="gif"></div>
         <div class="text_block">
             <div class="hat-wrap">
@@ -25,17 +25,24 @@
             </div>
         </div>
     </div>
+    <div class="container" id="container_page">
     {{template "header" .}}
-    <div class="main_page">
+    <div class="main_page" id="main_page">
         <div class="article_section">
         <div class="article_title">The latest articles</div>
         <div class="articles">
             {{ range .articles }}
-            <a href="/articles/{{ .ID }}">
-                <div class ="image" style="background-image: url(/public/articles/{{ .Date }}-{{ .Name }}/preview.jpeg)"></div>
-                <div class="text" id="text"></div>
+            <a href="/articles/{{ .ID }}" class="article">
+                <div class ="image" style="background-image: url(/public/articles/{{ .Date }}-{{ .Name }}/preview.jpeg)">
+                    <div class="info">
+                    <div class="theme">{{ .Name }}</div>
+                    <div class="author">Written by {{ .NameAuthor }}</div>
+                    <div class="date">{{ .Date }}</div>
+                    </div>
+                </div>
+                <div class="text" id="text{{ .ID }}" data-article-text="{{ .Text }}"></div>
                 <script>
-                    document.getElementById("text").innerHTML = {{ .Text }}
+                    document.getElementById(`text${ {{ .ID }} }`).innerHTML = {{ .Text }};
                 </script>
             </a>
             {{end}}
@@ -45,17 +52,20 @@
         <div class="album_title">The latest albums</div>
         <div class="albums">
             {{ range .albums }}
-            <a href="/albums/{{ .Id }}">
+            <a href="/albums/{{ .Id }}" class="album">
                 <div class="image" style="background-image: url(/public/albums/{{ .Date }}-{{ .Name }}/0-compressed.jpeg)"></div>
-{{/*                <img src="/public/albums/{{ .Date }}-{{ .Name }}/0-compressed.jpeg" class="image">*/}}
-{{/*                <img src="/public/albums/{{ .Date }}-{{ .Name }}/0-compressed.jpeg" class="image">*/}}
-{{/*                <img src="/public/albums/{{ .Date }}-{{ .Name }}/0-compressed.jpeg" class="image">*/}}
+                <div class="albumInfo">
+                    <div class="nameAlbum">{{ .Name }}</div>
+                    <div class="authorAlbum">Uploaded by {{ .Author }} {{ .Date }}</div>
+                    <div class="count">Contains {{ .Images_count }} images</div>
+                </div>
             </a>
             {{end}}
         </div>
         </div>
     </div>
     {{ template "footer" .}}
+    </div>
 <script src="/public/pages/js/home.js"></script>
 </body>
 </html>

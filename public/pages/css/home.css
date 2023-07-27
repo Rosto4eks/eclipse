@@ -1,3 +1,16 @@
+#element::-webkit-scrollbar{
+    display: none;
+}
+
+.main_page{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    max-width: 1200px;
+    margin: 25px auto;
+    justify-content: center;
+}
+
 .introduction{
     background-color: black;
 }
@@ -51,30 +64,79 @@
     padding: 10px;
 }
 
-.main_page{
-    padding: 20px;
-}
-
 .image{
     width: 100%;
     height: 100%;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
+    border-radius: 7px 7px 0 0;
+}
+
+.article,.album{
     transition: transform .3s linear;
 }
 
-.image:hover{
-    transform: scale(1.05);
-}
 
 .album_title,.article_title{
     font-family: 'Rubik', sans-serif;
-    font-size: 16px;
+    font-size: 22px;
     font-weight: bold;
     margin: 0 auto;
 }
 
+.text{
+    overflow: hidden;
+    display: -webkit-box;
+    background-color: #f6f6f6;
+    padding: 10px 15px;
+    border-radius: 0 0 7px 7px;
+    height: 50px;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
 .album_section{
-    margin: 25px 0;
+    margin: 75px 0;
+}
+
+.theme,.date{
+    padding-top: 80px;
+    text-align: center;
+    color: white;
+}
+
+.author{
+    text-align: center;
+    color: white;
+}
+
+.name{
+    color: white;
+    text-align: center;
+}
+
+.info{
+    opacity: 0;
+    background: rgb(0,0,0,.6);
+    border-radius: 7px 7px 0 0;
+    height: 100%;
+    top: 100%;
+    transition: .5s linear;
+}
+
+.info:hover{
+    opacity: 1;
+    top: 0;
+}
+
+.albumInfo{
+    background-color: #f6f6f6;
+    border-radius: 0 0 7px 7px;
+    padding: 10px 15px;
+}
+
+.nameAlbum{
+    font-size: 18px;
+    font-weight: bold;
 }
