@@ -87,3 +87,14 @@ func (d *database) DeleteArticle(articleId int) error {
 	d.logger.Info("database", "DeleteArticle", fmt.Sprintf("article with id = %d deleted", articleId))
 	return nil
 }
+
+func (d *database) SearchArticles(value string) ([]models.ArticleResponse, error) {
+	query := fmt.Sprintf("SELECT id, name, theme, (SELECT name FROM users where id = author_id) as name_author, images_count, to_char(date,'YYYY-MM-DD') AS date, text FROM articles WHERE LOWER(name) LIKE LOWER('%%%s%%')", value)
+	var response []models.ArticleResponse
+	err := d.db.Select(&response, query)
+	if err != nil {
+		d.logger.Error("database", "SearchArticles", err)
+		return nil, err
+	}
+	return response, nil
+}

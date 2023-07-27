@@ -11,7 +11,7 @@
     {{ if eq .header "sign in" }}
     <a href="/auth/sign-in" class="ref right">sign-in</a>
     {{ else }}
-    <div class="ref right">{{ .welcome }}{{ .header }}</div>
+    <div class="ref right" id="username">{{ .welcome }}{{ .header }}</div>
     <a href="/auth/log-out" class="logout">log-out</a>
     {{end}}
   </div>

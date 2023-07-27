@@ -102,7 +102,6 @@ func (h *handler) writeJWT(token string, ctx echo.Context) {
 func (h *handler) readJWT(ctx echo.Context) (string, error) {
 	cookie, err := ctx.Cookie("jwt_token")
 	if cookie == nil {
-		h.logger.Warning("handlers", "readJWT", "cookie not found")
 		return "", errors.New("cookie not found")
 	}
 	return cookie.Value, err

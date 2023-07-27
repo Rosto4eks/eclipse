@@ -13,21 +13,20 @@
         <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     </head>
     {{ template "header" . }}
-    <form action="" class="action" method="get">
     {{if eq .author "author"}}
         <a class="new" href="/articles/new">new article</a>
     {{end}}
-        <input class="field" name="field" type="search" placeholder="Search here...">
-        <button class="submit" type="submit" name="submit"></button>
-    </form>
-    <div class="container">
+        <input class="search" id="search" type="search" placeholder="Search here...">
+    <div class="container" id="container">
         {{ range .articles }}
         <a href="/articles/{{ .ID }}" class="album" id="container{{ .ID }}">
-            <img class="image preview" width="100%" src="/public/articles/{{ .Date }}-{{ .Name }}/preview.jpeg"></img>
+            <img class="image preview" src="/public/articles/{{ .Date }}-{{ .Name }}/preview.jpeg"></img>
             <div class="name">{{ .Name }}</div>
-            <div class="author-date">
-                <div class="author">By {{ .NameAuthor }}</div>
-                <div class="date">{{ .Date }}</div>
+            <div class="author-date-theme">
+                <div class="author-date">
+                    <div class="author">By {{ .NameAuthor }}</div>
+                    <div class="date">{{ .Date }}</div>
+                </div>
                 <div class="theme">{{ .Theme }}</div>
                 {{if eq .NameAuthor $.header}}
                     <button class="btn" id="delete_btn{{ .ID }}" data-article-id="{{ .ID }}">

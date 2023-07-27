@@ -17,16 +17,17 @@ type Idatabase interface {
 	AddUser(models.User) error
 	DelUser(int) error
 	GetUserByName(string) (models.User, error)
-	AddArticle(articles models.Article) error
+	AddArticle(models.Article) error
 	GetArticlesByAuthorId(int) ([]models.ArticleResponse, error)
 	GetAllArticles() ([]models.ArticleResponse, error)
 	GetArticlesById(int) (models.ArticleResponse, error)
 	GetThemes() ([]string, error)
 	DeleteArticle(int) error
-	ChangeArticle(articleId int, newText string) error
-	GetComments(articleId int) ([]models.CommentResponse, error)
-	GetCommentById(commentId int) (models.CommentResponse, error)
-	ChangeComment(comemntId int, newComment string) error
+	ChangeArticle(int, string) error
+	SearchArticles(string) ([]models.ArticleResponse, error)
+	GetComments(int) ([]models.CommentResponse, error)
+	GetCommentById(int) (models.CommentResponse, error)
+	ChangeComment(int, string) error
 	AddComment(models.Comment) (int, error)
 	DeleteCommentById(int) error
 }

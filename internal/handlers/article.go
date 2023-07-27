@@ -63,6 +63,20 @@ func (h *handler) GetNewArticle(ctx echo.Context) error {
 	})
 }
 
+func (h *handler) SearchArticles(ctx echo.Context) error {
+	value := ctx.QueryParam("value")
+	articles, err := h.usecase.SearchArticle(value)
+	if err != nil {
+		h.logger.Error("handlers", "SearchArticles", err)
+		return ctx.JSON(400, map[string]interface{}{
+			"error": err.Error(),
+		})
+	}
+	return ctx.JSON(200, map[string]interface{}{
+		"articles": articles,
+	})
+}
+
 func (h *handler) PostNewArticle(ctx echo.Context) error {
 	if err := h.auth(ctx, "author"); err != nil {
 		h.logger.Error("handlers", "PostNewArticle", err)
@@ -160,7 +174,7 @@ func (h *handler) ChangeArticle(ctx echo.Context) error {
 		})
 	}
 	headerName := h.authHeader(ctx)
-	jsonBody := make(map[string]interface{}, 0)
+	jsonBody := make(map[string]interface{})
 	err := json.NewDecoder(ctx.Request().Body).Decode(&jsonBody)
 	if err != nil {
 		h.logger.Error("handlers", "ChangeArticle", err)
@@ -172,8 +186,8 @@ func (h *handler) ChangeArticle(ctx echo.Context) error {
 	articleId, _ := strconv.Atoi(jsonBody["articleId"].(string))
 	newText := jsonBody["text"].(string)
 	article, err := h.usecase.GetArticleById(articleId)
-	h.logger.Error("handlers", "ChangeArticle", err)
 	if err != nil {
+		h.logger.Error("handlers", "ChangeArticle", err)
 		return ctx.JSON(500, map[string]interface{}{
 			"success": false,
 			"message": "server error",
