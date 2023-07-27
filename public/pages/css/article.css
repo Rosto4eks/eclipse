@@ -222,32 +222,52 @@ textarea[name='input_comment']{
 }
 
 .applyBtn {
-    width: 90px;
-    height: 30px;
-    border-radius: 8px;
-    margin-block: 10px;
+    display: flex;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    align-items: center;
+    margin-left: 9px;
+    padding: 10px 15px;
+    background-color: #77dd77;
+    outline: 3px #77dd77 solid;
+    outline-offset: -3px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    margin-right: 7%;
     transition: color .2s linear;
     transition: transform .2s linear;
 }
 
 .cancelBtn {
-    width: 90px;
-    height: 30px;
-    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: red;
+    outline: 3px red solid;
+    outline-offset: -3px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
     transition: color .2s linear;
     transition: transform .2s linear;
 }
 
 .cancelBtn:hover{
+    background-color: transparent;
     transform: scale(1.1);
-    background-color: #ff4d00;
+    color: red;
 }
 
 .applyBtn:hover{
     transform: scale(1.1);
-    background-color: #77dd77;
+    background-color: transparent;
+    color: #77dd77;
 }
-
 .buttons {
     display: flex;
     margin: auto 0 auto auto;
@@ -309,30 +329,51 @@ textarea[name='input_change']{
 }
 
 .applyArticleBtn {
-    width: 90px;
-    height: 30px;
-    border-radius: 8px;
-    margin-block: 10px;
+    display: flex;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    margin-left: 15px;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: #77dd77;
+    outline: 3px #77dd77 solid;
+    outline-offset: -3px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    margin-right: 7%;
     transition: color .2s linear;
     transition: transform .2s linear;
 }
 
 .cancelArticleBtn {
-    width: 90px;
-    height: 30px;
-    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: red;
+    outline: 3px red solid;
+    outline-offset: -3px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
     transition: color .2s linear;
     transition: transform .2s linear;
 }
 
 .cancelArticleBtn:hover{
+    background-color: transparent;
     transform: scale(1.1);
-    background-color: #ff4d00;
+    color: red;
 }
 
 .applyArticleBtn:hover{
     transform: scale(1.1);
-    background-color: #77dd77;
+    background-color: transparent;
+    color: #77dd77;
 }
 
 .change_article {
