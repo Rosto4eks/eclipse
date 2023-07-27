@@ -20,6 +20,7 @@ type Ihandler interface {
 	PostSignIn(ctx echo.Context) error
 	GetArticle(ctx echo.Context) error
 	GetArticles(ctx echo.Context) error
+	LoadArticles(ctx echo.Context) error
 	GetNewArticle(ctx echo.Context) error
 	PostNewArticle(ctx echo.Context) error
 	SearchArticles(ctx echo.Context) error

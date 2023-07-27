@@ -41,6 +41,19 @@ func (h *handler) GetArticles(ctx echo.Context) error {
 		author = "author"
 	}
 
+	articles, err := h.usecase.GetArticles(0, 5)
+	if err != nil {
+		h.logger.Error("handlers", "GetArticles", err)
+		return ctx.Redirect(302, "/")
+	}
+	return ctx.Render(200, "allArticles.html", map[string]interface{}{
+		"header":   headerName,
+		"articles": articles,
+		"author":   author,
+	})
+}
+
+func (h *handler) LoadArticles(ctx echo.Context) error {
 	offset, err := strconv.Atoi(ctx.QueryParam("offset"))
 	if err != nil {
 		offset = 0
@@ -54,12 +67,12 @@ func (h *handler) GetArticles(ctx echo.Context) error {
 	articles, err := h.usecase.GetArticles(offset, count)
 	if err != nil {
 		h.logger.Error("handlers", "GetArticles", err)
-		return err
+		return ctx.JSON(400, map[string]interface{}{
+			"error": err.Error(),
+		})
 	}
-	return ctx.Render(200, "allArticles.html", map[string]interface{}{
-		"header":   headerName,
+	return ctx.JSON(200, map[string]interface{}{
 		"articles": articles,
-		"author":   author,
 	})
 }
 

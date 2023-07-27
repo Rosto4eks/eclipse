@@ -15,11 +15,12 @@ var observer = new IntersectionObserver((entries) => {
 observer.observe(end);
 
 async function loadArticles(offset, count) {
-    const response = await fetch(`/articles?offset=${offset}&count=${count}`,{
+    const response = await fetch(`/load-articles?offset=${offset}&count=${count}`,{
         method : "GET"
     })
     const data = await response.json();
-    appendArticles(data);
+    console.log(data);
+    appendArticles(data["articles"]);
 }
 
 async function getArticles(inp) {
@@ -28,7 +29,7 @@ async function getArticles(inp) {
     })
     const data = await response.json();
     container.innerHTML = ""
-    appendArticles(data);
+    appendArticles(data["articles"]);
 }
 
 let id
@@ -40,7 +41,7 @@ search.addEventListener("input", e => {
 })
 
 function appendArticles(data) {
-    data["articles"].forEach(article => {
+    data.forEach(article => {
         let elem = document.createElement("a");
         let deletebtn = ''
         if (name && article.NameAuthor == name.innerHTML) {
