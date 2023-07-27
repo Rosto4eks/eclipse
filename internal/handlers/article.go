@@ -40,7 +40,18 @@ func (h *handler) GetArticles(ctx echo.Context) error {
 	if err := h.auth(ctx, "author"); err == nil {
 		author = "author"
 	}
-	articles, err := h.usecase.GetAllArticles()
+
+	offset, err := strconv.Atoi(ctx.QueryParam("offset"))
+	if err != nil {
+		offset = 0
+	}
+
+	count, err := strconv.Atoi(ctx.QueryParam("count"))
+	if err != nil {
+		count = 5
+	}
+
+	articles, err := h.usecase.GetArticles(offset, count)
 	if err != nil {
 		h.logger.Error("handlers", "GetArticles", err)
 		return err

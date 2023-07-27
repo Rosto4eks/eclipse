@@ -30,12 +30,12 @@ func (d *database) GetArticlesByAuthorId(authorId int) ([]models.ArticleResponse
 }
 
 // просмотр всех статей
-func (d *database) GetAllArticles() ([]models.ArticleResponse, error) {
-	query := "SELECT id, name, theme, (SELECT name FROM users WHERE id = author_id) AS name_author, images_count, to_char(date,'YYYY-MM-DD') AS date, text FROM articles ORDER BY date DESC LIMIT 3"
+func (d *database) GetArticles(offset, limit int) ([]models.ArticleResponse, error) {
+	query := "SELECT id, name, theme, (SELECT name FROM users WHERE id = author_id) AS name_author, images_count, to_char(date,'YYYY-MM-DD') AS date, text FROM articles ORDER BY date DESC OFFSET $1 LIMIT $2"
 	var response []models.ArticleResponse
-	err := d.db.Select(&response, query)
+	err := d.db.Select(&response, query, offset, limit)
 	if err != nil {
-		d.logger.Error("database", "GetAllArticles", err)
+		d.logger.Error("database", "GetArticles", err)
 		return nil, err
 	}
 	return response, nil

@@ -54,7 +54,7 @@ func (h *handler) GetHome(ctx echo.Context) error {
 	if welcome == "true" {
 		welcome = "welcome back, "
 	}
-	articles, err := h.usecase.GetAllArticles()
+	articles, err := h.usecase.GetArticles(0, 3)
 	if err != nil {
 		h.logger.Error("home", "GetAllArticles", err)
 		return ctx.Render(500, "home.html", map[string]interface{}{

@@ -9,8 +9,8 @@ import (
 	"github.com/Rosto4eks/eclipse/internal/models"
 )
 
-func (u *usecase) GetAllArticles() ([]models.ArticleResponse, error) {
-	return u.database.GetAllArticles()
+func (u *usecase) GetArticles(offset, limit int) ([]models.ArticleResponse, error) {
+	return u.database.GetArticles(offset, limit)
 }
 
 func (u *usecase) GetArticleById(articleId int) (models.ArticleResponse, error) {
