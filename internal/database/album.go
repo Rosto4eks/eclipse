@@ -6,10 +6,10 @@ import (
 	"github.com/Rosto4eks/eclipse/internal/models"
 )
 
-func (d *database) GetAllAlbums() ([]models.AlbumResponse, error) {
-	query := "SELECT id, (SELECT name FROM users where id = author_id) as author, images_count, to_char(date,'YYYY-MM-DD') as date, name, description FROM albums ORDER BY date DESC"
+func (d *database) GetAlbums(offset, count int) ([]models.AlbumResponse, error) {
+	query := "SELECT id, (SELECT name FROM users where id = author_id) as author, images_count, to_char(date,'YYYY-MM-DD') as date, name, description FROM albums ORDER BY date DESC OFFSET $1 LIMIT $2"
 	var response []models.AlbumResponse
-	if err := d.db.Select(&response, query); err != nil {
+	if err := d.db.Select(&response, query, offset, count); err != nil {
 		d.logger.Error("database", "GetAllAlbums", err)
 		return nil, err
 	}

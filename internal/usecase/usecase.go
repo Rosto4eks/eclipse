@@ -16,7 +16,7 @@ type Iusecase interface {
 	GetAlbumById(int) (models.AlbumResponse, error)
 	Auth(string, string) error
 	AuthHeader(string) string
-	GetAllAlbums() ([]models.AlbumResponse, error)
+	GetAlbums(offset, count int) ([]models.AlbumResponse, error)
 	DeleteAlbum(int) error
 	GetArticles(int, int) ([]models.ArticleResponse, error)
 	GetArticleById(int) (models.ArticleResponse, error)

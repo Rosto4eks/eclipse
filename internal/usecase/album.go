@@ -29,8 +29,8 @@ func (u *usecase) GetAlbumById(id int) (models.AlbumResponse, error) {
 	return u.database.GetAlbumByID(id)
 }
 
-func (u *usecase) GetAllAlbums() ([]models.AlbumResponse, error) {
-	return u.database.GetAllAlbums()
+func (u *usecase) GetAlbums(offset, count int) ([]models.AlbumResponse, error) {
+	return u.database.GetAlbums(offset, count)
 }
 
 func (u *usecase) DeleteAlbum(id int) error {
