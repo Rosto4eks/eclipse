@@ -10,7 +10,7 @@ import (
 )
 
 type Idatabase interface {
-	GetAllAlbums() ([]models.AlbumResponse, error)
+	GetAlbums(offset, count int) ([]models.AlbumResponse, error)
 	GetAlbumByID(int) (models.AlbumResponse, error)
 	AddAlbum(models.Album) error
 	DelAlbumByID(int) error
@@ -19,7 +19,7 @@ type Idatabase interface {
 	GetUserByName(string) (models.User, error)
 	AddArticle(models.Article) error
 	GetArticlesByAuthorId(int) ([]models.ArticleResponse, error)
-	GetAllArticles() ([]models.ArticleResponse, error)
+	GetArticles(int, int) ([]models.ArticleResponse, error)
 	GetArticlesById(int) (models.ArticleResponse, error)
 	GetThemes() ([]string, error)
 	DeleteArticle(int) error

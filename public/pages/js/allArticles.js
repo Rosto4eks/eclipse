@@ -1,16 +1,47 @@
 const delete_btns = document.querySelectorAll('.btn');
 const search = document.getElementById("search")
+const end = document.getElementById("end")
+const name = document.getElementById("username")
+const container = document.getElementById("container")
 
+let offset = 0, count = 5;
+
+var observer = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting == true) {
+        offset += 5;
+        loadArticles(offset, count)
+    }
+}, {threshold: [0]});
+observer.observe(end);
+
+async function loadArticles(offset, count) {
+    const response = await fetch(`/load-articles?offset=${offset}&count=${count}`,{
+        method : "GET"
+    })
+    const data = await response.json();
+    console.log(data);
+    appendArticles(data["articles"]);
+}
 
 async function getArticles(inp) {
     const response = await fetch(`/articles/search?value=${inp}`,{
         method : "GET"
     })
-    const name = document.getElementById("username")
-    const container = document.getElementById("container")
     const data = await response.json();
     container.innerHTML = ""
-    data["articles"].forEach(article => {
+    appendArticles(data["articles"]);
+}
+
+let id
+search.addEventListener("input", e => {
+    clearTimeout(id)
+    id = setTimeout(() => {
+        getArticles(e.target.value)
+    }, 500);
+})
+
+function appendArticles(data) {
+    data.forEach(article => {
         let elem = document.createElement("a");
         let deletebtn = ''
         if (name && article.NameAuthor == name.innerHTML) {
@@ -49,14 +80,6 @@ async function getArticles(inp) {
         }, 50);
     })
 }
-
-let id
-search.addEventListener("input", e => {
-    clearTimeout(id)
-    id = setTimeout(() => {
-        getArticles(e.target.value)
-    }, 500);
-})
 
 delete_btns.forEach( delete_btn=> {
     delete_btn.addEventListener('click', () => {

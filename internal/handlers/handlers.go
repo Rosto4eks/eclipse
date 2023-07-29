@@ -12,6 +12,7 @@ type Ihandler interface {
 	GetAlbum(echo.Context) error
 	GetNewAlbum(echo.Context) error
 	PostNewAlbum(echo.Context) error
+	LoadAlbums(ctx echo.Context) error
 	DeleteAlbum(ctx echo.Context) error
 	GetSignIn(echo.Context) error
 	GetSignUp(echo.Context) error
@@ -20,6 +21,7 @@ type Ihandler interface {
 	PostSignIn(ctx echo.Context) error
 	GetArticle(ctx echo.Context) error
 	GetArticles(ctx echo.Context) error
+	LoadArticles(ctx echo.Context) error
 	GetNewArticle(ctx echo.Context) error
 	PostNewArticle(ctx echo.Context) error
 	SearchArticles(ctx echo.Context) error
@@ -54,17 +56,17 @@ func (h *handler) GetHome(ctx echo.Context) error {
 	if welcome == "true" {
 		welcome = "welcome back, "
 	}
-	articles, err := h.usecase.GetAllArticles()
+	articles, err := h.usecase.GetArticles(0, 3)
 	if err != nil {
-		h.logger.Error("home", "GetAllArticles", err)
+		h.logger.Error("handlers", "GetHome", err)
 		return ctx.Render(500, "home.html", map[string]interface{}{
 			"header":  headerName,
 			"welcome": welcome,
 		})
 	}
-	albums, err := h.usecase.GetAllAlbums()
+	albums, err := h.usecase.GetAlbums(0, 3)
 	if err != nil {
-		h.logger.Error("home", "GetAllAlbums", err)
+		h.logger.Error("handlers", "GetHome", err)
 		return ctx.Render(500, "home.html", map[string]interface{}{
 			"header":  headerName,
 			"welcome": welcome,

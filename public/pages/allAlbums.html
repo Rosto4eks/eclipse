@@ -14,27 +14,29 @@
 </head>
 <body>
     {{template "header" .}}
-    <div class="gallery">
+    <div id="gallery" class="gallery">
         {{if eq .author "author"}}
         <a class="new" href="/albums/new">new album</a>
         {{end}}
         {{ range .albums }}
-            <a href = "/albums/{{ .Id}}">
-        <div class="album">
-            <div class="image" style="background-image: url(/public/albums/{{ .Date }}-{{ .Name }}/0-compressed.jpeg);">
-                <div class="image_text-wrapper">
-                    <div class="image_text">Show {{ .Images_count }} images</div>
+        <a href = "/albums/{{ .Id}}">
+            <div class="album">
+                <div class="image" style="background-image: url(/public/albums/{{ .Date }}-{{ .Name }}/0-compressed.jpeg);">
+                    <div class="image_text-wrapper">
+                        <div class="image_text">Show {{ .Images_count }} images</div>
+                    </div>
+                </div>
+                <div class="name">{{ .Name }}</div>
+                <div class="wr">
+                    <div class="author">By {{ .Author }}</div>
+                    <div class="date">Created {{ .Date }}</div>
                 </div>
             </div>
-            <div class="name">{{ .Name }}</div>
-            <div class="wr">
-                <div class="author">By {{ .Author }}</div>
-                <div class="date">Created {{ .Date }}</div>
-            </div>    
-        </div>
-            </a>
+        </a>
         {{end}}
     </div>
+    <div id="end"></div>
+    <script src="/public/pages/js/allAlbums.js"></script>
     {{template "footer" .}}
 </body>
 </html>

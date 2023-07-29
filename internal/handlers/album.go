@@ -13,7 +13,7 @@ func (h *handler) GetAlbums(ctx echo.Context) error {
 	if err := h.auth(ctx, "author"); err == nil {
 		author = "author"
 	}
-	albums, err := h.usecase.GetAllAlbums()
+	albums, err := h.usecase.GetAlbums(0, 5)
 	if err != nil {
 		h.logger.Error("handlers", "GetAlbums", err)
 		return err
@@ -22,6 +22,29 @@ func (h *handler) GetAlbums(ctx echo.Context) error {
 		"header": headerName,
 		"albums": albums,
 		"author": author,
+	})
+}
+
+func (h *handler) LoadAlbums(ctx echo.Context) error {
+	offset, err := strconv.Atoi(ctx.QueryParam("offset"))
+	if err != nil {
+		offset = 0
+	}
+
+	count, err := strconv.Atoi(ctx.QueryParam("count"))
+	if err != nil {
+		count = 5
+	}
+
+	albums, err := h.usecase.GetAlbums(offset, count)
+	if err != nil {
+		h.logger.Error("handlers", "GetAlbums", err)
+		return ctx.JSON(400, map[string]interface{}{
+			"error": err.Error(),
+		})
+	}
+	return ctx.JSON(200, map[string]interface{}{
+		"albums": albums,
 	})
 }
 
