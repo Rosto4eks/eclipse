@@ -44,3 +44,10 @@
     font-weight: lighter;
     margin-top: 15px;
 }
+
+@media(max-width: 1000px){
+    .title-footer{
+        font-size: 12px;
+        text-align: center;
+    }
+}

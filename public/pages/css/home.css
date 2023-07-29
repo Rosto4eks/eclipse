@@ -9,6 +9,7 @@
     max-width: 1200px;
     margin: 25px auto;
     justify-content: center;
+    gap: 35px;
 }
 
 .introduction{
@@ -61,7 +62,10 @@
     grid-auto-rows: 240px;
     grid-auto-flow: dense;
     grid-gap: 15px;
-    padding: 10px;
+}
+
+.article_section,.album_section{
+    width: 100%;
 }
 
 .image{
@@ -139,4 +143,29 @@
 .nameAlbum{
     font-size: 18px;
     font-weight: bold;
+}
+
+@media (max-width: 1000px){
+    .main_page{
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        justify-content: center;
+    }
+    .welcome{
+        font-size: 24px;
+    }
+    .hat{
+        height: 250px;
+    }
+    .title{
+        font-size: 14px;
+        text-align: center;
+    }
+    .text_block{
+        padding: 10px;
+    }
+    .album,.article{
+        margin-bottom: 80px;
+    }
 }

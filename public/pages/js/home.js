@@ -16,17 +16,23 @@ function changeGif(){
 
 setInterval(changeGif, 2500);
 
-window.addEventListener('scroll', trackScroll);
+window.addEventListener(`scroll`,trackScroll);
 let element = document.getElementById(`container_page`);
 let another = document.getElementById(`introduction`);
+let inIntroduction = true;
 
 function trackScroll(){
-    const offset = window.pageYOffset;
+    const YPos = another.scrollTop;
+    console.log(this.scrollY, inIntroduction);
     const height = document.documentElement.clientHeight;
-    let isExist = document.getElementById(`introduction`);
-    if(offset > 220 && isExist) {
-        element.scrollIntoView({behavior: `smooth`});
-        //window.removeEventListener(`scroll`,trackScroll);
-        //document.getElementById(`introduction`).remove();
-    }
+    // if(this.scrollY < 700 && !inIntroduction){
+    //     another.scrollIntoView({behavior: "smooth"});
+    //     inIntroduction = true;
+    //     return;
+    // }
+
+    // if(this.scrollY > 125 && this.scrollY < 350 && inIntroduction){
+    //     element.scrollIntoView({behavior : "smooth"});
+    //     inIntroduction = false;
+    // }
 }

@@ -38,38 +38,29 @@ changeBtns.forEach(changeBtn => {
 function replaceCommentWithTextarea(commentId) {
    let comment = document.getElementById(`comments${commentId}`);
    let item = document.createElement(`div`);
-   let text = document.getElementById(`text${commentId}`).textContent;
+   let text = document.getElementById(`text${commentId}`);
 
    item.innerHTML = (`
-    <div class="change_comment_body">
-    <textarea name="input_change" id="change_text">${text}</textarea>
-    <div class="buttons">
+    <div class="comment_buttons" id="comment_buttons">
         <button class="applyBtn" id="applyBtn">Apply</button>
         <button class="cancelBtn" id="cancelBtn">Cancel</button>
-    </div>
     </div>`);
-
-   let parentNode = comment.parentNode;
-   parentNode.replaceChild(item, comment);
-
-    let com = document.getElementById(`change_text`);
-    let height = com.scrollHeight;
-    com.style.height = `${height}px`;
-    textareaAutoResize();
+    text.contentEditable = true;
+    if(document.getElementById(`comment_buttons`)===null) {
+        comment.append(item);
+    }
 
    const cancel = document.getElementById(`cancelBtn`);
    const apply = document.getElementById(`applyBtn`);
 
-   apply.addEventListener('click', () => {
-        let newText = document.getElementById(`change_text`).value;
-        let newDate = changeComment(commentId, newText);
-        let commentTextElement = comment.querySelector(`#text${commentId}`);
-        let commentHeaderElement = comment.querySelector(`.comment_author`);
-        commentTextElement.textContent = newText;
-        parentNode.replaceChild(comment, item);
+    apply.addEventListener('click', () => {
+        changeComment(new String(commentId), text.innerText);
+        text.contentEditable = false;
+        document.getElementById(`comment_buttons`).remove();
     });
     cancel.addEventListener('click', () =>{
-        parentNode.replaceChild(comment,item);
+        text.contentEditable = false;
+        document.getElementById(`comment_buttons`).remove();
     });
 }
 
@@ -95,24 +86,28 @@ const articletext = document.getElementById(`text`);
 
 changeArticleBtn.addEventListener(`click`, () => {
     const articleId = changeArticleBtn.dataset.articleId;
-    let item = document.createElement(`div`);
-    item.innerHTML = (` <div class="change_article">
-    <div class="buttons">
+    let item = document.createElement(`change`);
+    item.innerHTML = (`<div class="change_article" id="change_article">
+    <div class="article_buttons" id="buttons">
         <button class="applyArticleBtn" id="applyArticleBtn">Apply</button>
         <button class="cancelArticleBtn" id="cancelArticleBtn">Cancel</button>
     </div>
     </div>`);
-    articletext.contentEditable = true
-    article.append(item);
+    articletext.contentEditable = true;
+    if(document.getElementById(`change_article`)===null) {
+        article.append(item);
+    }
 
     const applyBtn = document.getElementById(`applyArticleBtn`);
+    const cancelBtn = document.getElementById(`cancelArticleBtn`);
     applyBtn.addEventListener(`click`, () => {
         changeArticle(articleId, articletext.innerHTML);
-        article.contentEditable = false;
+        articletext.contentEditable = false;
+        document.getElementById(`change_article`).remove();
     });
-    const cancelBtn = document.getElementById(`cancelArticleBtn`);
     cancelBtn.addEventListener(`click`, () =>{
-       article.contentEditable = false;
+        articletext.contentEditable = false;
+        document.getElementById(`change_article`).remove();
     });
 });
 
@@ -124,7 +119,7 @@ async function changeArticle(articleId, newText) {
 
     const data = await response.json();
     if(data.success){
-
+        item.remove();
     } else {
         alert(data.message);
     }

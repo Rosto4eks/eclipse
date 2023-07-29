@@ -1,6 +1,7 @@
 package database
 
 import (
+	"fmt"
 	"github.com/Rosto4eks/eclipse/internal/models"
 )
 
@@ -43,6 +44,7 @@ func (d *database) ChangeComment(comemntId int, newComment string) error {
 		d.logger.Error("database", "ChangeComment", err)
 		return err
 	}
+	d.logger.Info("database", "ChangeComment", fmt.Sprintf("comment with id = %d changed", comemntId))
 	return nil
 }
 
