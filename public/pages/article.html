@@ -37,6 +37,7 @@
             </script>
         </div>
     </div>
+        {{if ne $.header "sign in"}}
     <div class="new_comment">
         <textarea name="input_comment" placeholder="Write your comment..." id="comment_text" data-author-name="{{ .header }}"></textarea>
         <button class="sendBtn" id="sendBtn">
@@ -51,6 +52,7 @@
             <span>Send</span>
         </button>
     </div>
+        {{end}}
     <div class="allComments" id="allComments">
     {{ if .comments}}
     {{ range .comments }}
